@@ -1,5 +1,6 @@
 #include "FirstCreation.h"
 #include "Utilities.h"
+#include "Tone Fire/Tonefire.h"
 
 FirstCreation::FirstCreation(std::string name)
 	: Scene(name)
@@ -11,6 +12,8 @@ FirstCreation::FirstCreation(std::string name)
 
 void FirstCreation::InitScene(float windowWidth, float windowHeight)
 {
+	//ToneFire::FMODCore fmod{};
+
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 
@@ -19,6 +22,10 @@ void FirstCreation::InitScene(float windowWidth, float windowHeight)
 
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
+
+	//ToneFire::CoreSound testSound{ "test.mp3" };
+
+	//testSound.Play();
 
 	//Setup Main Camera entity
 	{
@@ -80,9 +87,15 @@ void FirstCreation::InitScene(float windowWidth, float windowHeight)
 
 void FirstCreation::Update()
 {
+	//ToneFire::FMODCore fmod{};
+
+	//ToneFire::CoreSound testSound("test.mp3");
+
+	//testSound.Play();
+
 	Scene::AdjustScrollOffset();
 
-	
+	//fmod.Update();
 }
 
 void FirstCreation::KeyboardHold()
