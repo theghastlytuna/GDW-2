@@ -6,6 +6,8 @@ BarBreaker::BarBreaker(std::string name)
 	//no gravity this is a top down scene
 	m_gravity = b2Vec2(0.f, 0.f);
 	m_physicsWorld->SetGravity(m_gravity);
+
+	m_physicsWorld->SetContactListener(&listener);
 }
 
 void BarBreaker::InitScene(float windowWidth, float windowHeight)
