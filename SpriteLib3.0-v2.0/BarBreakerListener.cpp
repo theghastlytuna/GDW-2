@@ -1,8 +1,14 @@
 #include "BarBreakerListener.h"
+
 #include "ECS.h"
 
 BarBreakerListener::BarBreakerListener()
 	:b2ContactListener()
+{
+
+}
+
+void BarBreakerListener::BeginContact(b2Contact* contact)
 {
 	b2Fixture* fixtureA = contact->GetFixtureA();
 	b2Fixture* fixtureB = contact->GetFixtureB();
@@ -35,29 +41,6 @@ BarBreakerListener::BarBreakerListener()
 		else if (filterB.categoryBits == PLAYER)
 		{
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
-		}
-	}
-
-}
-
-void BarBreakerListener::BeginContact(b2Contact* contact)
-{
-	b2Fixture* fixtureA = contact->GetFixtureA();
-	b2Fixture* fixtureB = contact->GetFixtureB();
-
-	bool sensorA = fixtureA->IsSensor();
-	bool sensorB = fixtureB->IsSensor();
-
-	//if neither or both are sensors, will be false
-	if ((sensorA ^ sensorB))
-	{
-		if (sensorA)
-		{
-			TriggerExit(fixtureA);
-		}
-		else if (sensorB)
-		{
-			TriggerExit(fixtureB);
 		}
 	}
 
