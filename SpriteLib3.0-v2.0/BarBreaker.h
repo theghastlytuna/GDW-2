@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "BarBreakerListener.h"
 
 class BarBreaker : public Scene
 {
@@ -19,5 +20,6 @@ public:
 	void KeyboardUp() override;
 
 protected:
+	BarBreakerListener listener;
 
 };
