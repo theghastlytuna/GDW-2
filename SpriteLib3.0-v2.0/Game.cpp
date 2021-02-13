@@ -90,15 +90,11 @@ bool Game::Run()
 
 void Game::Update()
 {
-	//ToneFire::FMODCore fmod{};
-
 	//Update timer
 	Timer::Update();
+
 	//Update the backend
 	BackEnd::Update(m_register);
-
-	//fmod.Update();
-
 
 	//Update Physics System
 	PhysicsSystem::Update(m_register, m_activeScene->GetPhysicsWorld());

@@ -7,9 +7,8 @@ int main()
 {
 	ToneFire::FMODCore fmod{};
 
-	ToneFire::CoreSound testSound{ "test.mp3" };
-
-	testSound.Play();
+	//ToneFire::CoreSound testSound{ "test.mp3" };
+	//testSound.Play();
 
 	fmod.Update();
 	//Create the Game
