@@ -91,7 +91,7 @@ void BarBreaker::KeyboardDown()
 {
 	ToneFire::CoreSound testSound{ "punch.wav" };
 
-	if (Input::GetKey(Key::T))
+	if (Input::GetKeyDown(Key::T))
 	{
 		testSound.Play();
 	}
