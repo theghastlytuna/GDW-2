@@ -22,4 +22,6 @@ public:
 protected:
 	BarBreakerListener listener;
 
+	int player1;
+	int player2;
 };
