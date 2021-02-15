@@ -140,6 +140,8 @@
     <ClInclude Include="AnimationSpritePlayground.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="BackEnd.h" />
+    <ClInclude Include="BarBreaker.h" />
+    <ClInclude Include="BarBreakerListener.h" />
     <ClInclude Include="BloomEffect.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
@@ -200,6 +202,8 @@
     <ClCompile Include="AnimationSpritePlayground.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="BackEnd.cpp" />
+    <ClCompile Include="BarBreaker.cpp" />
+    <ClCompile Include="BarBreakerListener.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
