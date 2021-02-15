@@ -178,13 +178,15 @@ void BarBreaker::UpdateCamera() {
 void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
+	playerDistance = abs(ECS::GetComponent<PhysicsBody>(player1).GetPosition().x - ECS::GetComponent<PhysicsBody>(player2).GetPosition().x);
+	
 
 	if (!backgroundMusic.IsPlaying())
 	{
 		backgroundMusic.Play();
 	}
 
-	UpdateCamera();
+	//UpdateCamera();
 }
 
 void BarBreaker::AdjustScrollOffset()
@@ -230,6 +232,10 @@ void BarBreaker::KeyboardDown()
 	if (Input::GetKeyDown(Key::T))
 	{
 		testSound.Play();
+		if (playerDistance <= 60)
+		{
+			ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+		}
 	}
 
 	if (Input::GetKeyDown(Key::L))
