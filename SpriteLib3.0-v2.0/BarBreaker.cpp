@@ -146,6 +146,61 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 }
 
+void updateCamera() {
+	auto& player = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
+	auto& camera = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+	static bool f = false;
+	//player1 = first player's physics body
+	//player2 = second player's physics body
+
+	pos p1Pos, p2Pos;
+	p1Pos.x = player1.GetBody()->GetPosition().x;
+	p1Pos.y = player1.GetBody()->GetPosition().y;
+
+	p2Pos.x = player2.GetBody()->GetPosition().x;
+	p2Pos.y = player2.GetBody()->GetPosition().y;
+
+	float averageX, averageY;
+	averageX = (p2Pos.x + p1Pos.x) / 2.0;
+	averageY = (p1Pos.y + p2Pos.y) / 2.0;
+
+	player.SetPositionX(averageX);
+	player.SetPositionY(averageY);
+
+	static float dist, old = 0;
+	pos xy;
+	xy.x = pow((p1Pos.x - p2Pos.x), 2);
+	xy.y = pow((p1Pos.y - p2Pos.y), 2);
+	dist = sqrt(xy.x + xy.y);
+	dist /= 100;
+
+	//dist /= 5;
+	dist -= dist / 1.5;
+	//lower value = more zoomed out
+	//should not go above 20 or 25
+
+	/*if (f) {
+		camera.Zoom(5);
+		f = false;
+	}*/
+
+	if (f) {
+		if (old > dist) {
+			camera.Zoom(dist);
+		}
+		else if (old < dist) {
+			dist -= 0.05;
+			camera.Zoom(-dist);
+		}
+		f = false;
+	}
+	else {
+		old = dist;
+		f = true;
+	}
+
+}
+
 void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
@@ -155,6 +210,7 @@ void BarBreaker::Update()
 		backgroundMusic.Play();
 	}
 
+	updateCamera();
 }
 
 void BarBreaker::AdjustScrollOffset()
