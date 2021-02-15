@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 
 class BarBreaker : public Scene
@@ -19,5 +19,5 @@ public:
 	void KeyboardUp() override;
 
 protected:
-
+	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };

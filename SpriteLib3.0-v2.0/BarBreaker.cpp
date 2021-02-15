@@ -23,6 +23,10 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, false, false);
 
+	//ToneFire::CoreSound testSound{ "test2.mp3" };
+	//backgroundMusic = testSound;
+	backgroundMusic.Play();
+
 	//Setup static box
 	{
 		//Creates entity
@@ -77,6 +81,12 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 void BarBreaker::Update()
 {
+
+	if (!backgroundMusic.IsPlaying())
+	{
+		backgroundMusic.Play();
+	}
+
 }
 
 void BarBreaker::AdjustScrollOffset()
