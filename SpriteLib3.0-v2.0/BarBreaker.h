@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
 
@@ -24,4 +24,5 @@ protected:
 
 	int player1;
 	int player2;
+	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };

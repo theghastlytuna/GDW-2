@@ -1,5 +1,6 @@
 #include "BarBreaker.h"
 #include "Utilities.h"
+#include "Tone Fire/Tonefire.h"
 
 BarBreaker::BarBreaker(std::string name)
 	:Scene(name)
@@ -25,6 +26,43 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	
 	Scene::CreatePlatform("boxSprite.jpg", 800.f, 20, 0, -30.f, 0.f, 0.f, 0.f);
+
+	//ToneFire::CoreSound testSound{ "test2.mp3" };
+	//backgroundMusic = testSound;
+	backgroundMusic.Play();
+
+	//Setup static box
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 150, 10);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(30.f), float32(-10.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+
+	}
 
 	//Setup new Entity
 	{
@@ -112,14 +150,11 @@ void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
 
-	vec3 player1Pos = ECS::GetComponent<Transform>(player1).GetPosition();
-	vec3 player2Pos = ECS::GetComponent<Transform>(player2).GetPosition();
+	if (!backgroundMusic.IsPlaying())
+	{
+		backgroundMusic.Play();
+	}
 
-	float averageX = player1Pos.x - player2Pos.x;
-	Transform* pl = new Transform;
-	pl->SetPosition(vec3(averageX, 0.f, 0.f));
-
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(pl);
 }
 
 void BarBreaker::AdjustScrollOffset()
@@ -169,6 +204,12 @@ void BarBreaker::KeyboardHold()
 
 void BarBreaker::KeyboardDown()
 {
+	ToneFire::CoreSound testSound{ "punch.wav" };
+
+	if (Input::GetKeyDown(Key::T))
+	{
+		testSound.Play();
+	}
 }
 
 void BarBreaker::KeyboardUp()

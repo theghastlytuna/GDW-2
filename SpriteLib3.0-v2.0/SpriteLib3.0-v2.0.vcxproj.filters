@@ -198,6 +198,9 @@
     <ClInclude Include="BarBreakerListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Tone Fire\ToneFire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
