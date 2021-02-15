@@ -10,6 +10,8 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
+	void UpdateCamera();
+
 	void Update() override;
 
 	void AdjustScrollOffset();
@@ -19,10 +21,16 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
+	struct pos
+	{
+		float x = 0.f, y = 0.f;
+	};
+
 protected:
 	BarBreakerListener listener;
 
-	int player1;
-	int player2;
+	unsigned int player1;
+	unsigned int player2;
+
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };
