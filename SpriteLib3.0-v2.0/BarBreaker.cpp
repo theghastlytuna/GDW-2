@@ -178,8 +178,8 @@ void BarBreaker::UpdateCamera() {
 void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
-	playerDistance = abs(ECS::GetComponent<PhysicsBody>(player1).GetPosition().x - ECS::GetComponent<PhysicsBody>(player2).GetPosition().x);
-	
+
+	playerDistance = (ECS::GetComponent<PhysicsBody>(player1).GetPosition().x - ECS::GetComponent<PhysicsBody>(player2).GetPosition().x);
 
 	if (!backgroundMusic.IsPlaying())
 	{
@@ -229,15 +229,29 @@ void BarBreaker::KeyboardDown()
 {
 	ToneFire::CoreSound testSound{ "punch.wav" };
 
+	if (Input::GetKeyDown(Key::W))
+	{
+		ECS::GetComponent<PhysicsBody>(player1).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 200000.f), true);
+
+	}
+
 	if (Input::GetKeyDown(Key::T))
 	{
 		testSound.Play();
-		if (playerDistance <= 60)
+		if (abs(playerDistance) <= 60)
 		{
-			ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+			if (playerDistance < 0)
+			{
+				ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+
+			}
+			else if (playerDistance > 0)
+			{
+				ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+
+			}
 		}
 	}
-
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
