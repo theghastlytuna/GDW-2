@@ -73,7 +73,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -112,7 +112,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -207,15 +207,6 @@ void BarBreaker::KeyboardHold()
 		speed *= 5.f;
 	}
 
-	if (Input::GetKey(Key::A))
-	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyForceToCenter(b2Vec2(-200000.f * speed, 0.f), true);
-	}
-	if (Input::GetKey(Key::D))
-	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyForceToCenter(b2Vec2(200000.f * speed, 0.f), true);
-	}
-
 	//Change physics body size for circle
 	if (Input::GetKey(Key::O))
 	{
@@ -232,13 +223,24 @@ void BarBreaker::KeyboardDown()
 {
 	ToneFire::CoreSound testSound{ "punch.wav" };
 
-	if (Input::GetKeyDown(Key::W))
+	if (Input::GetKeyDown(Key::E))
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 200000.f), true);
-
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 90000.f), true);
+	}
+	if (Input::GetKeyDown(Key::Q))
+	{
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 90000.f), true);
+	}
+	if (Input::GetKeyDown(Key::A))
+	{
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 50000.f), true);
+	}
+	if (Input::GetKeyDown(Key::D))
+	{
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 50000.f), true);
 	}
 
-	if (Input::GetKeyDown(Key::T))
+	if (Input::GetKeyDown(Key::W))
 	{
 		if (abs(playerDistance) <= 60)
 		{
