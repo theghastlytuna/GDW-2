@@ -31,6 +31,8 @@ protected:
 
 	unsigned int player1;
 	unsigned int player2;
+	unsigned int activePlayer;
+	unsigned int inactivePlayer;
 	float playerDistance;
 
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};

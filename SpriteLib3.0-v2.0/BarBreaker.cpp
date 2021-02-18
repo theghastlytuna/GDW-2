@@ -24,7 +24,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	float aspectRatio = windowWidth / windowHeight;
 
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
-	
+	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
+
 	Scene::CreatePlatform("boxSprite.jpg", 800.f, 20, 0, -30.f, 0.f, 0.f, 0.f);
 
 	//ToneFire::CoreSound testSound{ "test2.mp3" };
@@ -46,6 +47,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		//Creates entity
 		auto entity = ECS::CreateEntity();
 		player1 = entity;
+		activePlayer = entity;
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -84,6 +86,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		//Creates entity
 		auto entity = ECS::CreateEntity();
 		player2 = entity;
+		inactivePlayer = entity;
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -179,7 +182,7 @@ void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
 
-	playerDistance = (ECS::GetComponent<PhysicsBody>(player1).GetPosition().x - ECS::GetComponent<PhysicsBody>(player2).GetPosition().x);
+	playerDistance = (ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
 
 	if (!backgroundMusic.IsPlaying())
 	{
@@ -206,21 +209,21 @@ void BarBreaker::KeyboardHold()
 
 	if (Input::GetKey(Key::A))
 	{
-		ECS::GetComponent<PhysicsBody>(player1).GetBody()->ApplyForceToCenter(b2Vec2(-200000.f * speed, 0.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyForceToCenter(b2Vec2(-200000.f * speed, 0.f), true);
 	}
 	if (Input::GetKey(Key::D))
 	{
-		ECS::GetComponent<PhysicsBody>(player1).GetBody()->ApplyForceToCenter(b2Vec2(200000.f * speed, 0.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyForceToCenter(b2Vec2(200000.f * speed, 0.f), true);
 	}
 
 	//Change physics body size for circle
 	if (Input::GetKey(Key::O))
 	{
-		ECS::GetComponent<PhysicsBody>(player1).ScaleBody(1.3 * Timer::deltaTime, 0);
+		ECS::GetComponent<PhysicsBody>(activePlayer).ScaleBody(1.3 * Timer::deltaTime, 0);
 	}
 	else if (Input::GetKey(Key::I))
 	{
-		ECS::GetComponent<PhysicsBody>(player1).ScaleBody(-1.3 * Timer::deltaTime, 0);
+		ECS::GetComponent<PhysicsBody>(activePlayer).ScaleBody(-1.3 * Timer::deltaTime, 0);
 	}
 
 }
@@ -231,30 +234,45 @@ void BarBreaker::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::W))
 	{
-		ECS::GetComponent<PhysicsBody>(player1).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 200000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 200000.f), true);
 
 	}
 
 	if (Input::GetKeyDown(Key::T))
 	{
-		testSound.Play();
 		if (abs(playerDistance) <= 60)
 		{
+			testSound.Play();
 			if (playerDistance < 0)
 			{
-				ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
 
 			}
 			else if (playerDistance > 0)
 			{
-				ECS::GetComponent<PhysicsBody>(player2).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
 
 			}
 		}
 	}
+
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
+	}
+
+	if (Input::GetKeyDown(Key::K))
+	{
+		if (activePlayer == player1)
+		{
+			activePlayer = player2;
+			inactivePlayer = player1;
+		}
+		else if (activePlayer == player2)
+		{
+			activePlayer = player1;
+			inactivePlayer = player2;
+		}
 	}
 }
 
