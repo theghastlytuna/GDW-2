@@ -32,16 +32,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	//backgroundMusic = testSound;
 	backgroundMusic.Play();
 
-	//Setup dummy entity
-	{
-		auto entity = ECS::CreateEntity();
-		ECS::SetIsMainPlayer(entity, true);
-
-		ECS::AttachComponent<Transform>(entity);
-
-		ECS::GetComponent<Transform>(entity).SetPosition(0, 0, 0);
-	}
-
 	//Setup new Entity
 	{
 		//Creates entity
@@ -119,9 +109,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 }
 
 void BarBreaker::UpdateCamera() {
@@ -194,6 +183,8 @@ void BarBreaker::Update()
 
 void BarBreaker::AdjustScrollOffset()
 {
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 
 }
 
