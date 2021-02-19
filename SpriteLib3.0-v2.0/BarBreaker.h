@@ -21,6 +21,8 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
+	void SwitchPlayer();
+
 	struct pos
 	{
 		float x = 0.f, y = 0.f;

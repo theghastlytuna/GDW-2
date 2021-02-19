@@ -265,19 +265,24 @@ void BarBreaker::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::K))
 	{
-		if (activePlayer == player1)
-		{
-			activePlayer = player2;
-			inactivePlayer = player1;
-		}
-		else if (activePlayer == player2)
-		{
-			activePlayer = player1;
-			inactivePlayer = player2;
-		}
+		BarBreaker::SwitchPlayer();
 	}
 }
 
 void BarBreaker::KeyboardUp()
 {
+}
+
+void BarBreaker::SwitchPlayer()
+{
+	if (activePlayer == player1)
+	{
+		activePlayer = player2;
+		inactivePlayer = player1;
+	}
+	else if (activePlayer == player2)
+	{
+		activePlayer = player1;
+		inactivePlayer = player2;
+	}
 }
