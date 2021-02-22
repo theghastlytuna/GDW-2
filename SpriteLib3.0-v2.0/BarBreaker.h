@@ -21,6 +21,19 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
+	void SmallMoveRight();
+
+	void SmallMoveLeft();
+
+	void BigMoveRight();
+
+	void BigMoveLeft();
+
+
+	void Punch();
+
+	void EndTurn();
+
 	void SwitchPlayer();
 
 	struct pos
@@ -35,6 +48,7 @@ protected:
 	unsigned int player2;
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
+	int movesTaken;
 	float playerDistance;
 
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
