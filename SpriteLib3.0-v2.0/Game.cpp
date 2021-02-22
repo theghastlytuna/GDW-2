@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Tone Fire/Tonefire.h"
 
 #include <random>
 
@@ -91,6 +92,7 @@ void Game::Update()
 {
 	//Update timer
 	Timer::Update();
+
 	//Update the backend
 	BackEnd::Update(m_register);
 

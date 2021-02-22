@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
 
@@ -10,6 +10,8 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
+	void UpdateCamera();
+
 	void Update() override;
 
 	void AdjustScrollOffset();
@@ -19,7 +21,35 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
+	void SmallMoveRight();
+
+	void SmallMoveLeft();
+
+	void BigMoveRight();
+
+	void BigMoveLeft();
+
+
+	void Punch();
+
+	void EndTurn();
+
+	void SwitchPlayer();
+
+	struct pos
+	{
+		float x = 0.f, y = 0.f;
+	};
+
 protected:
 	BarBreakerListener listener;
 
+	unsigned int player1;
+	unsigned int player2;
+	unsigned int activePlayer;
+	unsigned int inactivePlayer;
+	int movesTaken;
+	float playerDistance;
+
+	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };
