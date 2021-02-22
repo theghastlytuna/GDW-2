@@ -11,6 +11,12 @@ public:
 
 	void Update() override;
 
+	void GUI() override;
+
+	void GUIWindowUI();
+	void GUIWindowOne();
+	void GUIWindowTwo();
+
 	void AdjustScrollOffset();
 
 	//Input overrides
@@ -19,5 +25,9 @@ public:
 	void KeyboardUp() override;
 
 protected:
+
+	bool m_firstWindow = false;
+	bool m_secondWindow = false;
+
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };
