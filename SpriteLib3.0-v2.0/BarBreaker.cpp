@@ -31,6 +31,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	//ToneFire::CoreSound testSound{ "test2.mp3" };
 	//backgroundMusic = testSound;
 	backgroundMusic.Play();
+	backgroundMusic.SetVolume(0.1);
 
 	//Setup new Entity
 	{
@@ -176,7 +177,8 @@ void BarBreaker::Update()
 	if (!backgroundMusic.IsPlaying())
 	{
 		backgroundMusic.Play();
-	}*/
+		backgroundMusic.SetVolume(0.1);
+	}
 
 	//UpdateCamera();
 }
@@ -352,7 +354,9 @@ void BarBreaker::GUI()
 
 void BarBreaker::GUIWindowUI()
 {
-	ImGui::Begin("Moveset", 0, 125);
+	ImGui::Begin("Moveset", 0, 63); 
+
+	ImGui::SetWindowFontScale(2.5);
 
 	//is the buffer initialized
 	static bool init = false;
@@ -369,16 +373,37 @@ void BarBreaker::GUIWindowUI()
 	m_physicsWorld->SetAllowSleeping(true);
 
 	//ImGui::Checkbox("Enable First Window", &m_firstWindow);
-	//ImGui::SameLine();
-	if (ImGui::Button("Jump", ImVec2(180.f, 15.f)))
+	if (ImGui::Button("Short jump left", ImVec2(300.f, 45.f)))
 	{
+		SmallMoveLeft();
 	}
 
-	if (ImGui::Button("Attack", ImVec2(180.f, 15.f)))
+	ImGui::SameLine();
+	if (ImGui::Button("Long jump left", ImVec2(300.f, 45.f)))
 	{
+		BigMoveLeft();
 	}
 
-	if (ImGui::Button("Grab Item", ImVec2(180.f, 15.f)))
+	ImGui::SameLine();
+	if (ImGui::Button("Short jump right", ImVec2(300.f, 45.f)))
+	{
+		SmallMoveRight();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Long jump right", ImVec2(300.f, 45.f)))
+	{
+		BigMoveRight();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Attack", ImVec2(300.f, 45.f)))
+	{
+		Punch();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Grab Item", ImVec2(300.f, 45.f)))
 	{
 	}
 
