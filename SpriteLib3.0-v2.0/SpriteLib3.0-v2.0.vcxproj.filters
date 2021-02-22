@@ -195,6 +195,9 @@
     <ClInclude Include="BarBreaker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BarBreakerListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Tone Fire\ToneFire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -369,6 +372,9 @@
       <Filter>Resource Files\ImGUi</Filter>
     </ClCompile>
     <ClCompile Include="BarBreaker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BarBreakerListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
