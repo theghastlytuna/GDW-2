@@ -372,37 +372,41 @@ void BarBreaker::GUIWindowUI()
 	}
 	m_physicsWorld->SetAllowSleeping(true);
 
+	
 	//ImGui::Checkbox("Enable First Window", &m_firstWindow);
+	ImGui::SameLine(ImGui::GetWindowWidth() / 16);
 	if (ImGui::Button("Short jump left", ImVec2(300.f, 45.f)))
 	{
 		SmallMoveLeft();
 	}
 
-	ImGui::SameLine();
-	if (ImGui::Button("Long jump left", ImVec2(300.f, 45.f)))
-	{
-		BigMoveLeft();
-	}
-
-	ImGui::SameLine();
+	ImGui::SameLine(ImGui::GetWindowWidth() / 2.5);
 	if (ImGui::Button("Short jump right", ImVec2(300.f, 45.f)))
 	{
 		SmallMoveRight();
 	}
 
-	ImGui::SameLine();
-	if (ImGui::Button("Long jump right", ImVec2(300.f, 45.f)))
-	{
-		BigMoveRight();
-	}
 
-	ImGui::SameLine();
+	ImGui::SameLine(ImGui::GetWindowWidth() / 1.3);
 	if (ImGui::Button("Attack", ImVec2(300.f, 45.f)))
 	{
 		Punch();
 	}
 
-	ImGui::SameLine();
+	ImGui::NewLine();
+	ImGui::SameLine(ImGui::GetWindowWidth() / 16);
+	if (ImGui::Button("Long jump left", ImVec2(300.f, 45.f)))
+	{
+		BigMoveLeft();
+	}
+
+	ImGui::SameLine(ImGui::GetWindowWidth() / 2.5);
+	if (ImGui::Button("Long jump right", ImVec2(300.f, 45.f)))
+	{
+		SmallMoveRight();
+	}
+
+	ImGui::SameLine(ImGui::GetWindowWidth() / 1.3);
 	if (ImGui::Button("Grab Item", ImVec2(300.f, 45.f)))
 	{
 	}
