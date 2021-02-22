@@ -230,10 +230,10 @@ void Game::KeyboardUp()
 	{
 		m_activeScene->KeyboardUp();
 
-		if (Input::GetKeyUp(Key::F1))
+		/*if (Input::GetKeyUp(Key::F1))
 		{
 			m_guiActive = !m_guiActive;
-		}
+		}*/
 		if (Input::GetKeyUp(Key::P))
 		{
 			PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
