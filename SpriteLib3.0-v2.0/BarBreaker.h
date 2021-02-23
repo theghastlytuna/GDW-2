@@ -10,8 +10,6 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
-	void UpdateCamera();
-
 	void Update() override;
 
 	void AdjustScrollOffset();
