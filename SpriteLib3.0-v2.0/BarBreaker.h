@@ -61,5 +61,5 @@ protected:
 	int movesTaken;
 	float playerDistance;
 
-	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
+	ToneFire::CoreSound backgroundMusic{"bg1.mp3"};
 };

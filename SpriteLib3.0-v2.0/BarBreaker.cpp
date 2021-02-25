@@ -299,6 +299,7 @@ void BarBreaker::Punch()
 	if (abs(playerDistance) <= 60)
 	{
 		testSound.Play();
+		testSound.SetVolume(0.5);
 		if (playerDistance < 0)
 		{
 			ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
@@ -403,7 +404,7 @@ void BarBreaker::GUIWindowUI()
 	ImGui::SameLine(ImGui::GetWindowWidth() / 2.5);
 	if (ImGui::Button("Long jump right", ImVec2(300.f, 45.f)))
 	{
-		SmallMoveRight();
+		BigMoveRight();
 	}
 
 	ImGui::SameLine(ImGui::GetWindowWidth() / 1.3);
