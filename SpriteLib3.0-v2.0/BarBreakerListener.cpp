@@ -36,14 +36,25 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 	{
 		if (filterA.categoryBits == PLAYER)
 		{
-			//ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump = true;
+			ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump = true;
 		}
 		else if (filterB.categoryBits == PLAYER)
 		{
-			//ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
+			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
 		}
 	}
 
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == PICKUP) || (filterB.categoryBits == PLAYER && filterA.categoryBits == PICKUP))
+	{
+		if (filterA.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).reduceHealth(10);
+		}
+		else if (filterB.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).reduceHealth(10);
+		}
+	}
 }
 
 void BarBreakerListener::EndContact(b2Contact* contact)

@@ -32,7 +32,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	//backgroundMusic = testSound;
 	backgroundMusic.Play();
 
-	//Setup new Entity
+	//Setup Player 1
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -43,6 +43,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Health>(entity);
+		ECS::AttachComponent<CanJump>(entity);
 
 		//Sets up components
 		std::string fileName = "LinkStandby.png";
@@ -82,6 +84,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Health>(entity);
+		ECS::AttachComponent<CanJump>(entity);
 
 		//Sets up components
 		std::string fileName = "LinkStandby.png";
