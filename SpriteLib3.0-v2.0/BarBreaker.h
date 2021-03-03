@@ -10,6 +10,8 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
+	void ThrowBottle();
+
 	void Update() override;
 
 	void AdjustScrollOffset();

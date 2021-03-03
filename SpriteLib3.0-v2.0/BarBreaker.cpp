@@ -113,6 +113,39 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 }
 
+void BarBreaker::ThrowBottle()
+{
+	auto entity = ECS::CreateEntity();
+	vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
+
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	std::string fileName = "boxSprite.jpg";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y + 25.f, playerPos.z));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(playerPos.x + 25), float32(playerPos.y + 25));
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+
+	tempPhsBody.SetRotationAngleDeg(0.f);
+	tempPhsBody.SetFixedRotation(false);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+	tempPhsBody.SetGravityScale(1.f);
+	tempBody->ApplyLinearImpulseToCenter(b2Vec2(100000, 0), true);
+
+}
+
 void BarBreaker::Update()
 {
 	BarBreaker::AdjustScrollOffset();
@@ -178,7 +211,10 @@ void BarBreaker::KeyboardDown()
 	{
 		Punch();
 	}
-
+	if (Input::GetKeyDown(Key::F))
+	{
+		BarBreaker::ThrowBottle();
+	}
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
