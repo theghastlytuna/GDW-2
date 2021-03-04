@@ -49,6 +49,8 @@ protected:
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
 	int movesTaken;
+	int heavyMoves = 0;
+	int lightMoves = 0;
 	float playerDistance;
 
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};

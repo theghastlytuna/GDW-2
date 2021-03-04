@@ -75,7 +75,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(1.f);
 
 	}
-
+	//player 2
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -154,6 +154,7 @@ void BarBreaker::ThrowBottle()
 	tempPhsBody.SetGravityScale(0.8);//slightly reduced effect of gravity
 	tempBody->ApplyLinearImpulseToCenter(b2Vec2(10000, 19000), true);
 
+	lightMoves++;
 }
 
 void BarBreaker::Update()
@@ -165,6 +166,11 @@ void BarBreaker::Update()
 	if (!backgroundMusic.IsPlaying())
 	{
 		backgroundMusic.Play();
+	}
+
+	if (lightMoves + heavyMoves == 2)
+	{
+		EndTurn();
 	}
 }
 
@@ -243,40 +249,30 @@ void BarBreaker::KeyboardUp()
 void BarBreaker::SmallMoveRight()
 {
 	ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 50000.f), true);
-	movesTaken++;
-	if (movesTaken == 2)
-	{
-		EndTurn();
-	}
+	lightMoves++;
 }
 
 void BarBreaker::SmallMoveLeft()
 {
 	ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 50000.f), true);
-	movesTaken++;
-	if (movesTaken == 2)
-	{
-		EndTurn();
-	}
+	lightMoves++;
 }
 
 void BarBreaker::BigMoveRight()
 {
-	ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 90000.f), true);
-	movesTaken++;
-	if (movesTaken == 2)
+	if (heavyMoves < 1)
 	{
-		EndTurn();
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 90000.f), true);
+		heavyMoves++;
 	}
 }
 
 void BarBreaker::BigMoveLeft()
 {
-	ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 90000.f), true);
-	movesTaken++;
-	if (movesTaken == 2)
+	if (heavyMoves < 1)
 	{
-		EndTurn();
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 90000.f), true);
+		heavyMoves++;
 	}
 }
 
@@ -290,13 +286,13 @@ void BarBreaker::Punch()
 		if (playerDistance < 0)
 		{
 			ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
-			EndTurn();
+			lightMoves++;
 
 		}
 		else if (playerDistance > 0)
 		{
 			ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
-			EndTurn();
+			lightMoves++;
 
 		}
 	}
@@ -304,7 +300,8 @@ void BarBreaker::Punch()
 
 void BarBreaker::EndTurn()
 {
-	movesTaken = 0;
+	lightMoves = 0;
+	heavyMoves = 0;
 	SwitchPlayer();
 }
 
