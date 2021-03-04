@@ -43,9 +43,9 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		ECS::AttachComponent<Health>(entity);
+		ECS::AttachComponent<Health>(entity);//health component
 		ECS::AttachComponent<CanJump>(entity);
-		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);//stores entity number for easy access anywhere
 
 		//Sets up components
 		std::string fileName = "LinkStandby.png";
@@ -151,7 +151,7 @@ void BarBreaker::ThrowBottle()
 	tempPhsBody.SetRotationAngleDeg(0.f);
 	tempPhsBody.SetFixedRotation(false);
 	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	tempPhsBody.SetGravityScale(0.8);
+	tempPhsBody.SetGravityScale(0.8);//slightly reduced effect of gravity
 	tempBody->ApplyLinearImpulseToCenter(b2Vec2(10000, 19000), true);
 
 }
