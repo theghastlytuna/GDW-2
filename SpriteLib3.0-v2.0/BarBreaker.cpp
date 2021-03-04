@@ -45,12 +45,14 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<Health>(entity);
 		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
 
 		//Sets up components
 		std::string fileName = "LinkStandby.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -86,12 +88,14 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<Health>(entity);
 		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
 
 		//Sets up components
 		std::string fileName = "LinkStandby.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 50.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -125,11 +129,13 @@ void BarBreaker::ThrowBottle()
 	ECS::AttachComponent<Sprite>(entity);
 	ECS::AttachComponent<Transform>(entity);
 	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<EntityNumber>(entity);
 
 	std::string fileName = "boxSprite.jpg";
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
 	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-	ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y + 25.f, playerPos.z));
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z));
+	ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -137,7 +143,7 @@ void BarBreaker::ThrowBottle()
 	b2Body* tempBody;
 	b2BodyDef tempDef;
 	tempDef.type = b2_dynamicBody;
-	tempDef.position.Set(float32(playerPos.x + 25), float32(playerPos.y + 25));
+	tempDef.position.Set(float32(playerPos.x + 32), float32(playerPos.y + 15));
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, PICKUP, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
@@ -145,8 +151,8 @@ void BarBreaker::ThrowBottle()
 	tempPhsBody.SetRotationAngleDeg(0.f);
 	tempPhsBody.SetFixedRotation(false);
 	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	tempPhsBody.SetGravityScale(1.f);
-	tempBody->ApplyLinearImpulseToCenter(b2Vec2(100000, 0), true);
+	tempPhsBody.SetGravityScale(0.8);
+	tempBody->ApplyLinearImpulseToCenter(b2Vec2(10000, 19000), true);
 
 }
 

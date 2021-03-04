@@ -15,6 +15,7 @@
 #include "HorizontalScroll.h"
 #include "CanJump.h"
 #include "Health.h"
+#include "EntityNumber.h"
 
 
 class ECS abstract

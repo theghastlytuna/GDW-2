@@ -44,7 +44,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		}
 	}
 
-	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == PICKUP) || (filterB.categoryBits == PLAYER && filterA.categoryBits == PICKUP))
+	if ((filterA.categoryBits == PICKUP) || (filterB.categoryBits == PICKUP))
 	{
 		if (filterA.categoryBits == PLAYER)
 		{
@@ -54,6 +54,16 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		{
 			ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).reduceHealth(10);
 		}
+
+		if (filterA.categoryBits == PICKUP)
+		{
+			PhysicsBody::m_bodiesToDelete.push_back(ECS::GetComponent<EntityNumber>((int)fixtureA->GetBody()->GetUserData()).entityNumber);
+		}
+		if (filterB.categoryBits == PICKUP)
+		{
+			PhysicsBody::m_bodiesToDelete.push_back(ECS::GetComponent<EntityNumber>((int)fixtureB->GetBody()->GetUserData()).entityNumber);
+		}
+
 	}
 }
 
