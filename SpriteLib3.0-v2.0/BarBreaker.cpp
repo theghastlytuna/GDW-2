@@ -225,7 +225,7 @@ void BarBreaker::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::W))
 	{
-		Punch();
+		LightAttack();
 	}
 	if (Input::GetKeyDown(Key::F))
 	{
@@ -276,7 +276,7 @@ void BarBreaker::BigMoveLeft()
 	}
 }
 
-void BarBreaker::Punch()
+void BarBreaker::LightAttack()
 {
 	ToneFire::CoreSound testSound{ "punch.wav" };
 

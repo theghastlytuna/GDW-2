@@ -30,7 +30,7 @@ public:
 	void BigMoveLeft();
 
 
-	void Punch();
+	void LightAttack();
 
 	void EndTurn();
 
