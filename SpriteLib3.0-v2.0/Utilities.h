@@ -22,4 +22,7 @@ namespace Util
 	{
 		return (v0 * (1-t)) + (v1 * (t));
 	}
+
+	//Lerp(minWidth, maxWidth, healthPercentage)
+	//healthPercentage needs to be 0 to 1
 }

@@ -110,6 +110,83 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
+
+	//Right boundary entity
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		boundaryRight = entity;
+		
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(350.f), float32(50.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+
+		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetFixedRotation(true);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetGravityScale(1.f);
+	}
+
+	//Left boundary entity
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		boundaryLeft = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(-350.f), float32(50.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+
+		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetFixedRotation(true);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetGravityScale(1.f);
+	}
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 }
@@ -173,11 +250,30 @@ void BarBreaker::Update()
 	BarBreaker::AdjustScrollOffset();
 
 	playerDistance = (ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
+	boundaryDistanceRightActive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x);
+	boundaryDistanceLeftActive = ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
+
+	boundaryDistanceRightInactive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
+	boundaryDistanceLeftInactive = ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
+
 
 	if (!backgroundMusic.IsPlaying())
 	{
 		backgroundMusic.Play();
 		backgroundMusic.SetVolume(0.1);
+	}
+
+	//If the player ended their turn, and the system hasnt begun counting yet
+	if (turnEnd && !counting)
+	{
+		counting = true;
+		beginClk = time(0);
+	}
+
+	//Once the system has begun counting, end the turn only after five seconds have passed
+	else if (turnEnd && (time(0) - beginClk >= 5))
+	{
+		EndTurn();
 	}
 
 	//UpdateCamera();
@@ -187,7 +283,6 @@ void BarBreaker::AdjustScrollOffset()
 {
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
-
 }
 
 void BarBreaker::KeyboardHold()
@@ -258,7 +353,8 @@ void BarBreaker::SmallMoveRight()
 	movesTaken++;
 	if (movesTaken == 2)
 	{
-		EndTurn();
+		turnEnd = true;
+		//EndTurn();
 	}
 }
 
@@ -268,7 +364,8 @@ void BarBreaker::SmallMoveLeft()
 	movesTaken++;
 	if (movesTaken == 2)
 	{
-		EndTurn();
+		turnEnd = true;
+		//EndTurn();
 	}
 }
 
@@ -278,7 +375,8 @@ void BarBreaker::BigMoveRight()
 	movesTaken++;
 	if (movesTaken == 2)
 	{
-		EndTurn();
+		turnEnd = true;
+		//EndTurn();
 	}
 }
 
@@ -288,7 +386,8 @@ void BarBreaker::BigMoveLeft()
 	movesTaken++;
 	if (movesTaken == 2)
 	{
-		EndTurn();
+		turnEnd = true;
+		//EndTurn();
 	}
 }
 
@@ -303,13 +402,15 @@ void BarBreaker::Punch()
 		if (playerDistance < 0)
 		{
 			ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
-			EndTurn();
+			turnEnd = true;
+			//EndTurn();
 
 		}
 		else if (playerDistance > 0)
 		{
 			ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
-			EndTurn();
+			turnEnd = true;
+			//EndTurn();
 
 		}
 	}
@@ -318,6 +419,29 @@ void BarBreaker::Punch()
 void BarBreaker::EndTurn()
 {
 	movesTaken = 0;
+	turnEnd = false;
+	counting = false;
+
+	if (boundaryDistanceRightActive <= 30)
+	{
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+	}
+	
+	else if (boundaryDistanceLeftActive <= 30)
+	{
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+	}
+
+	if (boundaryDistanceRightInactive <= 30)
+	{
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+	}
+
+	else if (boundaryDistanceLeftInactive <= 30)
+	{
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+	}
+
 	SwitchPlayer();
 }
 
