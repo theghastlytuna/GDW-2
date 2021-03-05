@@ -29,7 +29,7 @@ Game::~Game()
 void Game::InitGame()
 {
 	//Initializes the backend with window width and height values
-	BackEnd::InitBackEnd(719.f, 436.f);
+	BackEnd::InitBackEnd(1500.f, 800.f);
 
 	//Grabs the initialized window
 	m_window = BackEnd::GetWindow();
@@ -230,10 +230,10 @@ void Game::KeyboardUp()
 	{
 		m_activeScene->KeyboardUp();
 
-		if (Input::GetKeyUp(Key::F1))
+		/*if (Input::GetKeyUp(Key::F1))
 		{
 			m_guiActive = !m_guiActive;
-		}
+		}*/
 		if (Input::GetKeyUp(Key::P))
 		{
 			PhysicsBody::SetDraw(!PhysicsBody::GetDraw());

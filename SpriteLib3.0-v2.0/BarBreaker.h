@@ -14,6 +14,12 @@ public:
 
 	void Update() override;
 
+	void GUI() override;
+
+	void GUIWindowUI();
+	void GUIWindowOne();
+	void GUIWindowTwo();
+
 	void AdjustScrollOffset();
 
 	//Input overrides
@@ -42,16 +48,30 @@ public:
 	};
 
 protected:
+
+	bool m_firstWindow = false;
+	bool m_secondWindow = false;
+
 	BarBreakerListener listener;
 
 	unsigned int player1;
 	unsigned int player2;
+	unsigned int boundaryRight;
+	unsigned int boundaryLeft;
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;
 	float playerDistance;
+	float boundaryDistanceRightActive;
+	float boundaryDistanceLeftActive;
+	float boundaryDistanceRightInactive;
+	float boundaryDistanceLeftInactive;
 
-	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
+	bool turnEnd = false;
+	bool counting = false;
+	double beginClk;
+
+	ToneFire::CoreSound backgroundMusic{"bg1.mp3"};
 };

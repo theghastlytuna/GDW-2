@@ -75,7 +75,7 @@ private:
 	std::vector<Scene*> m_scenes;
 	
 	//Imgui stuff
-	bool m_guiActive = false;
+	bool m_guiActive = true;
 
 	//Hooks for events
 	bool m_close = false;
