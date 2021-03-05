@@ -26,7 +26,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
 
-	Scene::CreatePlatform("boxSprite.jpg", 800.f, 20, 0, -30.f, 0.f, 0.f, 0.f);
+	Scene::CreatePlatform("boxSprite.jpg", 600.f, 20, 0, -30.f, 0.f, 0.f, 0.f);
 
 	//ToneFire::CoreSound testSound{ "test2.mp3" };
 	//backgroundMusic = testSound;
@@ -143,7 +143,7 @@ void BarBreaker::ThrowBottle()
 	b2Body* tempBody;
 	b2BodyDef tempDef;
 	tempDef.type = b2_dynamicBody;
-	tempDef.position.Set(float32(playerPos.x + 32), float32(playerPos.y + 15));
+	tempDef.position.Set(float32(playerPos.x), float32(playerPos.y + 30));
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, PICKUP, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
@@ -152,8 +152,15 @@ void BarBreaker::ThrowBottle()
 	tempPhsBody.SetFixedRotation(false);
 	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 	tempPhsBody.SetGravityScale(0.8);//slightly reduced effect of gravity
-	tempBody->ApplyLinearImpulseToCenter(b2Vec2(10000, 19000), true);
 
+	if (playerDistance < 0)
+	{
+		tempBody->ApplyLinearImpulseToCenter(b2Vec2(10000, 19000), true);
+	}
+	else if (playerDistance > 0)
+	{
+		tempBody->ApplyLinearImpulseToCenter(b2Vec2(-10000, 19000), true);
+	}
 	lightMoves++;
 }
 
