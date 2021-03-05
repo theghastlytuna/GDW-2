@@ -1,5 +1,6 @@
 #include "BarBreaker.h"
 #include "Utilities.h"
+#include "Timer.h"
 #include "Tone Fire/Tonefire.h"
 
 BarBreaker::BarBreaker(std::string name)
@@ -129,89 +130,43 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
-
-	//Right boundary entity
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-		boundaryRight = entity;
-		
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		//Sets up components
-		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(350.f), float32(50.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
-
-		tempPhsBody.SetRotationAngleDeg(0.f);
-		tempPhsBody.SetFixedRotation(true);
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(1.f);
-	}
-
-	//Left boundary entity
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-		boundaryLeft = entity;
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		//Sets up components
-		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-350.f), float32(50.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
-
-		tempPhsBody.SetRotationAngleDeg(0.f);
-		tempPhsBody.SetFixedRotation(true);
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(1.f);
-	}
-
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
+	moveCam = false;
+}
+
+void BarBreaker::UpdateCamera() {
+	/*lerps camera to active player rather than jumping from player to player*/
+
+	auto& cameraOffset = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
+	static float offsetVal = 0;
+	if (moveCam) {
+		if (activePlayer == player1) {
+			if (offsetVal < 79 /*&& offsetVal < 81*/) moveCam = false;
+			else offsetVal -= 0.1 * Timer::time;
+		}
+		if (activePlayer == player2) {
+			if (offsetVal > -49 /*&& offsetVal > -51*/) moveCam = false;
+			else offsetVal += 0.1 * Timer::time;
+		}
+		cameraOffset.SetOffset(offsetVal);
+	}
+	else {
+		//reset offsetting values
+		if (activePlayer == player1) {
+			if (ECS::GetComponent<Transform>(player2).GetPositionX() - ECS::GetComponent<Transform>(player1).GetPositionX() > 210)
+				offsetVal = -200;
+			else offsetVal = -55;
+		}
+		if (activePlayer == player2) offsetVal = 200;
+	}
+
 }
 
 void BarBreaker::Update()
 {
+	BarBreaker::UpdateCamera();
+
 	BarBreaker::AdjustScrollOffset();
 
 	playerDistance = (ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
@@ -298,11 +253,6 @@ void BarBreaker::KeyboardDown()
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
-	}
-
-	if (Input::GetKeyDown(Key::K))
-	{
-		BarBreaker::SwitchPlayer();
 	}
 }
 
@@ -446,10 +396,12 @@ void BarBreaker::EndTurn()
 	}
 
 	SwitchPlayer();
+	moveCam = true;
 }
 
 void BarBreaker::SwitchPlayer()
 {
+	moveCam = true;
 	if (activePlayer == player1)
 	{
 		activePlayer = player2;

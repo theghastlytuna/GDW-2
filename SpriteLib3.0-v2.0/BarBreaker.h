@@ -64,10 +64,7 @@ protected:
 	int heavyMoves = 0;
 	int lightMoves = 0;
 	float playerDistance;
-	float boundaryDistanceRightActive;
-	float boundaryDistanceLeftActive;
-	float boundaryDistanceRightInactive;
-	float boundaryDistanceLeftInactive;
+	bool moveCam;
 
 	bool turnEnd = false;
 	bool counting = false;
