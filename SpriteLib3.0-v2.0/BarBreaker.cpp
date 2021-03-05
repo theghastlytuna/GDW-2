@@ -32,6 +32,21 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	//backgroundMusic = testSound;
 	backgroundMusic.Play();
 
+		//background
+	{
+		auto entity = ECS::CreateEntity();
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		std::string fileName = "BarBreakerBackground.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 200);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
+
+
+
+
+	}
 	//Setup Player 1
 	{
 		//Creates entity
