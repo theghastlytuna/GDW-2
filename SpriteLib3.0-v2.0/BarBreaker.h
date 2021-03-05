@@ -50,6 +50,7 @@ protected:
 	unsigned int inactivePlayer;
 	int movesTaken;
 	float playerDistance;
+	bool moveCam;
 
 	ToneFire::CoreSound backgroundMusic{"test2.mp3"};
 };
