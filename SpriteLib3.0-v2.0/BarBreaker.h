@@ -12,6 +12,8 @@ public:
 
 	void ThrowBottle();
 
+	void UpdateCamera();
+
 	void Update() override;
 
 	void GUI() override;
