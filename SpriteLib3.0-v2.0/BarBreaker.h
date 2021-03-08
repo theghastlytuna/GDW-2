@@ -44,6 +44,10 @@ public:
 
 	void SwitchPlayer();
 
+	void PositionSnap(int playerNum);
+
+	void MovePlayer(int playerNum, int movement);
+
 	struct pos
 	{
 		float x = 0.f, y = 0.f;

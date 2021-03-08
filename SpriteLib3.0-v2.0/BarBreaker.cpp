@@ -66,6 +66,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -109,6 +110,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -169,6 +171,15 @@ void BarBreaker::Update()
 
 	BarBreaker::AdjustScrollOffset();
 
+	if (ECS::GetComponent<CanJump>(player1).m_canJump == true)
+	{
+		BarBreaker::PositionSnap(player1);
+	}
+	if (ECS::GetComponent<CanJump>(player2).m_canJump == true)
+	{
+		BarBreaker::PositionSnap(player2);
+	}
+
 	playerDistance = (ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
 
 	if (!backgroundMusic.IsPlaying())
@@ -189,8 +200,8 @@ void BarBreaker::Update()
 		beginClk = time(0);
 	}
 
-	//Once the system has begun counting, end the turn only after five seconds have passed
-	else if (turnEnd && (time(0) - beginClk >= 3))
+	//Once the system has begun counting, end the turn only after two seconds have passed
+	else if (turnEnd && (time(0) - beginClk >= 2))
 	{
 		EndTurn();
 	}
@@ -256,36 +267,40 @@ void BarBreaker::KeyboardUp()
 
 void BarBreaker::SmallMoveRight()
 {
-	if (!counting)
+	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 50000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(65000.f, 60000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		lightMoves++;
 	}
 }
 
 void BarBreaker::SmallMoveLeft()
 {
-	if (!counting)
+	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 50000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-65000.f, 60000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		lightMoves++;
 	}
 }
 
 void BarBreaker::BigMoveRight()
 {
-	if (heavyMoves < 1 && !counting)
+	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 90000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		heavyMoves++;
 	}
 }
 
 void BarBreaker::BigMoveLeft()
 {
-	if (heavyMoves < 1 && !counting)
+	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 90000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		heavyMoves++;
 	}
 }
@@ -386,6 +401,33 @@ void BarBreaker::SwitchPlayer()
 		activePlayer = player1;
 		inactivePlayer = player2;
 	}
+}
+void BarBreaker::PositionSnap(int playerNum)
+{
+	int playerPos = roundf(ECS::GetComponent<PhysicsBody>(playerNum).GetPosition().x);
+
+	if ((playerPos % 10) >= 5)
+	{
+		while ((playerPos % 10) != 0)
+		{
+			playerPos++;
+		}
+		ECS::GetComponent<PhysicsBody>(activePlayer).SetPosition(b2Vec2(playerPos, ECS::GetComponent<PhysicsBody>(playerNum).GetPosition().y));
+	}
+	else if ((playerPos % 10) < 5 && (playerPos % 10 != 0))
+	{
+		while ((playerPos % 10) != 0)
+		{
+			playerPos--;
+		}
+		ECS::GetComponent<PhysicsBody>(activePlayer).SetPosition(b2Vec2(playerPos, ECS::GetComponent<PhysicsBody>(playerNum).GetPosition().y));
+	}
+}
+
+void BarBreaker::MovePlayer(int playerNum, int movement)
+{
+	ECS::GetComponent<PhysicsBody>(playerNum).GetPosition().x;
+
 }
 
 void BarBreaker::GUI()
