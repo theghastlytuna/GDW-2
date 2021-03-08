@@ -258,6 +258,9 @@
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XInput.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\configs\buttonAnimations.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

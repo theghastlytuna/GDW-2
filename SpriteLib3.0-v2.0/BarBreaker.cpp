@@ -33,6 +33,39 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	backgroundMusic.Play();
 	backgroundMusic.SetVolume(0.1);
 
+	/*{
+		auto entity = ECS::CreateEntity();
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		std::string fileName = "spritesheets/buttonSheet.png";
+		std::string animations = "buttonAnimations.json";
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 49, 59, &ECS::GetComponent<Sprite>(entity),
+			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+	}*/
+
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		std::string fileName = "SquareMask.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+		moveButton.entity = entity;
+		moveButton.min = vec2(BackEnd::GetWindowWidth() / 2 - 4 * ((ECS::GetComponent<Sprite>(moveButton.entity).GetWidth() / 2)),
+			BackEnd::GetWindowHeight() / 2 - 4 * ((ECS::GetComponent<Sprite>(moveButton.entity).GetHeight()) / 2));
+
+		moveButton.max = vec2(BackEnd::GetWindowWidth() / 2 + 4 * ((ECS::GetComponent<Sprite>(moveButton.entity).GetWidth() / 2)),
+			BackEnd::GetWindowHeight() / 2 + 4 * ((ECS::GetComponent<Sprite>(moveButton.entity).GetHeight()) / 2));
+
+	}
+
 	//Setup new Entity
 	{
 		//Creates entity
@@ -276,6 +309,19 @@ void BarBreaker::Update()
 		EndTurn();
 	}
 
+	//Find the camera x and y, set the button sprite to them
+	auto newX = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionX();
+	auto newY = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionY();
+
+	ECS::GetComponent<Transform>(moveButton.entity).SetPosition(vec3(newX, newY, 10.f));
+
+	// CONTINUE HERE ***************
+	//moveButton.min.x = ECS::GetComponent<Transform>(moveButton.entity).GetPositionX() - (ECS::GetComponent<Sprite>(moveButton.entity).GetWidth() / 2);
+	//moveButton.min.y = ECS::GetComponent<Transform>(moveButton.entity).GetPositionY() - (ECS::GetComponent<Sprite>(moveButton.entity).GetHeight() / 2);
+
+	//moveButton.max.x = ECS::GetComponent<Transform>(moveButton.entity).GetPositionX() + (ECS::GetComponent<Sprite>(moveButton.entity).GetWidth() / 2);
+	//moveButton.max.y = ECS::GetComponent<Transform>(moveButton.entity).GetPositionY() + (ECS::GetComponent<Sprite>(moveButton.entity).GetHeight() / 2);
+
 	//UpdateCamera();
 }
 
@@ -304,7 +350,6 @@ void BarBreaker::KeyboardHold()
 	{
 		ECS::GetComponent<PhysicsBody>(activePlayer).ScaleBody(-1.3 * Timer::deltaTime, 0);
 	}
-
 }
 
 void BarBreaker::KeyboardDown()
@@ -459,11 +504,37 @@ void BarBreaker::SwitchPlayer()
 	}
 }
 
-void BarBreaker::GUI()
+void BarBreaker::MouseMotion(SDL_MouseMotionEvent evnt)
+{
+	
+}
+
+void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
+{
+	//Change the cursor location to use the bottom-left of the screen as the origin
+	vec2 cursorRelative(evnt.x, BackEnd::GetWindowHeight() - evnt.y);
+	/*std::cout << "Cursor X: " << cursorRelative.x << std::endl << "Cursor Y: "<< cursorRelative.y << std::endl;
+	std::cout << "Button min X: " << moveButton.min.x << std::endl << "Button min Y: " << moveButton.min.y << std::endl;
+	std::cout << "Button max X: " << moveButton.max.x << std::endl << "Button max Y: " << moveButton.max.y << std::endl;
+	std::cout << "Box Width: " << ECS::GetComponent<Sprite>(moveButton.entity).GetWidth() << std::endl 
+		<< "Box Height: " << ECS::GetComponent<Sprite>(moveButton.entity).GetHeight() << std::endl;
+	//std::cout << "Window Length: " << BackEnd::GetWindowWidth() << std::endl
+	//	<< "Window Height: " << BackEnd::GetWindowHeight() << std::endl;*/
+
+	if (evnt.type == SDL_MOUSEBUTTONDOWN && (cursorRelative.x >= moveButton.min.x && cursorRelative.y >= moveButton.min.y) &&
+		(cursorRelative.x <= moveButton.max.x && cursorRelative.y <= moveButton.max.y))
+	{
+		BigMoveRight();
+	}
+}
+
+
+
+/*void BarBreaker::GUI()
 {
 	GUIWindowUI();
 
-	/*if (m_firstWindow)
+	if (m_firstWindow)
 	{
 		GUIWindowOne();
 	}
@@ -471,13 +542,13 @@ void BarBreaker::GUI()
 	if (m_secondWindow)
 	{
 		GUIWindowTwo();
-	}*/
+	}
 
 	GUIWindowOne();
 	GUIWindowTwo();
-}
+}*/
 
-void BarBreaker::GUIWindowUI()
+/*void BarBreaker::GUIWindowUI()
 {
 	ImGui::Begin("Moveset", 0, 63); 
 
@@ -538,7 +609,6 @@ void BarBreaker::GUIWindowUI()
 
 	ImGui::End();
 
-	/*
 	ImGui::Begin("Healthbar");
 
 	static std::string imageLoad = "HealthTest.png";
@@ -546,180 +616,5 @@ void BarBreaker::GUIWindowUI()
 	ImGui::Image((void*)(intptr_t)TextureManager::FindTexture(imageLoad)->GetID(), ImVec2(150.f, 150.f), ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::End();
-	*/
-}
-
-void BarBreaker::GUIWindowOne()
-{
-	/*//Window begin
-	ImGui::Begin("Side Docked Window");
-	//is the buffer initialized
-	static bool init = false;
-
-	//Buffers
-	const unsigned int BUF_LEN = 512;
-	static char buf[BUF_LEN];
-	//Image load
-	static std::string imageLoad = "LinkStandby.png";
-	//World gravity slider
-	float gravity[2] = { m_physicsWorld->GetGravity().x, m_physicsWorld->GetGravity().y };
-
-	if (!init)
-	{
-		memset(buf, 0, BUF_LEN);
-		init = true;
-	}
-	m_physicsWorld->SetAllowSleeping(true);
-
-	//ImGui content
-	if (ImGui::TreeNode("Vignette Effect"))
-	{
-		if (EffectManager::GetVignetteHandle() != -1)
-		{
-			if (ImGui::TreeNode("Properties"))
-			{
-				VignetteEffect* vig = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
-				float innerRad = vig->GetInnerRadius();
-				float outerRad = vig->GetOuterRadius();
-				float opacity = vig->GetOpacity();
-
-				if (ImGui::SliderFloat("Inner Radius", &innerRad, 0.f, outerRad))
-				{
-					vig->SetInnerRadius(innerRad);
-				}
-				if (ImGui::SliderFloat("Outer Radius", &outerRad, innerRad, 1.f))
-				{
-					vig->SetOuterRadius(outerRad);
-				}
-				if (ImGui::SliderFloat("Opacity", &opacity, 0.f, 1.f))
-				{
-					vig->SetOpacity(opacity);
-				}
-
-				ImGui::TreePop();
-			}
-
-			if (ImGui::Button("Remove Effect", ImVec2(100.f, 30.f)))
-			{
-				EffectManager::RemoveEffect(EffectManager::GetVignetteHandle());
-			}
-		}
-		else
-		{
-			if (ImGui::Button("Apply Effect", ImVec2(100.f, 30.f)))
-			{
-				EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
-			}
-		}
-
-
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Sepia Effect"))
-	{
-		if (EffectManager::GetSepiaHandle() != -1)
-		{
-			if (ImGui::TreeNode("Properties"))
-			{
-				SepiaEffect* sep = (SepiaEffect*)EffectManager::GetEffect(EffectManager::GetSepiaHandle());
-				float intensity = sep->GetIntensity();
-
-				if (ImGui::SliderFloat("Inner Radius", &intensity, 0.f, 1.f))
-				{
-					sep->SetIntensity(intensity);
-				}
-
-				ImGui::TreePop();
-			}
-
-			if (ImGui::Button("Remove Effect", ImVec2(100.f, 30.f)))
-			{
-				EffectManager::RemoveEffect(EffectManager::GetSepiaHandle());
-			}
-		}
-		else
-		{
-			if (ImGui::Button("Apply Effect", ImVec2(100.f, 30.f)))
-			{
-				EffectManager::CreateEffect(Sepia, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
-			}
-		}
-
-
-		ImGui::TreePop();
-	}
-
-	ImGui::Separator();
-
-	ImGui::Text("Editing World Variables!");
-	if (ImGui::SliderFloat2("World Gravity", gravity, -1000.f, 1000.f, "%.2f"))
-	{
-		m_physicsWorld->SetGravity(b2Vec2(gravity[0], gravity[1]));
-		m_physicsWorld->SetAllowSleeping(false);
-	}
-
-	ImGui::Separator();
-
-	ImGui::Text("Displaying image dynamically");
-	ImGui::InputText("Input filename for image", buf, BUF_LEN, ImGuiInputTextFlags_CharsNoBlank);
-
-	if (ImGui::Button("Confirm File", ImVec2(100.f, 30.f)))
-	{
-		imageLoad = buf;
-	}
-
-	ImGui::Image((void*)(intptr_t)TextureManager::FindTexture(imageLoad)->GetID(), ImVec2(150.f, 150.f), ImVec2(0, 1), ImVec2(1, 0));
-
-	ImGui::Separator();
-
-	ImGui::Text("Editing Colors");
-	ImGui::ColorPicker4("Scene Background Color", &m_clearColor.x);
-
-	ImGui::End();*/
-}
-
-void BarBreaker::GUIWindowTwo()
-{
-	/*//Second docked window
-	ImGui::Begin("Second Window");
-	//Image load
-	static std::string imageLoad1 = "FunnyButton.png";
-	static std::string imageLoad2 = "LikeButton.png";
-	static std::string hahaPressed = "";
-	static std::string likePressed = "";
-
-	ImGui::BeginTabBar("Tab Bar Test");
-
-	if (ImGui::BeginTabItem("Tab 1"))
-	{
-		ImGui::Text("You are within Tab 1");
-
-		if (ImGui::ImageButton((void*)(intptr_t)TextureManager::FindTexture(imageLoad1)->GetID(), ImVec2(100.f, 100.f), ImVec2(0, 1), ImVec2(1, 0)))
-		{
-			hahaPressed = "You shouldn't have pressed that...";
-		}
-
-		ImGui::Text("%s", hahaPressed.c_str());
-
-		ImGui::EndTabItem();
-	}
-
-	if (ImGui::BeginTabItem("Tab 2"))
-	{
-		ImGui::Text("You are within Tab 2");
-
-		if (ImGui::ImageButton((void*)(intptr_t)TextureManager::FindTexture(imageLoad2)->GetID(), ImVec2(100.f, 100.f), ImVec2(0, 1), ImVec2(1, 0)))
-		{
-			likePressed = "LIKED!!!";
-		}
-
-		ImGui::Text("%s", likePressed.c_str());
-
-		ImGui::EndTabItem();
-	}
-
-	ImGui::EndTabBar();
-
-	ImGui::End();*/
-}
+	
+}*/

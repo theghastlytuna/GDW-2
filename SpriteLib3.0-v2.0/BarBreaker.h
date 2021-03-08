@@ -3,6 +3,21 @@
 #include "Scene.h"
 #include "BarBreakerListener.h"
 
+struct Button
+{
+	unsigned int entity;
+	vec2 min;
+	vec2 max;
+	//ButtonState currentState;
+};
+
+enum ButtonState
+{
+	inactive, //0
+	hover,	//1
+	click	//2
+};
+
 class BarBreaker : public Scene
 {
 public:
@@ -14,11 +29,10 @@ public:
 
 	void Update() override;
 
-	void GUI() override;
-
-	void GUIWindowUI();
-	void GUIWindowOne();
-	void GUIWindowTwo();
+	//void GUI() override;
+	//void GUIWindowUI();
+	//void GUIWindowOne();
+	//void GUIWindowTwo();
 
 	void AdjustScrollOffset();
 
@@ -27,6 +41,9 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
+	void MouseMotion(SDL_MouseMotionEvent evnt) override;
+	void MouseClick(SDL_MouseButtonEvent evnt) override;
+
 	void SmallMoveRight();
 
 	void SmallMoveLeft();
@@ -34,7 +51,6 @@ public:
 	void BigMoveRight();
 
 	void BigMoveLeft();
-
 
 	void Punch();
 
@@ -66,6 +82,10 @@ protected:
 	float boundaryDistanceLeftActive;
 	float boundaryDistanceRightInactive;
 	float boundaryDistanceLeftInactive;
+
+	unsigned int moveButtonSprite;
+
+	Button moveButton;
 
 	bool turnEnd = false;
 	bool counting = false;
