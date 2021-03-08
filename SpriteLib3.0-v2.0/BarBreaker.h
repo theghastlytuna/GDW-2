@@ -25,6 +25,8 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
+	void ThrowBottle();
+
 	void UpdateCamera();
 
 	void Update() override;
@@ -52,7 +54,8 @@ public:
 
 	void BigMoveLeft();
 
-	void Punch();
+
+	void LightAttack();
 
 	void EndTurn();
 
@@ -77,11 +80,10 @@ protected:
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
 	int movesTaken;
+	int heavyMoves = 0;
+	int lightMoves = 0;
 	float playerDistance;
-	float boundaryDistanceRightActive;
-	float boundaryDistanceLeftActive;
-	float boundaryDistanceRightInactive;
-	float boundaryDistanceLeftInactive;
+	bool moveCam;
 
 	unsigned int moveButtonSprite;
 
