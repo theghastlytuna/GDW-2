@@ -595,9 +595,6 @@ void PhysicsPlayground::GUIWindowTwo()
 	ImGui::End();
 }
 
-
-
-
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());

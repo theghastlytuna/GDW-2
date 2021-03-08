@@ -19,7 +19,6 @@ public:
 	void GUIWindowOne();
 	void GUIWindowTwo();
 
-
 	//Input overrides
 	void KeyboardHold() override;
 	void KeyboardDown() override;
