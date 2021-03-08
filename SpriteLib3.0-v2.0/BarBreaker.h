@@ -85,9 +85,13 @@ protected:
 	float playerDistance;
 	bool moveCam;
 
-	unsigned int moveButtonSprite;
-
-	Button moveButton;
+	Button smallJumpLButton;
+	Button bigJumpLButton;
+	Button smallJumpRButton;
+	Button bigJumpRButton;
+	Button lightAttackButton;
+	Button heavyAttackButton;
+	Button interactButton;
 
 	bool turnEnd = false;
 	bool counting = false;
