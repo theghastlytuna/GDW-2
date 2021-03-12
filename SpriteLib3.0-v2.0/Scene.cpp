@@ -164,6 +164,41 @@ unsigned Scene::CreatePlatform(std::string fileName, int spriteX, int spriteY, f
 	return entity;
 }
 
+unsigned Scene::CreateTransparentPlatform(std::string fileName, int spriteX, int spriteY, float posX, float posY, float shrinkX, float shrinkY, float angle)
+{
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, spriteX, spriteY);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(posX), float32(posY));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+
+	tempPhsBody.SetRotationAngleDeg(angle);
+
+	return entity;
+}
+
 
 entt::registry* Scene::GetScene() const
 {

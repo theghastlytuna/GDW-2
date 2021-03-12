@@ -27,7 +27,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
 
-	Scene::CreatePlatform("boxSprite.jpg", 600.f, 20, 0, -30.f, 0.f, 0.f, 0.f);
+	Scene::CreateTransparentPlatform("boxSprite.jpg", 600.f, 20, 0, -40.f, 0.f, 0.f, 0.f);
 
 	backgroundMusic.Play();
 	backgroundMusic.SetVolume(0.1);
@@ -178,7 +178,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "BarBreakerBackground.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 200);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 400, 100);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
 	}
@@ -432,13 +432,13 @@ void BarBreaker::Update()
 	auto newY = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionY();
 
 	//Set each button's location relative to the camera
-	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 100, newY - 52, 10.f));
-	ECS::GetComponent<Transform>(smallJumpRButton.entity).SetPosition(vec3(newX - 100, newY - 78, 10.f));
-	ECS::GetComponent<Transform>(lightAttackButton.entity).SetPosition(vec3(newX - 74, newY - 65, 10.f));
-	ECS::GetComponent<Transform>(bigJumpLButton.entity).SetPosition(vec3(newX - 29, newY - 52, 10.f));
-	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX - 29, newY - 78, 10.f));
-	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX - 3, newY - 65, 10.f));
-	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 65, newY - 65, 10.f));
+	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 50, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(smallJumpRButton.entity).SetPosition(vec3(newX + 50, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(lightAttackButton.entity).SetPosition(vec3(newX - 15, newY - 80, 10.f));
+	ECS::GetComponent<Transform>(bigJumpLButton.entity).SetPosition(vec3(newX - 80, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX + 80, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX + 15, newY - 80, 10.f));
+	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 0, newY - 60, 10.f));
 
 	//Iterate through each button, setting each of its new min and max locations
 	for (int i = 0; i < buttonVecLen; i++)
@@ -566,6 +566,32 @@ void BarBreaker::LightAttack()
 			else if (playerDistance > 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+				lightMoves++;
+
+			}
+		}
+	}
+}
+
+void BarBreaker::HeavyAttack()
+{
+	if (!counting)
+	{
+		ToneFire::CoreSound testSound{ "punch.wav" };
+
+		if (abs(playerDistance) <= 80)
+		{
+			testSound.Play();
+			testSound.SetVolume(0.5);
+			if (playerDistance < 0)
+			{
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
+				lightMoves++;
+
+			}
+			else if (playerDistance > 0)
+			{
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
 				lightMoves++;
 
 			}
@@ -705,7 +731,7 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 	else if (evnt.type == SDL_MOUSEBUTTONDOWN && (cursorRelative.x >= heavyAttackButton.min.x && cursorRelative.y >= heavyAttackButton.min.y) &&
 		(cursorRelative.x <= heavyAttackButton.max.x && cursorRelative.y <= heavyAttackButton.max.y))
 	{
-		//HeavyAttack();
+		HeavyAttack();
 	}
 
 	else if (evnt.type == SDL_MOUSEBUTTONDOWN && (cursorRelative.x >= interactButton.min.x && cursorRelative.y >= interactButton.min.y) &&

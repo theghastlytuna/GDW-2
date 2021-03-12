@@ -55,8 +55,9 @@ public:
 
 	void BigMoveLeft();
 
-
 	void LightAttack();
+
+	void HeavyAttack();
 
 	void EndTurn();
 
