@@ -284,9 +284,9 @@ void BarBreaker::BigMoveRight()
 {
 	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
-		ECS::GetComponent<Health>(activePlayer).qPosition += 15;
+		ECS::GetComponent<Health>(activePlayer).qPosition += 10;
 		heavyMoves++;
 	}
 }
@@ -295,9 +295,9 @@ void BarBreaker::BigMoveLeft()
 {
 	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
-		ECS::GetComponent<Health>(activePlayer).qPosition -= 15;
+		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
 		heavyMoves++;
 	}
 }
@@ -322,7 +322,7 @@ void BarBreaker::LightAttack()
 			else if (playerDistance > 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
-				ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
+				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
 				lightMoves++;
 
 			}

@@ -31,6 +31,30 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 	b2Filter filterA = fixtureA->GetFilterData();
 	b2Filter filterB = fixtureB->GetFilterData();
 
+	if (filterA.categoryBits == PLAYER && filterB.categoryBits == PLAYER)
+	{
+		if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == true)
+		{
+			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000, 50000), true);
+		}
+		else if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == false)
+		{
+			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000, 50000), true);
+		}
+
+		if (ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump == true)
+		{
+			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000, 50000), true);
+		}
+		else if (ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump == false)
+		{
+			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000, 50000), true);
+		}
+
+		ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition = (ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetPosition().x / 10) - 3;
+		ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition = (ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetPosition().x / 10) + 3;
+	}
+
 	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == GROUND) || (filterB.categoryBits == PLAYER && filterA.categoryBits == GROUND))
 	{
 		if (filterA.categoryBits == PLAYER)
