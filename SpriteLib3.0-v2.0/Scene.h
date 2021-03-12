@@ -31,6 +31,7 @@ public:
 								float zNear, float zFar, float aspectRatio, bool vertScroll=false, bool horizScroll=false);
 
 	unsigned CreatePlatform(std::string fileName, int spriteX, int spriteY, float posX, float posY, float shrinkX, float shrinkY, float angle);
+	unsigned CreateTransparentPlatform(std::string fileName, int spriteX, int spriteY, float posX, float posY, float shrinkX, float shrinkY, float angle);
 
 	//Gamepad Input
 	//Because these are virtual you can override them in your inherited classes.

@@ -2,6 +2,22 @@
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
+#include <vector>
+
+struct Button
+{
+	unsigned int entity;
+	vec2 min;
+	vec2 max;
+	//ButtonState currentState;
+};
+
+enum ButtonState
+{
+	inactive, //0
+	hover,	//1
+	click	//2
+};
 
 class BarBreaker : public Scene
 {
@@ -16,11 +32,10 @@ public:
 
 	void Update() override;
 
-	void GUI() override;
-
-	void GUIWindowUI();
-	void GUIWindowOne();
-	void GUIWindowTwo();
+	//void GUI() override;
+	//void GUIWindowUI();
+	//void GUIWindowOne();
+	//void GUIWindowTwo();
 
 	void AdjustScrollOffset();
 
@@ -28,6 +43,9 @@ public:
 	void KeyboardHold() override;
 	void KeyboardDown() override;
 	void KeyboardUp() override;
+
+	void MouseMotion(SDL_MouseMotionEvent evnt) override;
+	void MouseClick(SDL_MouseButtonEvent evnt) override;
 
 	void SmallMoveRight();
 
@@ -37,8 +55,9 @@ public:
 
 	void BigMoveLeft();
 
-
 	void LightAttack();
+
+	void HeavyAttack();
 
 	void EndTurn();
 
@@ -67,6 +86,22 @@ protected:
 	int lightMoves = 0;
 	float playerDistance;
 	bool moveCam;
+
+	Button smallJumpLButton;
+	Button bigJumpLButton;
+	Button smallJumpRButton;
+	Button bigJumpRButton;
+	Button lightAttackButton;
+	Button heavyAttackButton;
+	Button interactButton;
+
+	std::vector<Button*> buttonVec;
+	int buttonVecLen = 7;
+
+	float boundaryDistanceRightActive; 
+	float boundaryDistanceLeftActive; 
+	float boundaryDistanceRightInactive; 
+	float boundaryDistanceLeftInactive; 
 
 	bool turnEnd = false;
 	bool counting = false;
