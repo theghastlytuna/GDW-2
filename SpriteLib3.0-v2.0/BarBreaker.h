@@ -2,6 +2,7 @@
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
+#include <vector>
 
 struct Button
 {
@@ -92,6 +93,14 @@ protected:
 	Button lightAttackButton;
 	Button heavyAttackButton;
 	Button interactButton;
+
+	std::vector<Button*> buttonVec;
+	int buttonVecLen = 7;
+
+	float boundaryDistanceRightActive; 
+	float boundaryDistanceLeftActive; 
+	float boundaryDistanceRightInactive; 
+	float boundaryDistanceLeftInactive; 
 
 	bool turnEnd = false;
 	bool counting = false;
