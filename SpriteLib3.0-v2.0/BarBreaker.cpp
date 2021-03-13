@@ -340,6 +340,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		ECS::GetComponent<CanJump>(entity).m_canJump = false;
+		ECS::GetComponent<Health>(entity).qPosition = -7;//qPosition is basically where the entity SHOULD be, in game units
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -384,6 +386,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		ECS::GetComponent<CanJump>(entity).m_canJump = false;
+		ECS::GetComponent<Health>(entity).qPosition = 7;//qPosition is basically where the entity SHOULD be, in game units
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -612,40 +616,44 @@ void BarBreaker::KeyboardUp()
 
 void BarBreaker::SmallMoveRight()
 {
-	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd)
+	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 50000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(65000.f, 60000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
+		ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 		lightMoves++;
 	}
 }
 
 void BarBreaker::SmallMoveLeft()
 {
-	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd)
+	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 50000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-65000.f, 60000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
+		ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 		lightMoves++;
 	}
 }
 
 void BarBreaker::BigMoveRight()
 {
-	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (heavyMoves < 1 && !turnEnd)
+	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 90000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 100000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
+		ECS::GetComponent<Health>(activePlayer).qPosition += 10;
 		heavyMoves++;
 	}
 }
 
 void BarBreaker::BigMoveLeft()
 {
-	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (heavyMoves < 1 && !turnEnd)
+	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 90000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 100000.f), true);
+		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
+		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
 		heavyMoves++;
 	}
 }
@@ -664,12 +672,14 @@ void BarBreaker::LightAttack()
 			if (playerDistance < 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+				ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
 				lightMoves++;
 
 			}
 			else if (playerDistance > 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
 				lightMoves++;
 
 			}
