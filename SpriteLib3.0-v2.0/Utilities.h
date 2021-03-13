@@ -3,7 +3,6 @@
 #include "Vector.h"
 #include "Camera.h"
 #include "BackEnd.h"
-
 #include <entt/entity/registry.hpp>
 
 namespace Util
