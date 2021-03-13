@@ -473,7 +473,7 @@ void BarBreaker::Update()
 		beginClk = time(0);
 	}*/
 
-	//Once the system has begun counting, end the turn only after five seconds have passed
+	//If the turn end sequence has begun, and all players are not moving
 	if (turnEnd 
 			&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 			&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
