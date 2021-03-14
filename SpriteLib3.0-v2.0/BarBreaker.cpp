@@ -237,8 +237,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "BarBreakerBackground2.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 600, 150);
+		std::string fileName = "BarBreakerBackground4.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 250);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
 	}
@@ -256,7 +256,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
@@ -268,12 +268,12 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		b2Body* tempBody;
 		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(290.f), float32(50.f));
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(300.f), float32(-30.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -294,7 +294,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
@@ -306,12 +306,12 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		b2Body* tempBody;
 		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-290.f), float32(50.f));
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-300.f), float32(-30.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -335,13 +335,14 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<EntityNumber>(entity);//stores entity number for easy access anywhere
 
 		//Sets up components
-		std::string fileName = "FacingRight.png";
+		std::string fileName = "facingRight2.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 		ECS::GetComponent<Health>(entity).qPosition = -7;//qPosition is basically where the entity SHOULD be, in game units
+		ECS::GetComponent<Health>(entity).playerNum = 1;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -356,13 +357,12 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
-
 	}
 
 	//player 2
@@ -388,6 +388,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 		ECS::GetComponent<Health>(entity).qPosition = 7;//qPosition is basically where the entity SHOULD be, in game units
+		ECS::GetComponent<Health>(entity).playerNum = 2;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -470,28 +471,24 @@ void BarBreaker::Update()
 		turnEnd = true;
 	}
 
-	//If the player ended their turn, and the system hasnt begun counting yet
-	/*if (turnEnd && !counting)
-	{
-		counting = true;
-		beginClk = time(0);
-	}*/
-
 	//If the turn end sequence has begun, and all players are not moving
-	if (turnEnd 
+	if (turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+			&& ECS::GetComponent<CanJump>(inactivePlayer).m_canJump == true
 			&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 			&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
 		//If the active player is in range of a boundary, push them away and set counting to true (so that they aren't hit again)
 		if (boundaryDistanceRightActive <= 50 && !counting)
 		{
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
 			counting = true;
 		}
 
 		else if (boundaryDistanceLeftActive <= 50 && !counting)
 		{
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
 			counting = true;
 		}
 		
@@ -504,8 +501,8 @@ void BarBreaker::Update()
 	auto newY = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionY();
 
 	//Use Lerp to reduce the width of the health bars based on player health
-	ECS::GetComponent<Sprite>(p1HealthBar).SetWidth(Util::Lerp(1, 60, p1Health / 200));
-	ECS::GetComponent<Sprite>(p2HealthBar).SetWidth(Util::Lerp(1, 60, p2Health / 200));
+	ECS::GetComponent<Sprite>(p1HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player1).GetHealth() / 100));
+	ECS::GetComponent<Sprite>(p2HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player2).GetHealth() / 100));
 
 	//Get the currenth health bar widths
 	auto p1HealthWidth = ECS::GetComponent<Sprite>(p1HealthBar).GetWidth();
@@ -567,14 +564,14 @@ void BarBreaker::KeyboardDown()
 	//Debug keys
 	if (Input::GetKeyDown(Key::M))
 	{
-		p1Health -= 10;
-		std::cout << "P1 Health: " << p1Health << std::endl;
+		ECS::GetComponent<Health>(player1).reduceHealth(10);
+		//std::cout << "P1 Health: " << ECS::GetComponent<Health>(player1).GetHealth() << std::endl;
 	}
 
 	if (Input::GetKeyDown(Key::N))
 	{
-		p2Health -= 10;
-		std::cout << "P2 Health: " << p2Health << std::endl;
+		ECS::GetComponent<Health>(player2).reduceHealth(10);
+		//std::cout << "P2 Health: " << ECS::GetComponent<Health>(player2).GetHealth() << std::endl;
 	}
 	
 	if (Input::GetKeyDown(Key::E))
@@ -616,9 +613,9 @@ void BarBreaker::KeyboardUp()
 
 void BarBreaker::SmallMoveRight()
 {
-	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(65000.f, 60000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 65000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 		lightMoves++;
@@ -627,9 +624,9 @@ void BarBreaker::SmallMoveRight()
 
 void BarBreaker::SmallMoveLeft()
 {
-	if (!counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-65000.f, 60000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 65000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 		lightMoves++;
@@ -638,9 +635,9 @@ void BarBreaker::SmallMoveLeft()
 
 void BarBreaker::BigMoveRight()
 {
-	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
+	if (heavyMoves < 1 && !turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(104000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 10;
 		heavyMoves++;
@@ -649,9 +646,9 @@ void BarBreaker::BigMoveRight()
 
 void BarBreaker::BigMoveLeft()
 {
-	if (heavyMoves < 1 && !counting && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
+	if (heavyMoves < 1 && !turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-104000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
 		heavyMoves++;
@@ -661,7 +658,9 @@ void BarBreaker::BigMoveLeft()
 void BarBreaker::LightAttack()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd)
+	if (heavyMoves < 1 && !turnEnd
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
@@ -669,19 +668,21 @@ void BarBreaker::LightAttack()
 		{
 			testSound.Play();
 			testSound.SetVolume(0.5);
+
+			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
+
 			if (playerDistance < 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(65000.f, 80000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
 				lightMoves++;
-
 			}
+
 			else if (playerDistance > 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-65000.f, 80000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
 				lightMoves++;
-
 			}
 		}
 	}
@@ -690,7 +691,9 @@ void BarBreaker::LightAttack()
 void BarBreaker::HeavyAttack()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd)
+	if (heavyMoves < 1 && !turnEnd
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
@@ -698,17 +701,21 @@ void BarBreaker::HeavyAttack()
 		{
 			testSound.Play();
 			testSound.SetVolume(0.5);
+
+			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
+
 			if (playerDistance < 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
-				lightMoves++;
-
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(104000.f, 100000.f), true);
+				ECS::GetComponent<Health>(inactivePlayer).qPosition += 10;
+				heavyMoves++;
 			}
+
 			else if (playerDistance > 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
-				lightMoves++;
-
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-105000.f, 100000.f), true);
+				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 10;
+				heavyMoves++;
 			}
 		}
 	}
@@ -717,7 +724,9 @@ void BarBreaker::HeavyAttack()
 void BarBreaker::ThrowBottle()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd)
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
 		auto entity = ECS::CreateEntity();
 		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
@@ -771,12 +780,14 @@ void BarBreaker::EndTurn()
 	//If the inactive player is within range of either boundary, push them away
 	if (boundaryDistanceRightInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-60000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
+		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 7;
 	}
 
 	else if (boundaryDistanceLeftInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(60000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
+		ECS::GetComponent<Health>(inactivePlayer).qPosition += 7;
 	}
 	
 	SwitchPlayer();
