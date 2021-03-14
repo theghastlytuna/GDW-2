@@ -28,6 +28,8 @@ public:
 
 	void ThrowBottle();
 
+	void CheckGame();
+
 	void UpdateCamera();
 
 	void Update() override;
@@ -43,6 +45,12 @@ public:
 	void KeyboardHold() override;
 	void KeyboardDown() override;
 	void KeyboardUp() override;
+
+	void AnimationUpdate();
+
+	void UIUpdate();
+
+	void BoundaryUpdate();
 
 	void MouseMotion(SDL_MouseMotionEvent evnt) override;
 	void MouseClick(SDL_MouseButtonEvent evnt) override;
@@ -62,6 +70,8 @@ public:
 	void EndTurn();
 
 	void SwitchPlayer();
+
+	void EndGame();
 
 	struct pos
 	{
@@ -112,6 +122,7 @@ protected:
 	float boundaryDistanceRightInactive; 
 	float boundaryDistanceLeftInactive; 
 
+	bool endGame = false;
 	bool turnEnd = false;
 	bool counting = false;
 	double beginClk;
