@@ -81,11 +81,20 @@ protected:
 	unsigned int boundaryLeft;
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
+
+	unsigned int p1HealthBar;
+	unsigned int p2HealthBar;
+	unsigned int p1HealthBarOutline;
+	unsigned int p2HealthBarOutline;
+
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;
 	float playerDistance;
 	bool moveCam;
+
+	double p1Health = 200.f;
+	double p2Health = 200.f;
 
 	Button smallJumpLButton;
 	Button bigJumpLButton;
