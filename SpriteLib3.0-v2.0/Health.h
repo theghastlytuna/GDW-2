@@ -3,6 +3,10 @@ class Health
 {
 public:
 	void reduceHealth(int damage);
+	double GetHealth();
+	int qPosition;//Queued position of entity: Where the entity is supposed to be after a movement, in game units
+	int playerNum;
+
 protected:
-	int health = 100;
+	double health = 100;
 };

@@ -207,9 +207,6 @@
     <ClInclude Include="EntityNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HasBottle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
@@ -389,8 +386,8 @@
     <ClCompile Include="Health.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HasBottle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\configs\buttonAnimations.json" />
   </ItemGroup>
 </Project>

@@ -7,3 +7,8 @@ void Health::reduceHealth(int damage)
 	health -= damage;
 	cout << "Health reduced by " << damage << ", Health now " << health << endl;
 }
+
+double Health::GetHealth()
+{
+	return health;
+}

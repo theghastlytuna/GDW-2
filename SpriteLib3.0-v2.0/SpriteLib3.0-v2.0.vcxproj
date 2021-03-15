@@ -155,7 +155,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GrainEffect.h" />
     <ClInclude Include="GreyscaleEffect.h" />
-    <ClInclude Include="HasBottle.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HorizontalScroll.h" />
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -220,7 +219,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GrainEffect.cpp" />
     <ClCompile Include="GreyscaleEffect.cpp" />
-    <ClCompile Include="HasBottle.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HorizontalScroll.cpp" />
     <ClCompile Include="include\imgui\imgui.cpp" />
@@ -262,6 +260,9 @@
     <ClCompile Include="VignetteEffect.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XInput.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\configs\buttonAnimations.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
