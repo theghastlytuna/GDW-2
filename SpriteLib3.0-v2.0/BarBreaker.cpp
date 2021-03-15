@@ -547,7 +547,7 @@ void BarBreaker::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::F))
 	{
-		BarBreaker::ThrowBottle();
+		BarBreaker::ThrowChair();
 	}
 
 	if (Input::GetKeyDown(Key::L))
@@ -809,6 +809,57 @@ void BarBreaker::ThrowBottle()
 			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-10000, 19000), true);
 		}
 		lightMoves++;
+	}
+}
+
+void BarBreaker::ThrowChair()
+{
+	//Only count the button press if the turn hasnt ended and both players aren't moving
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
+	{
+		auto entity = ECS::CreateEntity();
+		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 25);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(playerPos.x), float32(playerPos.y + 40));
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+
+		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetFixedRotation(false);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetGravityScale(1.f);
+
+		if (playerDistance < 0)
+		{
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(30000, 15000), true);
+			tempBody->ApplyTorque(-8000000, true);
+		}
+		else if (playerDistance > 0)
+		{
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-30000, 15000), true);
+			tempBody->ApplyTorque(8000000, true);
+		}
+		heavyMoves++;
 	}
 }
 

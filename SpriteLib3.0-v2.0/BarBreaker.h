@@ -28,6 +28,8 @@ public:
 
 	void ThrowBottle();
 
+	void ThrowChair();
+
 	void CheckGame();
 
 	void UpdateCamera();
