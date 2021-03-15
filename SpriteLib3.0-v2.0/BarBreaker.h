@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <math.h>
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
@@ -53,6 +54,7 @@ public:
 		float x = 0.f, y = 0.f;
 	};
 
+
 protected:
 	const int playerSize = 40;
 	const int bottleSize = 20;
@@ -68,10 +70,7 @@ protected:
 	unsigned int boundaryLeft;
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
-	unsigned int bottle[3];
-	float bottleCoord[3][2];
-	//vector<vector<float, float> > bottleCoord;
-	bool bottleAvaliable[3] = {true, true, true};
+	std::vector<unsigned int> bottle;
 	
 	int movesTaken;
 	int heavyMoves = 0;
