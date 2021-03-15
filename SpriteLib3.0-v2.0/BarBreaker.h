@@ -1,7 +1,10 @@
 #pragma once
+#include <vector>
+#include <map>
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
+#include "HasBottle.h"
 
 class BarBreaker : public Scene
 {
@@ -37,12 +40,13 @@ public:
 
 	void BigMoveLeft();
 
-
 	void LightAttack();
 
 	void EndTurn();
 
 	void SwitchPlayer();
+
+	void PickupBottle();
 
 	struct pos
 	{
@@ -50,6 +54,8 @@ public:
 	};
 
 protected:
+	const int playerSize = 40;
+	const int bottleSize = 20;
 
 	bool m_firstWindow = false;
 	bool m_secondWindow = false;
@@ -62,6 +68,11 @@ protected:
 	unsigned int boundaryLeft;
 	unsigned int activePlayer;
 	unsigned int inactivePlayer;
+	unsigned int bottle[3];
+	float bottleCoord[3][2];
+	//vector<vector<float, float> > bottleCoord;
+	bool bottleAvaliable[3] = {true, true, true};
+	
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;

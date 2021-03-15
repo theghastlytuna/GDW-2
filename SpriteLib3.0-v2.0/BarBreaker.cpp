@@ -1,6 +1,7 @@
 #include "BarBreaker.h"
 #include "Utilities.h"
 #include "Timer.h"
+#include "DestroyTrigger.h"
 #include "Tone Fire/Tonefire.h"
 
 BarBreaker::BarBreaker(std::string name)
@@ -59,6 +60,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);//health component
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);//stores entity number for easy access anywhere
+		ECS::AttachComponent<HasBottle>(entity);
 
 		//Sets up components
 		std::string fileName = "FacingRight.png";
@@ -102,6 +104,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<HasBottle>(entity);
 
 		//Sets up components
 		std::string fileName = "FacingLeft.png";
@@ -130,6 +133,90 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
+
+	//bottle
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle[0] = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		//ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+
+		bottleCoord[0][0] = -135.f; bottleCoord[0][1] = 0.f;
+		
+		/*b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(0.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);*/
+
+		//std::map<float, float> tempCoord;
+		//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
+
+	}
+
+	//bottle 2
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle[1] = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		//ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+
+		bottleCoord[1][0] = 135.f; bottleCoord[1][1] = 0.f;
+	}
+
+	//bottle 3
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle[1] = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		//ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-200.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+
+		bottleCoord[2][0] = -200.f; bottleCoord[2][1] = 0.f;
+	}
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	moveCam = false;
@@ -242,12 +329,18 @@ void BarBreaker::KeyboardDown()
 	}
 	if (Input::GetKeyDown(Key::F))
 	{
-		BarBreaker::ThrowBottle();
+		BarBreaker::PickupBottle();
 	}
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
+	/*if (Input::GetKeyDown(Key::G)) {
+		PickupBottle();
+		{
+			std::cout << "X: " << ECS::GetComponent<Transform>(activePlayer).GetPositionX() << " Y: " << ECS::GetComponent<Transform>(activePlayer).GetPositionY() << std::endl;
+		}
+	}*/
 }
 
 void BarBreaker::KeyboardUp()
@@ -316,9 +409,41 @@ void BarBreaker::LightAttack()
 	}
 }
 
+void BarBreaker::PickupBottle() {
+	pos playerPos; //position of active player
+	playerPos.x = ECS::GetComponent<Transform>(activePlayer).GetPositionX();
+	playerPos.y = ECS::GetComponent<Transform>(activePlayer).GetPositionY();
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 2; j++) {
+			//check if this bottle is avaliable
+			if (bottleAvaliable[i]) {
+				//check if active player's x pos is within bottle range
+				if (playerPos.x > bottleCoord[i][0] - bottleSize / 2.0 && playerPos.x < bottleCoord[i][0] + bottleSize / 2.0) {
+					if (playerPos.y > bottleCoord[i][1] - bottleSize / 2.0 && playerPos.y < bottleCoord[i][1] + bottleSize / 2.0) {
+						//player is within range of bottle
+						bottleAvaliable[i] = false;
+						//ECS::GetComponent<Sprite>(bottle[i]).SetTransparency(0.f);
+						ECS::GetComponent<Sprite>(bottle[i]).SetTransparency(0.f);
+						ECS::GetComponent<HasBottle>(activePlayer).hasBottle = true;
+						//ECS::GetComponent<PhysicsBody>(bottle[i]).DeleteBody();
+						std::cout << "\nPicked up bottle\n";
+
+						ThrowBottle();
+						return;
+					}
+				}
+			}
+		}
+	}
+	std::cout << "\nNo bottles\n";
+
+	
+}
+
 void BarBreaker::ThrowBottle()
 {
-	if (!counting)
+	if (ECS::GetComponent<HasBottle>(activePlayer).hasBottle)
 	{
 		auto entity = ECS::CreateEntity();
 		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
@@ -359,7 +484,9 @@ void BarBreaker::ThrowBottle()
 			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-10000, 19000), true);
 		}
 		lightMoves++;
+		ECS::GetComponent<HasBottle>(activePlayer).hasBottle = false;
 	}
+	else std::cout << "no bottles\n";
 }
 
 void BarBreaker::EndTurn()
