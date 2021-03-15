@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include <map>
-#include <math.h>
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
