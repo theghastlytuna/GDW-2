@@ -7,8 +7,11 @@
 struct Button
 {
 	unsigned int entity;
+	unsigned int textImage;
 	vec2 min;
 	vec2 max;
+	int startHoverTime;
+	bool hovering;
 	//ButtonState currentState;
 };
 
@@ -86,12 +89,14 @@ protected:
 	unsigned int p2HealthBar;
 	unsigned int p1HealthBarOutline;
 	unsigned int p2HealthBarOutline;
+	unsigned int helpTextImage;
 
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;
 	float playerDistance;
 	bool moveCam;
+	bool throwing = false;
 
 	double p1Health = 200.f;
 	double p2Health = 200.f;
@@ -103,9 +108,10 @@ protected:
 	Button lightAttackButton;
 	Button heavyAttackButton;
 	Button interactButton;
+	Button helpButton;
 
 	std::vector<Button*> buttonVec;
-	int buttonVecLen = 7;
+	int buttonVecLen = 8;
 
 	float boundaryDistanceRightActive; 
 	float boundaryDistanceLeftActive; 

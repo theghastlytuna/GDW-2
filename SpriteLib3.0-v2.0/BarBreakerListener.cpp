@@ -37,20 +37,20 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 	{
 		if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == true)
 		{
-			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000, 50000), true);
+			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-62000, 50000), true);
 		}
 		else if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == false)
 		{
-			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000, 50000), true);
+			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-135000, 50000), true);
 		}
 
 		if (ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump == true)
 		{
-			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000, 50000), true);
+			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(62000, 50000), true);
 		}
 		else if (ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump == false)
 		{
-			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000, 50000), true);
+			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(130000, 50000), true);
 		}
 
 		ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition = (ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetPosition().x / 10) - 3;
