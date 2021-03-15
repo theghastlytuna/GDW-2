@@ -1,6 +1,7 @@
 #include "BarBreaker.h"
 #include "Utilities.h"
 #include "Timer.h"
+#include "DestroyTrigger.h"
 #include "Tone Fire/Tonefire.h"
 
 BarBreaker::BarBreaker(std::string name)
@@ -368,7 +369,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -421,12 +422,116 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
+	}
+
+
+	//bottle
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle.push_back(entity);
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(-135.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+		tempPhsBody.SetGravityScale(0.f);
+
+		//std::map<float, float> tempCoord;
+		//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
+
+	}
+
+	//bottle 2
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle.push_back(entity);
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(135.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+		tempPhsBody.SetGravityScale(0.f);
+	}
+
+	//bottle 3
+	{
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle.push_back(entity);
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-200.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(-200.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+		tempPhsBody.SetGravityScale(0.f);
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
@@ -554,6 +659,12 @@ void BarBreaker::KeyboardDown()
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
+	/*if (Input::GetKeyDown(Key::G)) {
+		PickupBottle();
+		{
+			std::cout << "X: " << ECS::GetComponent<Transform>(activePlayer).GetPositionX() << " Y: " << ECS::GetComponent<Transform>(activePlayer).GetPositionY() << std::endl;
+		}
+	}*/
 }
 
 void BarBreaker::KeyboardUp()
@@ -763,6 +874,32 @@ void BarBreaker::HeavyAttack()
 	}
 }
 
+void BarBreaker::PickupBottle() {
+	pos playerPos; //position of active player
+	playerPos.x = ECS::GetComponent<Transform>(activePlayer).GetPositionX();
+	playerPos.y = ECS::GetComponent<Transform>(activePlayer).GetPositionY();
+
+	for (int i = 0; i < bottle.size(); i++) {
+		//check if active player's x pos is within bottle range
+		float bottlex = ECS::GetComponent<Transform>(bottle[i]).GetPositionX();
+		float dist = bottlex - playerPos.x;
+		if (dist < 0) dist = -dist;
+
+		if (dist <= bottleSize) {
+			//player is within range
+			PhysicsBody::m_bodiesToDelete.push_back(bottle[i]);
+			//ECS::GetComponent<PhysicsBody>(bottle[i]).DeleteBody();
+			bottle.erase(bottle.begin() + i);
+
+			std::cout << "\nPicked up bottle\n";
+
+			ThrowBottle();
+			return;
+		}
+	}
+	std::cout << "\nNo bottles\n";
+}
+
 void BarBreaker::ThrowBottle()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
@@ -809,7 +946,9 @@ void BarBreaker::ThrowBottle()
 			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-10000, 19000), true);
 		}
 		lightMoves++;
+		//ECS::GetComponent<HasBottle>(activePlayer).hasBottle = false;
 	}
+	//else std::cout << "no bottles\n";
 }
 
 void BarBreaker::ThrowChair()

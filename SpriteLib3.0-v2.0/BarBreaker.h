@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include <map>
+#include <math.h>
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
@@ -75,12 +78,17 @@ public:
 
 	void EndGame();
 
+	void PickupBottle();
+
 	struct pos
 	{
 		float x = 0.f, y = 0.f;
 	};
 
+
 protected:
+	const int playerSize = 40;
+	const int bottleSize = 20;
 
 	bool m_firstWindow = false;
 	bool m_secondWindow = false;
@@ -99,6 +107,8 @@ protected:
 	unsigned int p1HealthBarOutline;
 	unsigned int p2HealthBarOutline;
 
+	std::vector<unsigned int> bottle;
+	
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;
