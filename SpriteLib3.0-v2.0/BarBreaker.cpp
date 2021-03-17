@@ -54,13 +54,13 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		std::string fileName = "helpText.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 110);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 		helpTextImage = entity;
 	}
 
-	//P1 health bar
+	//Health bar entities
 	{
 		//P1 health bar
 		{
@@ -99,10 +99,10 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			ECS::AttachComponent<Sprite>(entity);
 			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "healthBacking.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
+			std::string fileName = "healthBacking.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
 
 			p1HealthBarOutline = entity;
 		}
@@ -114,17 +114,18 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			ECS::AttachComponent<Sprite>(entity);
 			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "healthBacking.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
+			std::string fileName = "healthBacking.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
 
 			p2HealthBarOutline = entity;
 		}
+	}
 
+	//Button entities
+	{
 		//Small jump left button
-		{
-			//Small jump left button
 			{
 				auto entity = ECS::CreateEntity();
 
@@ -248,26 +249,26 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 				buttonVec.push_back(&interactButton);
 			}
-		}
+
+			//Help button
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "helpButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+				helpButton.entity = entity;
+
+				buttonVec.push_back(&helpButton);
+			}
 	}
 
-	//Help button
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "helpButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		helpButton.entity = entity;
-
-		buttonVec.push_back(&helpButton);
-	}
-
+	//Button textboxes
 	{
 		//Small jump left text
 		{
@@ -722,93 +723,6 @@ void BarBreaker::Update()
 		BarBreaker::CheckGame();
 	}
 
-	//If the turn end sequence has begun, and all players are not moving
-	if (turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
-			&& ECS::GetComponent<CanJump>(inactivePlayer).m_canJump == true
-			&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
-			&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
-	{
-		//If the active player is in range of a boundary, push them away and set counting to true (so that they aren't hit again)
-		if (boundaryDistanceRightActive <= 50 && !counting)
-		{
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
-			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
-			counting = true;
-		}
-
-		else if (boundaryDistanceLeftActive <= 50 && !counting)
-		{
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
-			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
-			counting = true;
-		}
-		
-		//Else, since neither player is moving and the active player is out of moves, end the turn
-		else EndTurn();
-	}
-
-	//Find the camera x and y in order to set the buttons' x and y values relative to it
-	auto newX = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionX();
-	auto newY = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionY();
-
-	//Use Lerp to reduce the width of the health bars based on player health
-	ECS::GetComponent<Sprite>(p1HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player1).GetHealth() / 100));
-	ECS::GetComponent<Sprite>(p2HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player2).GetHealth() / 100));
-
-	//Get the currenth health bar widths
-	auto p1HealthWidth = ECS::GetComponent<Sprite>(p1HealthBar).GetWidth();
-	auto p2HealthWidth = ECS::GetComponent<Sprite>(p2HealthBar).GetWidth();
-
-	//Set the health bar outline positions relative to the camera
-	ECS::GetComponent<Transform>(p1HealthBarOutline).SetPosition(vec3(newX - 125, newY + 70, 9.f));
-	ECS::GetComponent<Transform>(p2HealthBarOutline).SetPosition(vec3(newX + 125, newY + 70, 9.f));
-
-	//Set the health bar positions relative to the camera (and adjust for the changing size)
-	ECS::GetComponent<Transform>(p1HealthBar).SetPosition(vec3(newX - 125 - ((60 - p1HealthWidth) / 2), newY + 70, 10.f));
-	ECS::GetComponent<Transform>(p2HealthBar).SetPosition(vec3(newX + 125 + ((60 - p2HealthWidth) / 2), newY + 70, 10.f));
-
-	ECS::GetComponent<Transform>(helpTextImage).SetPosition(vec3(newX, newY + 3, 100.f));
-
-	//Set each button's location relative to the camera
-	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 50, newY - 70, 10.f));
-	ECS::GetComponent<Transform>(smallJumpRButton.entity).SetPosition(vec3(newX + 50, newY - 70, 10.f));
-	ECS::GetComponent<Transform>(lightAttackButton.entity).SetPosition(vec3(newX - 15, newY - 80, 10.f));
-	ECS::GetComponent<Transform>(bigJumpLButton.entity).SetPosition(vec3(newX - 80, newY - 70, 10.f));
-	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX + 80, newY - 70, 10.f));
-	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX + 15, newY - 80, 10.f));
-	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 0, newY - 60, 10.f));
-	ECS::GetComponent<Transform>(helpButton.entity).SetPosition(vec3(newX + 145, newY - 85, 10.f));
-
-	//ECS::GetComponent<Transform>(smallJumpLButton.textImage).SetPosition(vec3(newX - 50, newY - 55, 10.f));
-
-	//Iterate through each button
-	for (int i = 0; i < buttonVecLen; i++)
-	{
-		//Set each of new min and max location
-		int buttonX = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().x;
-		int buttonY = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().y;
-		int buttonWidth = ECS::GetComponent<Sprite>(buttonVec[i]->entity).GetWidth();
-		int buttonHeight = ECS::GetComponent<Sprite>(buttonVec[i]->entity).GetHeight();
-
-		buttonVec[i]->max = vec2(buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
-		buttonVec[i]->min = vec2(buttonX - buttonWidth / 2, buttonY - buttonHeight / 2);
-
-		//Set each text location
-		ECS::GetComponent<Transform>(buttonVec[i]->textImage).SetPosition(vec3(buttonX, buttonY + 30, 10.f));
-
-		//If the button has been hovered over for long enough, show text
-		if (buttonVec[i]->hovering && (time(0) - buttonVec[i]->startHoverTime) > 1)
-		{
-			ECS::GetComponent<Sprite>(buttonVec[i]->textImage).SetTransparency(1.f);
-		}
-
-		//Else don't show text
-		else
-		{
-			ECS::GetComponent<Sprite>(buttonVec[i]->textImage).SetTransparency(0.f);
-		}
-	}
-
 	//If an item has been thrown in the last ten seconds, set throwing to true
 	// (this causes both players to be unable to move or attack)
 	if ((time(0) - beginClk) < 10)
@@ -821,8 +735,6 @@ void BarBreaker::Update()
 	{
 		throwing = false;
 	}
-
-	//UpdateCamera();
 }
 
 void BarBreaker::AdjustScrollOffset()
@@ -960,12 +872,14 @@ void BarBreaker::UIUpdate()
 	auto p2HealthWidth = ECS::GetComponent<Sprite>(p2HealthBar).GetWidth();
 
 	//Set the health bar outline positions relative to the camera
-	ECS::GetComponent<Transform>(p1HealthBarOutline).SetPosition(vec3(newX - 130, newY + 70, 11.f));
-	ECS::GetComponent<Transform>(p2HealthBarOutline).SetPosition(vec3(newX + 130, newY + 70, 11.f));
+	ECS::GetComponent<Transform>(p1HealthBarOutline).SetPosition(vec3(newX - 125, newY + 70, 9.f));
+	ECS::GetComponent<Transform>(p2HealthBarOutline).SetPosition(vec3(newX + 125, newY + 70, 9.f));
 
 	//Set the health bar positions relative to the camera (and adjust for the changing size)
-	ECS::GetComponent<Transform>(p1HealthBar).SetPosition(vec3(newX - 130 - ((60 - p1HealthWidth) / 2), newY + 70, 10.f));
-	ECS::GetComponent<Transform>(p2HealthBar).SetPosition(vec3(newX + 130 + ((60 - p2HealthWidth) / 2), newY + 70, 10.f));
+	ECS::GetComponent<Transform>(p1HealthBar).SetPosition(vec3(newX - 125 - ((60 - p1HealthWidth) / 2), newY + 70, 10.f));
+	ECS::GetComponent<Transform>(p2HealthBar).SetPosition(vec3(newX + 125 + ((60 - p2HealthWidth) / 2), newY + 70, 10.f));
+
+	ECS::GetComponent<Transform>(helpTextImage).SetPosition(vec3(newX, newY + 3, 100.f));
 
 	//Set each button's location relative to the camera
 	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 50, newY - 70, 10.f));
@@ -975,10 +889,14 @@ void BarBreaker::UIUpdate()
 	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX + 80, newY - 70, 10.f));
 	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX + 15, newY - 80, 10.f));
 	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 0, newY - 60, 10.f));
+	ECS::GetComponent<Transform>(helpButton.entity).SetPosition(vec3(newX + 145, newY - 85, 10.f));
 
-	//Iterate through each button, setting each of its new min and max locations
+	//ECS::GetComponent<Transform>(smallJumpLButton.textImage).SetPosition(vec3(newX - 50, newY - 55, 10.f));
+
+	//Iterate through each button
 	for (int i = 0; i < buttonVecLen; i++)
 	{
+		//Set each of new min and max location
 		int buttonX = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().x;
 		int buttonY = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().y;
 		int buttonWidth = ECS::GetComponent<Sprite>(buttonVec[i]->entity).GetWidth();
@@ -986,6 +904,21 @@ void BarBreaker::UIUpdate()
 
 		buttonVec[i]->max = vec2(buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
 		buttonVec[i]->min = vec2(buttonX - buttonWidth / 2, buttonY - buttonHeight / 2);
+
+		//Set each text location
+		ECS::GetComponent<Transform>(buttonVec[i]->textImage).SetPosition(vec3(buttonX, buttonY + 30, 10.f));
+
+		//If the button has been hovered over for long enough, show text
+		if (buttonVec[i]->hovering && (time(0) - buttonVec[i]->startHoverTime) > 1)
+		{
+			ECS::GetComponent<Sprite>(buttonVec[i]->textImage).SetTransparency(1.f);
+		}
+
+		//Else don't show text
+		else
+		{
+			ECS::GetComponent<Sprite>(buttonVec[i]->textImage).SetTransparency(0.f);
+		}
 	}
 }
 
@@ -1559,7 +1492,7 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= interactButton.max.x && cursorRelative.y <= interactButton.max.y))
 	{
 		PickupBottle();
-		ThrowBottle();
+		//ThrowBottle();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
