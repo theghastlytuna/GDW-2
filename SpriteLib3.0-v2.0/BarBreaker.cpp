@@ -698,7 +698,7 @@ void BarBreaker::Update()
 		ECS::GetComponent<Transform>(buttonVec[i]->textImage).SetPosition(vec3(buttonX, buttonY + 30, 10.f));
 
 		//If the button has been hovered over for long enough, show text
-		if (buttonVec[i]->hovering && (time(0) - buttonVec[i]->startHoverTime) > 2)
+		if (buttonVec[i]->hovering && (time(0) - buttonVec[i]->startHoverTime) > 1)
 		{
 			ECS::GetComponent<Sprite>(buttonVec[i]->textImage).SetTransparency(1.f);
 		}
