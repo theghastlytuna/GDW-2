@@ -138,21 +138,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//Small jump left text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "smallJumpLText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		smallJumpLButton.textImage = entity;
-	}
-
 	//Small jump right button
 	{
 		auto entity = ECS::CreateEntity();
@@ -169,21 +154,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		buttonVec.push_back(&smallJumpRButton);
 
-	}
-
-	//Small jump right text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "smallJumpRText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		smallJumpRButton.textImage = entity;
 	}
 
 	//Light attack button
@@ -204,21 +174,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//Light attack text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "lightAttackText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		lightAttackButton.textImage = entity;
-	}
-
 	//Big jump left button
 	{
 		auto entity = ECS::CreateEntity();
@@ -235,21 +190,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		
 		buttonVec.push_back(&bigJumpLButton);
 
-	}
-
-	//Big jump left text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "bigJumpLText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		bigJumpLButton.textImage = entity;
 	}
 
 	//Big jump right button
@@ -270,21 +210,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	}
 
-	//Big jump right text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "smallJumpLtext.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		bigJumpRButton.textImage = entity;
-	}
-
 	//Heavy attack button
 	{
 		auto entity = ECS::CreateEntity();
@@ -301,21 +226,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		
 		buttonVec.push_back(&heavyAttackButton);
 
-	}
-
-	//Heavy attack text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "heavyAttackText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		heavyAttackButton.textImage = entity;
 	}
 
 	//Interact button
@@ -335,21 +245,6 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		buttonVec.push_back(&interactButton);
 	}
 
-	//Interact text
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "interactText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 45);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
-
-		interactButton.textImage = entity;
-	}
-
 	//Help button
 	{
 		auto entity = ECS::CreateEntity();
@@ -367,19 +262,126 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		buttonVec.push_back(&helpButton);
 	}
 
-	//Help hover text
 	{
-		auto entity = ECS::CreateEntity();
+		//Small jump left text
+		{
+			auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "helpHelpText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 8);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			std::string fileName = "smallJumpLText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		helpButton.textImage = entity;
+			smallJumpLButton.textImage = entity;
+		}
+
+		//Small jump right text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "smallJumpRText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			smallJumpRButton.textImage = entity;
+		}
+
+		//Light attack text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "lightAttackText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			lightAttackButton.textImage = entity;
+		}
+
+		//Big jump left text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "bigJumpLText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			bigJumpLButton.textImage = entity;
+		}
+
+		//Big jump right text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "smallJumpLtext.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			bigJumpRButton.textImage = entity;
+		}
+
+		//Heavy attack text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "heavyAttackText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			heavyAttackButton.textImage = entity;
+		}
+
+		//Interact text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "interactText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 45);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			interactButton.textImage = entity;
+		}
+
+		//Help hover text
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "helpHelpText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 8);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+			helpButton.textImage = entity;
+		}
 	}
 
 	//Setup new Entity
