@@ -62,187 +62,193 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	//P1 health bar
 	{
-		auto entity = ECS::CreateEntity();
+		//P1 health bar
+		{
+			auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "healthBar.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			std::string fileName = "healthBar.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		p1HealthBar = entity;
-	}
+			p1HealthBar = entity;
+		}
 
-	//P2 health bar
-	{
-		auto entity = ECS::CreateEntity();
+		//P2 health bar
+		{
+			auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "healthBar.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			std::string fileName = "healthBar.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		p2HealthBar = entity;
-	}
+			p2HealthBar = entity;
+		}
 
-	//P1 health bar outline
-	{
-		auto entity = ECS::CreateEntity();
+		//P1 health bar outline
+		{
+			auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "healthBacking.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
-
-		p1HealthBarOutline = entity;
-	}
-
-	//P2 health bar outline
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "healthBacking.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
 
-		p2HealthBarOutline = entity;
-	}
+			p1HealthBarOutline = entity;
+		}
 
-	//Small jump left button
-	{
-		auto entity = ECS::CreateEntity();
+		//P2 health bar outline
+		{
+			auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "smallJumpLButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+		std::string fileName = "healthBacking.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
 
-		smallJumpLButton.entity = entity;
-		
-		buttonVec.push_back(&smallJumpLButton);
+			p2HealthBarOutline = entity;
+		}
 
-	}
+		//Small jump left button
+		{
+			//Small jump left button
+			{
+				auto entity = ECS::CreateEntity();
 
-	//Small jump right button
-	{
-		auto entity = ECS::CreateEntity();
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+				std::string fileName = "smallJumpLButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		std::string fileName = "smallJumpRButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+				smallJumpLButton.entity = entity;
 
-		smallJumpRButton.entity = entity;
+				buttonVec.push_back(&smallJumpLButton);
 
-		buttonVec.push_back(&smallJumpRButton);
+			}
 
-	}
+			//Small jump right button
+			{
+				auto entity = ECS::CreateEntity();
 
-	//Light attack button
-	{
-		auto entity = ECS::CreateEntity();
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+				std::string fileName = "smallJumpRButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		std::string fileName = "lightAttackButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+				smallJumpRButton.entity = entity;
 
-		lightAttackButton.entity = entity;
-		
-		buttonVec.push_back(&lightAttackButton);
+				buttonVec.push_back(&smallJumpRButton);
 
-	}
+			}
 
-	//Big jump left button
-	{
-		auto entity = ECS::CreateEntity();
+			//Light attack button
+			{
+				auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "bigJumpLButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+				std::string fileName = "lightAttackButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-		bigJumpLButton.entity = entity;
-		
-		buttonVec.push_back(&bigJumpLButton);
+				lightAttackButton.entity = entity;
 
-	}
+				buttonVec.push_back(&lightAttackButton);
 
-	//Big jump right button
-	{
-		auto entity = ECS::CreateEntity();
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			}
+			//Big jump left button
+			{
+				auto entity = ECS::CreateEntity();
 
-		std::string fileName = "bigJumpRButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-		bigJumpRButton.entity = entity;
-		
-		buttonVec.push_back(&bigJumpRButton);
+				std::string fileName = "bigJumpLButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-	}
+				bigJumpLButton.entity = entity;
 
-	//Heavy attack button
-	{
-		auto entity = ECS::CreateEntity();
+				buttonVec.push_back(&bigJumpLButton);
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+			}
 
-		std::string fileName = "heavyAttackButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			//Big jump right button
+			{
+				auto entity = ECS::CreateEntity();
 
-		heavyAttackButton.entity = entity;
-		
-		buttonVec.push_back(&heavyAttackButton);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-	}
+				std::string fileName = "bigJumpRButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-	//Interact button
-	{
-		auto entity = ECS::CreateEntity();
+				bigJumpRButton.entity = entity;
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+				buttonVec.push_back(&bigJumpRButton);
 
-		std::string fileName = "interactButton.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			}
 
-		interactButton.entity = entity;
-		
-		buttonVec.push_back(&interactButton);
+			//Heavy attack button
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "heavyAttackButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+				heavyAttackButton.entity = entity;
+
+				buttonVec.push_back(&heavyAttackButton);
+
+			}
+
+			//Interact button
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "interactButton.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+				interactButton.entity = entity;
+
+				buttonVec.push_back(&interactButton);
+			}
+		}
 	}
 
 	//Help button
@@ -427,7 +433,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -465,7 +471,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, BOUNDARY, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 0.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -487,11 +493,17 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);//health component
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);//stores entity number for easy access anywhere
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components
-		std::string fileName = "facingRight2.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		auto animations = File::LoadJSON("linkAnimations.json");
+		std::string fileName = "spritesheets/Link.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["IdleRight"]);
+		animController.AddAnimation(animations["AttackRight"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40, true, &animController);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
@@ -511,7 +523,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -521,11 +533,12 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	//player 2
 	{
+
 		//Creates entity
 		auto entity = ECS::CreateEntity();
 		player2 = entity;
 		inactivePlayer = entity;
-
+		
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -533,11 +546,17 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components
-		std::string fileName = "facingLeft2.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		auto animations = File::LoadJSON("linkAnimations.json");
+		std::string fileName = "spritesheets/Link.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["IdleLeft"]);
+		animController.AddAnimation(animations["AttackLeft"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40, true, &animController);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 50.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
@@ -557,7 +576,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | PICKUP | TRIGGER | BOUNDARY, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -565,53 +584,132 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(1.f);
 	}
 
+	//interactables
+	{
+		//bottle
+		{
+			//creates entity
+			auto entity = ECS::CreateEntity();
+			bottle.push_back(entity);
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+
+			//Sets up components
+			std::string fileName = "boxSprite.jpg";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(float32(-135.f), float32(0.f));
+
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+			tempPhsBody.SetGravityScale(0.f);
+
+			//std::map<float, float> tempCoord;
+			//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
+
+		}
+
+		//bottle 2
+		{
+			//creates entity
+			auto entity = ECS::CreateEntity();
+			bottle.push_back(entity);
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+
+			//Sets up components
+			std::string fileName = "boxSprite.jpg";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(float32(135.f), float32(0.f));
+
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+			tempPhsBody.SetGravityScale(0.f);
+		}
+
+		//bottle 3
+		{
+			//creates entity
+			auto entity = ECS::CreateEntity();
+			bottle.push_back(entity);
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+
+			//Sets up components
+			std::string fileName = "boxSprite.jpg";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-200.f, 0.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(float32(-200.f), float32(0.f));
+
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+			tempPhsBody.SetGravityScale(0.f);
+		}
+	}
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	moveCam = false;
 }
 
-void BarBreaker::UpdateCamera() {
-	/*lerps camera to active player rather than jumping from player to player*/
-
-	auto& cameraOffset = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
-	static float offsetVal = 0;
-	if (moveCam) {
-		if (activePlayer == player1) {
-			if (offsetVal < 79 /*&& offsetVal < 81*/) moveCam = false;
-			else offsetVal -= 0.1 * Timer::time;
-		}
-		if (activePlayer == player2) {
-			if (offsetVal > -49 /*&& offsetVal > -51*/) moveCam = false;
-			else offsetVal += 0.1 * Timer::time;
-		}
-		cameraOffset.SetOffset(offsetVal);
-	}
-	else {
-		//reset offsetting values
-		if (activePlayer == player1) {
-			if (ECS::GetComponent<Transform>(player2).GetPositionX() - ECS::GetComponent<Transform>(player1).GetPositionX() > 210)
-				offsetVal = -200;
-			else offsetVal = -55;
-		}
-		if (activePlayer == player2) offsetVal = 200;
-	}
-
-}
 
 void BarBreaker::Update()
 {
+	BarBreaker::AnimationUpdate();
+
 	BarBreaker::UpdateCamera();
 
 	BarBreaker::AdjustScrollOffset();
 
 	playerDistance = (ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
-	
-	boundaryDistanceRightActive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x);
-	boundaryDistanceLeftActive = ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
 
-	boundaryDistanceRightInactive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
-	boundaryDistanceLeftInactive = ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
-	
+	BarBreaker::UIUpdate();
+
+	BarBreaker::BoundaryUpdate();
+
 	//If the music has stopped playing, loop it
 	if (!backgroundMusic.IsPlaying())
 	{
@@ -619,10 +717,9 @@ void BarBreaker::Update()
 		backgroundMusic.SetVolume(0.1);
 	}
 
-	//If the player has reached the move limit, start the turn ending sequence
-	if (lightMoves + heavyMoves == 2)
+	if (endGame == false)
 	{
-		turnEnd = true;
+		BarBreaker::CheckGame();
 	}
 
 	//If the turn end sequence has begun, and all players are not moving
@@ -786,17 +883,144 @@ void BarBreaker::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::F))
 	{
-		BarBreaker::ThrowBottle();
+		BarBreaker::ThrowChair();
 	}
 
 	if (Input::GetKeyDown(Key::L))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
+	/*if (Input::GetKeyDown(Key::G)) {
+		PickupBottle();
+		{
+			std::cout << "X: " << ECS::GetComponent<Transform>(activePlayer).GetPositionX() << " Y: " << ECS::GetComponent<Transform>(activePlayer).GetPositionY() << std::endl;
+		}
+	}*/
 }
 
 void BarBreaker::KeyboardUp()
 {
+}
+
+void BarBreaker::UpdateCamera() {
+	/*lerps camera to active player rather than jumping from player to player*/
+
+	auto& cameraOffset = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
+	static float offsetVal = 0;
+	if (moveCam) {
+		if (activePlayer == player1) {
+			if (offsetVal < 79 /*&& offsetVal < 81*/) moveCam = false;
+			else offsetVal -= 0.1 * Timer::time;
+		}
+		if (activePlayer == player2) {
+			if (offsetVal > -49 /*&& offsetVal > -51*/) moveCam = false;
+			else offsetVal += 0.1 * Timer::time;
+		}
+		cameraOffset.SetOffset(offsetVal);
+	}
+	else {
+		//reset offsetting values
+		if (activePlayer == player1) {
+			if (ECS::GetComponent<Transform>(player2).GetPositionX() - ECS::GetComponent<Transform>(player1).GetPositionX() > 210)
+				offsetVal = -200;
+			else offsetVal = -55;
+		}
+		if (activePlayer == player2) offsetVal = 200;
+	}
+
+}
+
+void BarBreaker::AnimationUpdate()
+{
+	if (ECS::GetComponent<AnimationController>(player1).GetAnimation(ECS::GetComponent<AnimationController>(player1).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
+	{
+		ECS::GetComponent<AnimationController>(player1).GetAnimation(ECS::GetComponent<AnimationController>(player1).GetActiveAnim()).Reset(); // reset attack animation
+		ECS::GetComponent<AnimationController>(player1).SetActiveAnim(0); //set animation to idle
+	}
+
+	if (ECS::GetComponent<AnimationController>(player2).GetAnimation(ECS::GetComponent<AnimationController>(player2).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
+	{
+		ECS::GetComponent<AnimationController>(player2).GetAnimation(ECS::GetComponent<AnimationController>(player2).GetActiveAnim()).Reset(); // reset attack animation
+		ECS::GetComponent<AnimationController>(player2).SetActiveAnim(0); //set animation to idle
+	}
+}
+
+void BarBreaker::UIUpdate()
+{
+	//Find the camera x and y in order to set the buttons' x and y values relative to it
+	auto newX = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionX();
+	auto newY = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetPositionY();
+
+	//Use Lerp to reduce the width of the health bars based on player health
+	ECS::GetComponent<Sprite>(p1HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player1).GetHealth() / 100));
+	ECS::GetComponent<Sprite>(p2HealthBar).SetWidth(Util::Lerp(1, 60, ECS::GetComponent<Health>(player2).GetHealth() / 100));
+
+	//Get the currenth health bar widths
+	auto p1HealthWidth = ECS::GetComponent<Sprite>(p1HealthBar).GetWidth();
+	auto p2HealthWidth = ECS::GetComponent<Sprite>(p2HealthBar).GetWidth();
+
+	//Set the health bar outline positions relative to the camera
+	ECS::GetComponent<Transform>(p1HealthBarOutline).SetPosition(vec3(newX - 130, newY + 70, 11.f));
+	ECS::GetComponent<Transform>(p2HealthBarOutline).SetPosition(vec3(newX + 130, newY + 70, 11.f));
+
+	//Set the health bar positions relative to the camera (and adjust for the changing size)
+	ECS::GetComponent<Transform>(p1HealthBar).SetPosition(vec3(newX - 130 - ((60 - p1HealthWidth) / 2), newY + 70, 10.f));
+	ECS::GetComponent<Transform>(p2HealthBar).SetPosition(vec3(newX + 130 + ((60 - p2HealthWidth) / 2), newY + 70, 10.f));
+
+	//Set each button's location relative to the camera
+	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 50, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(smallJumpRButton.entity).SetPosition(vec3(newX + 50, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(lightAttackButton.entity).SetPosition(vec3(newX - 15, newY - 80, 10.f));
+	ECS::GetComponent<Transform>(bigJumpLButton.entity).SetPosition(vec3(newX - 80, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX + 80, newY - 70, 10.f));
+	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX + 15, newY - 80, 10.f));
+	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 0, newY - 60, 10.f));
+
+	//Iterate through each button, setting each of its new min and max locations
+	for (int i = 0; i < buttonVecLen; i++)
+	{
+		int buttonX = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().x;
+		int buttonY = ECS::GetComponent<Transform>(buttonVec[i]->entity).GetPosition().y;
+		int buttonWidth = ECS::GetComponent<Sprite>(buttonVec[i]->entity).GetWidth();
+		int buttonHeight = ECS::GetComponent<Sprite>(buttonVec[i]->entity).GetHeight();
+
+		buttonVec[i]->max = vec2(buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
+		buttonVec[i]->min = vec2(buttonX - buttonWidth / 2, buttonY - buttonHeight / 2);
+	}
+}
+
+void BarBreaker::BoundaryUpdate()
+{
+	boundaryDistanceRightActive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x);
+	boundaryDistanceLeftActive = ECS::GetComponent<PhysicsBody>(activePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
+
+	boundaryDistanceRightInactive = (ECS::GetComponent<PhysicsBody>(boundaryRight).GetPosition().x - ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x);
+	boundaryDistanceLeftInactive = ECS::GetComponent<PhysicsBody>(inactivePlayer).GetPosition().x - (ECS::GetComponent<PhysicsBody>(boundaryLeft).GetPosition().x);
+
+	//If the turn end sequence has begun, and all players are not moving
+	if (turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+		&& ECS::GetComponent<CanJump>(inactivePlayer).m_canJump == true
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
+	{
+		//If the active player is in range of a boundary, push them away and set counting to true (so that they aren't hit again)
+		if (boundaryDistanceRightActive <= 50 && !counting)
+		{
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
+			counting = true;
+		}
+
+		else if (boundaryDistanceLeftActive <= 50 && !counting)
+		{
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
+			counting = true;
+		}
+
+		//Else, since neither player is moving and the active player is out of moves, end the turn
+		else EndTurn();
+	}
 }
 
 void BarBreaker::SmallMoveRight()
@@ -854,6 +1078,7 @@ void BarBreaker::LightAttack()
 
 		if (abs(playerDistance) <= 60)
 		{
+			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
 			testSound.Play();
 			testSound.SetVolume(0.5);
 
@@ -863,15 +1088,14 @@ void BarBreaker::LightAttack()
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(65000.f, 80000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
-				lightMoves++;
 			}
-
 			else if (playerDistance > 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-65000.f, 80000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
-				lightMoves++;
 			}
+			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
+			lightMoves++;
 		}
 	}
 }
@@ -885,7 +1109,7 @@ void BarBreaker::HeavyAttack()
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
-		if (abs(playerDistance) <= 80)
+		if (abs(playerDistance) <= 60)
 		{
 			testSound.Play();
 			testSound.SetVolume(0.5);
@@ -896,16 +1120,47 @@ void BarBreaker::HeavyAttack()
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(104000.f, 100000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition += 10;
-				heavyMoves++;
 			}
 
 			else if (playerDistance > 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-105000.f, 100000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 10;
-				heavyMoves++;
+			}
+			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
+			heavyMoves++;
+		}
+	}
+}
+
+void BarBreaker::PickupBottle()
+{
+	//Only count the button press if the turn hasnt ended and both players aren't moving
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
+	{
+		pos playerPos; //position of active player
+		playerPos.x = ECS::GetComponent<Transform>(activePlayer).GetPositionX();
+		playerPos.y = ECS::GetComponent<Transform>(activePlayer).GetPositionY();
+
+		for (int i = 0; i < bottle.size(); i++) {
+			//check if active player's x pos is within bottle range
+			float bottlex = ECS::GetComponent<Transform>(bottle[i]).GetPositionX();
+			float dist = bottlex - playerPos.x;
+
+			if (abs(dist) <= bottleSize) {
+				//player is within range
+				PhysicsBody::m_bodiesToDelete.push_back(bottle[i]);
+				bottle.erase(bottle.begin() + i);
+
+				std::cout << "\nPicked up bottle\n";
+
+				ThrowBottle();
+				return;
 			}
 		}
+		std::cout << "\nNo bottles\n";
 	}
 }
 
@@ -958,6 +1213,85 @@ void BarBreaker::ThrowBottle()
 		
 		//Start the clock after throwing the object
 		beginClk = time(0);
+	}
+	//else std::cout << "no bottles\n";
+}
+
+void BarBreaker::ThrowChair()
+{
+	//Only count the button press if the turn hasnt ended and both players aren't moving
+	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
+		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
+	{
+		auto entity = ECS::CreateEntity();
+		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 25);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(playerPos.x), float32(playerPos.y + 40));
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+
+		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetFixedRotation(false);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetGravityScale(1.f);
+
+		if (playerDistance < 0)
+		{
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(30000, 15000), true);
+			tempBody->ApplyTorque(-8000000, true);
+		}
+		else if (playerDistance > 0)
+		{
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-30000, 15000), true);
+			tempBody->ApplyTorque(8000000, true);
+		}
+		heavyMoves++;
+	}
+}
+
+void BarBreaker::CheckGame()
+{
+	//If the player has reached the move limit, start the turn ending sequence
+	if (lightMoves + heavyMoves >= 2)
+	{
+		turnEnd = true;
+	}
+
+	if (ECS::GetComponent<Health>(player1).GetHealth() <= 0 || ECS::GetComponent<Health>(player2).GetHealth() <= 0)
+	{
+		endGame = true;
+		BarBreaker::EndGame();
+	}
+}
+
+void BarBreaker::EndGame()
+{
+	if (ECS::GetComponent<Health>(player1).GetHealth() <= 0)
+	{
+		std::cout << "Player 2 wins" << std::endl;
+	}
+	else if (ECS::GetComponent<Health>(player2).GetHealth() <= 0)
+	{
+		std::cout << "Player 1 wins" << std::endl;
 	}
 }
 
@@ -1224,6 +1558,7 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 	else if (evnt.type == SDL_MOUSEBUTTONDOWN && (cursorRelative.x >= interactButton.min.x && cursorRelative.y >= interactButton.min.y) &&
 		(cursorRelative.x <= interactButton.max.x && cursorRelative.y <= interactButton.max.y))
 	{
+		PickupBottle();
 		ThrowBottle();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Tone Fire/Tonefire.h"
 #include "Scene.h"
 #include "BarBreakerListener.h"
@@ -31,6 +32,10 @@ public:
 
 	void ThrowBottle();
 
+	void ThrowChair();
+
+	void CheckGame();
+
 	void UpdateCamera();
 
 	void Update() override;
@@ -46,6 +51,12 @@ public:
 	void KeyboardHold() override;
 	void KeyboardDown() override;
 	void KeyboardUp() override;
+
+	void AnimationUpdate();
+
+	void UIUpdate();
+
+	void BoundaryUpdate();
 
 	void MouseMotion(SDL_MouseMotionEvent evnt) override;
 	void MouseClick(SDL_MouseButtonEvent evnt) override;
@@ -66,12 +77,19 @@ public:
 
 	void SwitchPlayer();
 
+	void EndGame();
+
+	void PickupBottle();
+
 	struct pos
 	{
 		float x = 0.f, y = 0.f;
 	};
 
+
 protected:
+	const int playerSize = 40;
+	const int bottleSize = 20;
 
 	bool m_firstWindow = false;
 	bool m_secondWindow = false;
@@ -91,6 +109,8 @@ protected:
 	unsigned int p2HealthBarOutline;
 	unsigned int helpTextImage;
 
+	std::vector<unsigned int> bottle;
+	
 	int movesTaken;
 	int heavyMoves = 0;
 	int lightMoves = 0;
@@ -118,6 +138,7 @@ protected:
 	float boundaryDistanceRightInactive; 
 	float boundaryDistanceLeftInactive; 
 
+	bool endGame = false;
 	bool turnEnd = false;
 	bool counting = false;
 	double beginClk;

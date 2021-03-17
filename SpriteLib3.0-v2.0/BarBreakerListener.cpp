@@ -94,7 +94,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 5;
 			}
 
-			//If it's player 1, send them rightwards
+			//If it's player 2, send them rightwards
 			else
 			{
 				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
@@ -113,7 +113,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 5;
 			}
 
-			//If it's player 1, send them rightwards
+			//If it's player 2, send them rightwards
 			else
 			{
 				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
@@ -131,6 +131,62 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			PhysicsBody::m_bodiesToDelete.push_back((int)fixtureB->GetBody()->GetUserData());
 		}
 
+	}
+
+	//ENEMY is a thrown item, checks for any collisions of thrown items
+	if ((filterA.categoryBits == ENEMY) || (filterB.categoryBits == ENEMY))
+	{
+		srand(time(0));
+		int damage = rand() % 8 + 10;
+
+		//if it hits a player, deals damage
+		if (filterA.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).reduceHealth(damage);
+
+			//If it's player 1, send them leftwards
+			if (ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).playerNum == 1)
+			{
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
+				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 10;
+			}
+
+			//If it's player 2, send them rightwards
+			else
+			{
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
+				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 10;
+			}
+		}
+
+		else if (filterB.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).reduceHealth(damage);
+
+			//If it's player 1, send them leftwards
+			if (ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).playerNum == 1)
+			{
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
+				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 10;
+			}
+
+			//If it's player 2, send them rightwards
+			else
+			{
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
+				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 10;
+			}
+		}
+
+		//deletes the object on contact with anything
+		if (filterA.categoryBits == ENEMY)
+		{
+			PhysicsBody::m_bodiesToDelete.push_back((int)fixtureA->GetBody()->GetUserData());
+		}
+		if (filterB.categoryBits == ENEMY)
+		{
+			PhysicsBody::m_bodiesToDelete.push_back((int)fixtureB->GetBody()->GetUserData());
+		}
 	}
 
 	//PLAYER-BOUNDARY collision
