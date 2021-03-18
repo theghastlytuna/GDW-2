@@ -280,7 +280,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "smallJumpLText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			smallJumpLButton.textImage = entity;
 		}
@@ -295,7 +295,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "smallJumpRText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			smallJumpRButton.textImage = entity;
 		}
@@ -310,7 +310,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "lightAttackText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			lightAttackButton.textImage = entity;
 		}
@@ -325,7 +325,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "bigJumpLText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			bigJumpLButton.textImage = entity;
 		}
@@ -340,7 +340,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "smallJumpLtext.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			bigJumpRButton.textImage = entity;
 		}
@@ -355,7 +355,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "heavyAttackText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			heavyAttackButton.textImage = entity;
 		}
@@ -370,7 +370,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "interactText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 45);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			interactButton.textImage = entity;
 		}
@@ -385,7 +385,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "helpHelpText.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 8);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
 			helpButton.textImage = entity;
 		}
@@ -505,7 +505,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		animController.AddAnimation(animations["AttackRight"]);
 		animController.SetActiveAnim(0);
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40, true, &animController);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 50.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 20.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 		ECS::GetComponent<Health>(entity).qPosition = -7;//qPosition is basically where the entity SHOULD be, in game units
@@ -520,7 +520,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-70.f), float32(50.f));
+		tempDef.position.Set(float32(-70.f), float32(20.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -558,7 +558,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		animController.AddAnimation(animations["AttackLeft"]);
 		animController.SetActiveAnim(0);
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40, true, &animController);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 50.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 20.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
 		ECS::GetComponent<Health>(entity).qPosition = 7;//qPosition is basically where the entity SHOULD be, in game units
@@ -573,7 +573,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(70.f), float32(50.f));
+		tempDef.position.Set(float32(70.f), float32(20.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -734,6 +734,19 @@ void BarBreaker::Update()
 	else
 	{
 		throwing = false;
+	}
+
+	//End the scene if a player's health reaches 0
+	if (ECS::GetComponent<Health>(player1).GetHealth() <= 0)
+	{
+		winner = 2;
+		finished = true;
+	}
+
+	else if (ECS::GetComponent<Health>(player2).GetHealth() <= 0)
+	{
+		winner = 1;
+		finished = true;
 	}
 }
 
@@ -906,7 +919,7 @@ void BarBreaker::UIUpdate()
 		buttonVec[i]->min = vec2(buttonX - buttonWidth / 2, buttonY - buttonHeight / 2);
 
 		//Set each text location
-		ECS::GetComponent<Transform>(buttonVec[i]->textImage).SetPosition(vec3(buttonX, buttonY + 30, 10.f));
+		ECS::GetComponent<Transform>(buttonVec[i]->textImage).SetPosition(vec3(buttonX, buttonY + 30, 100.f));
 
 		//If the button has been hovered over for long enough, show text
 		if (buttonVec[i]->hovering && (time(0) - buttonVec[i]->startHoverTime) > 1)
@@ -1003,7 +1016,7 @@ void BarBreaker::BigMoveLeft()
 void BarBreaker::LightAttack()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (heavyMoves < 1 && !turnEnd && !throwing
+	if (!turnEnd && !throwing
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
@@ -1506,4 +1519,14 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 	{
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
+}
+
+bool BarBreaker::IsFinished()
+{
+	return finished;
+}
+
+int BarBreaker::GetWinner()
+{
+	return winner;
 }

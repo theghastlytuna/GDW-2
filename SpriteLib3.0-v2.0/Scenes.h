@@ -6,5 +6,6 @@
 #include "PhysicsPlayground.h"
 #include "AnimationSpritePlayground.h"
 #include "BarBreaker.h"
+#include "EndScreen.h"
 
 #endif // !__SCENES_H__

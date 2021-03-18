@@ -81,6 +81,10 @@ public:
 
 	void PickupBottle();
 
+	bool IsFinished() override;
+
+	int GetWinner() override;
+
 	struct pos
 	{
 		float x = 0.f, y = 0.f;
@@ -143,5 +147,9 @@ protected:
 	bool counting = false;
 	double beginClk;
 
-	ToneFire::CoreSound backgroundMusic{"bg1.mp3"};
+	ToneFire::CoreSound backgroundMusic{ "bg1.mp3" };
+
+private:
+	bool finished = false;
+	int winner;
 };
