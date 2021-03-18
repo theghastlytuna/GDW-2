@@ -436,7 +436,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(300.f), float32(-30.f));
+		tempDef.position.Set(float32(300.f), float32(-20.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -568,7 +568,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "spritesheets/playerAnimations.png";
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		animController.InitUVs(fileName);
-		animController.AddAnimation(animations["spIdle"]);//idle
+		animController.AddAnimation(animations["fpIdle"]);//idle
 		animController.AddAnimation(animations["spJump"]);//jump
 		animController.AddAnimation(animations["spAttack"]);//attack
 		animController.SetActiveAnim(0);
@@ -1056,7 +1056,7 @@ void BarBreaker::LightAttack()
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
-		if (abs(playerDistance) <= 60)
+		if (abs(playerDistance) <= 70)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
@@ -1089,7 +1089,7 @@ void BarBreaker::HeavyAttack()
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
-		if (abs(playerDistance) <= 60)
+		if (abs(playerDistance) <= 80)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
@@ -1188,10 +1188,12 @@ void BarBreaker::ThrowBottle()
 		if (playerDistance < 0)
 		{
 			tempBody->ApplyLinearImpulseToCenter(b2Vec2(15000, 15000), true);
+			tempBody->ApplyTorque(-8000000, true);
 		}
 		else if (playerDistance > 0)
 		{
 			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-15000, 15000), true);
+			tempBody->ApplyTorque(8000000, true);
 		}
 		lightMoves++;
 		
