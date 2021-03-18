@@ -255,3 +255,13 @@ void Scene::SetWindowSize(float windowWidth, float windowHeight)
 															tempCam.GetOrthoSize().z, tempCam.GetOrthoSize().w,
 															tempCam.GetNear(), tempCam.GetFar());
 }
+
+bool Scene::IsFinished()
+{
+	return finished;
+}
+
+int Scene::GetWinner()
+{
+	return winner;
+}
