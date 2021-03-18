@@ -413,17 +413,17 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		//ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components 
-		auto animations = File::LoadJSON("linkAnimations.json");
-		std::string fileName = "Frame_0_Bouncer_Idle.png";
-		//auto& animController = ECS::GetComponent<AnimationController>(entity);
-		//animController.InitUVs(fileName);
-		//animController.AddAnimation(animations["IdleRight"]);
-		//animController.AddAnimation(animations["AttackRight"]);
-		//animController.SetActiveAnim(0);
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 40);
+		auto animations = File::LoadJSON("StageHazardAnimations.json");
+		std::string fileName = "spritesheets/stageHazard.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["RightIdle"]);
+		animController.AddAnimation(animations["RightPush"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 60, true, &animController);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
@@ -507,18 +507,18 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);//health component
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);//stores entity number for easy access anywhere
-		//ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components
-		auto animations = File::LoadJSON("linkAnimations.json");
-		std::string fileName = "fp2_2.png";
-		//auto& animController = ECS::GetComponent<AnimationController>(entity);
-		//animController.InitUVs(fileName);
-		//animController.AddAnimation(animations["IdleRight"]);//idle
-		//animController.AddAnimation(animations["AttackRight"]);//jump
-		//animController.AddAnimation(animations["AttackLeft"]);//attack
-		//animController.SetActiveAnim(0);
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40);
+		auto animations = File::LoadJSON("barBreakerAnims.json");
+		std::string fileName = "spritesheets/playerAnimations.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["fpIdle"]);//idle
+		animController.AddAnimation(animations["fpJump"]);//jump
+		animController.AddAnimation(animations["fpAttack"]);//attack
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40, true, &animController);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 20.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
@@ -561,18 +561,18 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Health>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<EntityNumber>(entity);
-		//ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components
-		auto animations = File::LoadJSON("linkAnimations.json");
-		std::string fileName = "fp2_idle_2_p2.png";
-		//auto& animController = ECS::GetComponent<AnimationController>(entity);
-		//animController.InitUVs(fileName);
-		//animController.AddAnimation(animations["IdleLeft"]);//idle
-		//animController.AddAnimation(animations["AttackLeft"]);//jump
-		//animController.AddAnimation(animations["AttackLeft"]);//attack
-		//animController.SetActiveAnim(0);
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40);
+		auto animations = File::LoadJSON("barBreakerAnims.json");
+		std::string fileName = "spritesheets/playerAnimations.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["spIdle"]);//idle
+		animController.AddAnimation(animations["spJump"]);//jump
+		animController.AddAnimation(animations["spAttack"]);//attack
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40, true, &animController);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 20.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
@@ -714,7 +714,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 void BarBreaker::Update()
 {
-	//BarBreaker::AnimationUpdate();
+	BarBreaker::AnimationUpdate();
 
 	BarBreaker::UpdateCamera();
 
@@ -740,7 +740,7 @@ void BarBreaker::Update()
 
 	//If an item has been thrown in the last ten seconds, set throwing to true
 	// (this causes both players to be unable to move or attack)
-	if ((time(0) - beginClk) < 10)
+	if ((time(0) - beginClk) < 5)
 	{
 		throwing = true;	
 	}
@@ -884,11 +884,11 @@ void BarBreaker::AnimationUpdate()
 		ECS::GetComponent<AnimationController>(player2).SetActiveAnim(0); //set animation to idle
 	}
 
-	if (ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
-	{
-		ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).Reset(); // reset attack animation
-		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(0); //set animation to idle
-	}
+	//if (ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
+	//{
+	//	ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).Reset(); // reset attack animation
+	//	ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(0); //set animation to idle
+	//}
 
 	if (ECS::GetComponent<AnimationController>(boundaryRight).GetAnimation(ECS::GetComponent<AnimationController>(boundaryRight).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
 	{
@@ -980,7 +980,7 @@ void BarBreaker::BoundaryUpdate()
 		//If the active player is in range of a boundary, push them away and set counting to true (so that they aren't hit again)
 		if (boundaryDistanceRightActive <= 50 && !counting)
 		{
-			//ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
+			ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
 			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
 			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
 			counting = true;
@@ -1003,7 +1003,7 @@ void BarBreaker::SmallMoveRight()
 {
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
+		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
 		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 65000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 5;
@@ -1015,7 +1015,7 @@ void BarBreaker::SmallMoveLeft()
 {
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
+		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
 		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 65000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
@@ -1039,7 +1039,7 @@ void BarBreaker::BigMoveLeft()
 {
 	if (heavyMoves < 1 && !turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
-		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
+		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
 		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
@@ -1058,7 +1058,7 @@ void BarBreaker::LightAttack()
 
 		if (abs(playerDistance) <= 60)
 		{
-			//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
+			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
 			testSound.SetVolume(0.5);
 
@@ -1091,7 +1091,7 @@ void BarBreaker::HeavyAttack()
 
 		if (abs(playerDistance) <= 60)
 		{
-			//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
+			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
 			testSound.SetVolume(0.5);
 
@@ -1152,7 +1152,7 @@ void BarBreaker::ThrowBottle()
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
-		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
+		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 
 
 		auto entity = ECS::CreateEntity();
