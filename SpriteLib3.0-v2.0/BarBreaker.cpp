@@ -416,8 +416,8 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components 
-		auto animations = File::LoadJSON("StageHazardAnimations.json");
-		std::string fileName = "spritesheets/stageHazard.png";
+		auto animations = File::LoadJSON("stageHazardRight.json");
+		std::string fileName = "spritesheets/stageHazardRight.png";
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		animController.InitUVs(fileName);
 		animController.AddAnimation(animations["RightIdle"]);
@@ -458,17 +458,17 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		//ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up components 
-		auto animations = File::LoadJSON("linkAnimations.json");
-		std::string fileName = "Frame_0_Bouncer_Idle.png";
-		//auto& animController = ECS::GetComponent<AnimationController>(entity);
-		//animController.InitUVs(fileName);
-		//animController.AddAnimation(animations["IdleRight"]);
-		//animController.AddAnimation(animations["AttackRight"]);
-		//animController.SetActiveAnim(0);
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 40);
+		auto animations = File::LoadJSON("stageHazardLeft.json");
+		std::string fileName = "stageHazardLeft.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["LeftIdle"]);
+		animController.AddAnimation(animations["LeftPush"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 70, true, &animController);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
@@ -568,7 +568,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "spritesheets/playerAnimations.png";
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		animController.InitUVs(fileName);
-		animController.AddAnimation(animations["fpIdle"]);//idle
+		animController.AddAnimation(animations["spIdle"]);//idle
 		animController.AddAnimation(animations["spJump"]);//jump
 		animController.AddAnimation(animations["spAttack"]);//attack
 		animController.SetActiveAnim(0);
@@ -884,11 +884,11 @@ void BarBreaker::AnimationUpdate()
 		ECS::GetComponent<AnimationController>(player2).SetActiveAnim(0); //set animation to idle
 	}
 
-	//if (ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
-	//{
-	//	ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).Reset(); // reset attack animation
-	//	ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(0); //set animation to idle
-	//}
+	if (ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
+	{
+		ECS::GetComponent<AnimationController>(boundaryLeft).GetAnimation(ECS::GetComponent<AnimationController>(boundaryLeft).GetActiveAnim()).Reset(); // reset attack animation
+		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(0); //set animation to idle
+	}
 
 	if (ECS::GetComponent<AnimationController>(boundaryRight).GetAnimation(ECS::GetComponent<AnimationController>(boundaryRight).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
 	{
@@ -1004,7 +1004,7 @@ void BarBreaker::SmallMoveRight()
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 65000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(8000.f, 6000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 		lightMoves++;
@@ -1016,7 +1016,7 @@ void BarBreaker::SmallMoveLeft()
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 65000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-8000.f, 6000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 		lightMoves++;
@@ -1028,7 +1028,7 @@ void BarBreaker::BigMoveRight()
 	if (heavyMoves < 1 && !turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(10000.f, 10000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 10;
 		heavyMoves++;
@@ -1040,7 +1040,7 @@ void BarBreaker::BigMoveLeft()
 	if (heavyMoves < 1 && !turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-10000.f, 10000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
 		heavyMoves++;
