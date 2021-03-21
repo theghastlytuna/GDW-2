@@ -90,6 +90,18 @@ bool Game::Run()
 
 void Game::Update()
 {
+	
+	if (m_activeScene->IsFinished())
+	{
+		m_scenes.push_back(new EndScreen("Game Over", m_scenes[3]->GetWinner()));
+		m_activeScene = m_scenes[4];
+
+		m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
+		m_register = m_activeScene->GetScene();
+
+		BackEnd::SetWindowName(m_activeScene->GetName());
+	}
+
 	//Update timer
 	Timer::Update();
 
