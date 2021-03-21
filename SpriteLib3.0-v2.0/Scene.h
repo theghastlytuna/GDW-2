@@ -52,6 +52,9 @@ public:
 	virtual void MouseClick(SDL_MouseButtonEvent evnt) { };
 	virtual void MouseWheel(SDL_MouseWheelEvent evnt) { };
 
+	virtual bool IsFinished();
+	virtual int GetWinner();
+
 	//Get the scene registry
 	entt::registry* GetScene() const;
 	//Set the scene registry
@@ -86,6 +89,8 @@ protected:
 private:
 	//Hello world entity number
 	int m_helloWorldSign = 0;
+	bool finished;
+	int winner;
 };
 
 #endif // !__SCENE_H__
