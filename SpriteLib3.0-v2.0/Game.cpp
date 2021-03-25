@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Tone Fire/Tonefire.h"
-
 #include <random>
 
 
@@ -36,13 +35,15 @@ void Game::InitGame()
 
 	//Creates a new scene.
 	//Replace this with your own scene.
-	m_scenes.push_back(new FirstCreation("FIRST SCENE!!!!"));
-	m_scenes.push_back(new PhysicsPlayground("PHYSICS PLAYGROUND TIEM!!!"));
-	m_scenes.push_back(new AnimationSpritePlayground("Animation TIEM!!!!"));
-	m_scenes.push_back(new BarBreaker("BarBreaker"));
+	//m_scenes.push_back(new FirstCreation("FIRST SCENE!!!!"));
+	//m_scenes.push_back(new PhysicsPlayground("PHYSICS PLAYGROUND TIEM!!!"));
+	//m_scenes.push_back(new AnimationSpritePlayground("Animation TIEM!!!!"));
+	m_scenes.push_back(new OpenScreen("Welcome to Bar Breaker!"));
+	m_scenes.push_back(new BarBreaker("Bar Breaker"));
+	m_scenes.push_back(new EndScreen("Game Over"));
 	
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[3];
+	m_activeScene = m_scenes[0];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 
@@ -90,16 +91,25 @@ bool Game::Run()
 
 void Game::Update()
 {
-	
 	if (m_activeScene->IsFinished())
 	{
-		m_scenes.push_back(new EndScreen("Game Over", m_scenes[3]->GetWinner()));
-		m_activeScene = m_scenes[4];
+		
+		if (m_activeScene == m_scenes[0])
+		{
+			m_activeScene = m_scenes[1];
+		}
+
+		else
+		{
+			m_scenes[2]->SetWinner(m_scenes[1]->GetWinner());
+			m_activeScene = m_scenes[2];
+		}
 
 		m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 		m_register = m_activeScene->GetScene();
 
 		BackEnd::SetWindowName(m_activeScene->GetName());
+	
 	}
 
 	//Update timer
