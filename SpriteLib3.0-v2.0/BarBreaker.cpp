@@ -914,11 +914,11 @@ void BarBreaker::UpdateCamera() {
 	if (moveCam) {
 		if (activePlayer == player1) {
 			if (offsetVal < 79 /*&& offsetVal < 81*/) moveCam = false;
-			else offsetVal -= 0.1 * Timer::time;
+			else offsetVal -= 0.05 * Timer::time;
 		}
 		if (activePlayer == player2) {
 			if (offsetVal > -49 /*&& offsetVal > -51*/) moveCam = false;
-			else offsetVal += 0.1 * Timer::time;
+			else offsetVal += 0.05 * Timer::time;
 		}
 		cameraOffset.SetOffset(offsetVal);
 	}
@@ -927,7 +927,7 @@ void BarBreaker::UpdateCamera() {
 		if (activePlayer == player1) {
 			if (ECS::GetComponent<Transform>(player2).GetPositionX() - ECS::GetComponent<Transform>(player1).GetPositionX() > 210)
 				offsetVal = -200;
-			else offsetVal = -55;
+			else offsetVal = -100;
 		}
 		if (activePlayer == player2) offsetVal = 200;
 	}
