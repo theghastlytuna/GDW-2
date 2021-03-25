@@ -1062,7 +1062,7 @@ void BarBreaker::SmallMoveRight()
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(8000.f, 6000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 60000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 		lightMoves++;
@@ -1074,7 +1074,7 @@ void BarBreaker::SmallMoveLeft()
 	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-8000.f, 6000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 60000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 		lightMoves++;
@@ -1086,7 +1086,7 @@ void BarBreaker::BigMoveRight()
 	if (heavyMoves < 1 && !turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		//ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(10000.f, 10000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition += 10;
 		heavyMoves++;
@@ -1098,7 +1098,7 @@ void BarBreaker::BigMoveLeft()
 	if (heavyMoves < 1 && !turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-10000.f, 10000.f), true);
+		ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
 		ECS::GetComponent<CanJump>(activePlayer).m_canJump = false;
 		ECS::GetComponent<Health>(activePlayer).qPosition -= 10;
 		heavyMoves++;
@@ -1157,13 +1157,13 @@ void BarBreaker::HeavyAttack()
 
 			if (playerDistance < 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(104000.f, 100000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition += 10;
 			}
 
 			else if (playerDistance > 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-104000.f, 100000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-100000.f, 100000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 10;
 			}
 			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
