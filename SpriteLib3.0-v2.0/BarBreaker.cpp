@@ -7,7 +7,7 @@ BarBreaker::BarBreaker(std::string name)
 	:Scene(name)
 {
 	//no gravity this is a top down scene
-	m_gravity = b2Vec2(0.f, -11.f);
+	m_gravity = b2Vec2(0.f, -15.f);
 	m_physicsWorld->SetGravity(m_gravity);
 
 	m_physicsWorld->SetContactListener(&listener);
@@ -519,10 +519,10 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		animController.AddAnimation(animations["fpAttack"]);//attack
 		animController.SetActiveAnim(0);
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40, true, &animController);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-70.f, 20.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-50.f, 5.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
-		ECS::GetComponent<Health>(entity).qPosition = -7;//qPosition is basically where the entity SHOULD be, in game units
+		ECS::GetComponent<Health>(entity).qPosition = -5;//qPosition is basically where the entity SHOULD be, in game units
 		ECS::GetComponent<Health>(entity).playerNum = 1;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -534,7 +534,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-70.f), float32(20.f));
+		tempDef.position.Set(float32(-50.f), float32(5.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -573,10 +573,10 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		animController.AddAnimation(animations["spAttack"]);//attack
 		animController.SetActiveAnim(0);
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 40, true, &animController);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(70.f, 20.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(50.f, 5.f, 2.f));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		ECS::GetComponent<CanJump>(entity).m_canJump = false;
-		ECS::GetComponent<Health>(entity).qPosition = 7;//qPosition is basically where the entity SHOULD be, in game units
+		ECS::GetComponent<Health>(entity).qPosition = 5;//qPosition is basically where the entity SHOULD be, in game units
 		ECS::GetComponent<Health>(entity).playerNum = 2;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -588,7 +588,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(70.f), float32(20.f));
+		tempDef.position.Set(float32(50.f), float32(5.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -738,9 +738,9 @@ void BarBreaker::Update()
 		BarBreaker::CheckGame();
 	}
 
-	//If an item has been thrown in the last ten seconds, set throwing to true
+	//If an item has been thrown in the last 2 seconds, set throwing to true
 	// (this causes both players to be unable to move or attack)
-	if ((time(0) - beginClk) < 5)
+	if ((time(0) - beginClk) < 2.5)
 	{
 		throwing = true;	
 	}
@@ -830,12 +830,6 @@ void BarBreaker::KeyboardDown()
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
-	/*if (Input::GetKeyDown(Key::G)) {
-		PickupBottle();
-		{
-			std::cout << "X: " << ECS::GetComponent<Transform>(activePlayer).GetPositionX() << " Y: " << ECS::GetComponent<Transform>(activePlayer).GetPositionY() << std::endl;
-		}
-	}*/
 }
 
 void BarBreaker::KeyboardUp()
@@ -1089,7 +1083,7 @@ void BarBreaker::HeavyAttack()
 	{
 		ToneFire::CoreSound testSound{ "punch.wav" };
 
-		if (abs(playerDistance) <= 80)
+		if (abs(playerDistance) <= 70)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
@@ -1105,7 +1099,7 @@ void BarBreaker::HeavyAttack()
 
 			else if (playerDistance > 0)
 			{
-				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-105000.f, 100000.f), true);
+				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-104000.f, 100000.f), true);
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 10;
 			}
 			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
@@ -1130,7 +1124,7 @@ void BarBreaker::PickupBottle()
 			float bottlex = ECS::GetComponent<Transform>(bottle[i]).GetPositionX();
 			float dist = bottlex - playerPos.x;
 
-			if (abs(dist) <= bottleSize) {
+			if (abs(dist) <= 30) {
 				//player is within range
 				PhysicsBody::m_bodiesToDelete.push_back(bottle[i]);
 				bottle.erase(bottle.begin() + i);
@@ -1175,26 +1169,34 @@ void BarBreaker::ThrowBottle()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(playerPos.x), float32(playerPos.y + 30));
+		if (playerDistance < 0)
+		{
+			tempDef.position.Set(float32(playerPos.x + 40), float32(playerPos.y + 10));
+		}
+		else if (playerDistance > 0)
+		{
+			tempDef.position.Set(float32(playerPos.x - 40), float32(playerPos.y + 10));
+		}
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, PICKUP, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(1.f);
+		tempPhsBody.SetGravityScale(1.2);
 
 		if (playerDistance < 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(15000, 15000), true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(18000, 18000), true);
 			tempBody->ApplyTorque(-8000000, true);
 		}
 		else if (playerDistance > 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-15000, 15000), true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-18000, 18000), true);
 			tempBody->ApplyTorque(8000000, true);
 		}
+
+
 		lightMoves++;
 		
 		//Start the clock after throwing the object
@@ -1222,35 +1224,41 @@ void BarBreaker::ThrowChair()
 		std::string fileName = "boxSprite.jpg";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 25);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y, playerPos.z));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(playerPos.x), float32(playerPos.y + 40));
+		if (playerDistance < 0)
+		{
+			tempDef.position.Set(float32(playerPos.x + 40), float32(playerPos.y + 20));
+		}
+		else if (playerDistance > 0)
+		{
+			tempDef.position.Set(float32(playerPos.x - 40), float32(playerPos.y + 20));
+		}
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(1.f);
+		tempPhsBody.SetGravityScale(1.2);
 
 		if (playerDistance < 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(30000, 15000), true);
-			tempBody->ApplyTorque(-8000000, true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(35000, 25000), true);
+			tempBody->ApplyTorque(-16000000, true);
 		}
 		else if (playerDistance > 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-30000, 15000), true);
-			tempBody->ApplyTorque(8000000, true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-35000, 25000), true);
+			tempBody->ApplyTorque(16000000, true);
 		}
+
 		heavyMoves++;
 	}
 }
