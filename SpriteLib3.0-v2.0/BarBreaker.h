@@ -92,9 +92,6 @@ public:
 
 
 protected:
-	const int playerSize = 40;
-	const int bottleSize = 20;
-
 	bool m_firstWindow = false;
 	bool m_secondWindow = false;
 
