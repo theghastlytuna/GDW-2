@@ -513,7 +513,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		auto animations = File::LoadJSON("stageHazardLeft.json");
-		std::string fileName = "stageHazardLeft.png";
+		std::string fileName = "spritesheets/stageHazardLeft.png";
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		animController.InitUVs(fileName);
 		animController.AddAnimation(animations["LeftIdle"]);
