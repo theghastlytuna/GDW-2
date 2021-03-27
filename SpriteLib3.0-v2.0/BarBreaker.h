@@ -111,6 +111,7 @@ protected:
 	unsigned int helpTextImage;
 
 	std::vector<unsigned int> bottle;
+	std::vector<unsigned int> chair;
 	
 	int movesTaken;
 	int heavyMoves = 0;

@@ -755,6 +755,72 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
 			tempPhsBody.SetGravityScale(0.f);
 		}
+
+		//chair
+		{
+			//creates entity
+			auto entity = ECS::CreateEntity();
+			chair.push_back(entity);
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+
+			//Sets up components
+			std::string fileName = "Chair.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-230.f, -15.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(float32(-230.f), float32(-25.f));
+
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, ENVIRONMENT, 1000.f, 3.f);
+			tempPhsBody.SetGravityScale(0.f);
+		}
+
+		//chair 2
+		{
+			//creates entity
+			auto entity = ECS::CreateEntity();
+			chair.push_back(entity);
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+
+			//Sets up components
+			std::string fileName = "Chair.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(250.f, -5.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(float32(250.f), float32(-5.f));
+
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, ENVIRONMENT, 1000.f, 3.f);
+			tempPhsBody.SetGravityScale(0.f);
+		}
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
@@ -1183,6 +1249,23 @@ void BarBreaker::PickupBottle()
 				std::cout << "\nPicked up bottle\n";
 
 				ThrowBottle();
+				return;
+			}
+		}
+
+		for (int i = 0; i < chair.size(); i++) {
+			//check if active player's x pos is within bottle range
+			float chairx = ECS::GetComponent<Transform>(chair[i]).GetPositionX();
+			float dist = chairx - playerPos.x;
+
+			if (abs(dist) <= 30) {
+				//player is within range
+				PhysicsBody::m_bodiesToDelete.push_back(chair[i]);
+				chair.erase(chair.begin() + i);
+
+				std::cout << "\nPicked up chair\n";
+
+				ThrowChair();
 				return;
 			}
 		}

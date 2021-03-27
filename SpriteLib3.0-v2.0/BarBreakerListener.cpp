@@ -147,14 +147,14 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-130000.f, 110000.f), true);
 				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 10;
 			}
 
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(130000.f, 110000.f), true);
 				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 10;
 			}
 		}
@@ -166,14 +166,14 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-130000.f, 110000.f), true);
 				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 10;
 			}
 
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(130000.f, 110000.f), true);
 				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 10;
 			}
 		}
