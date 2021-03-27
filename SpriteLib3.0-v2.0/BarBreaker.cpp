@@ -1578,7 +1578,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= smallJumpLButton.max.x && cursorRelative.y <= smallJumpLButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(smallJumpLButton.entity).SetActiveAnim(2);
-		SmallMoveLeft();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1586,7 +1585,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= bigJumpLButton.max.x && cursorRelative.y <= bigJumpLButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(bigJumpLButton.entity).SetActiveAnim(2);
-		BigMoveLeft();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1594,7 +1592,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= smallJumpRButton.max.x && cursorRelative.y <= smallJumpRButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(smallJumpRButton.entity).SetActiveAnim(2);
-		SmallMoveRight();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1602,7 +1599,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= bigJumpRButton.max.x && cursorRelative.y <= bigJumpRButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(bigJumpRButton.entity).SetActiveAnim(2);
-		BigMoveRight();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1610,7 +1606,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= lightAttackButton.max.x && cursorRelative.y <= lightAttackButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(lightAttackButton.entity).SetActiveAnim(2);
-		LightAttack();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1618,7 +1613,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= heavyAttackButton.max.x && cursorRelative.y <= heavyAttackButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(heavyAttackButton.entity).SetActiveAnim(2);
-		HeavyAttack();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1626,8 +1620,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 		(cursorRelative.x <= interactButton.max.x && cursorRelative.y <= interactButton.max.y))
 	{
 		ECS::GetComponent<AnimationController>(interactButton.entity).SetActiveAnim(2);
-		PickupBottle();
-		//ThrowBottle();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
@@ -1698,7 +1690,6 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 	{
 		ECS::GetComponent<AnimationController>(interactButton.entity).SetActiveAnim(0);
 		PickupBottle();
-		//ThrowBottle();
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(0.f);
 	}
 
