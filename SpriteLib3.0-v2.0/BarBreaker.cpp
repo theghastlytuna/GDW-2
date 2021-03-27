@@ -526,7 +526,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up components 
 		auto animations = File::LoadJSON("stageHazardLeft.json");
-		std::string fileName = "stageHazardLeft.png";
+		std::string fileName = "spritesheets/stageHazardLeft.png";
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		animController.InitUVs(fileName);
 		animController.AddAnimation(animations["LeftIdle"]);
@@ -1052,7 +1052,7 @@ void BarBreaker::BoundaryUpdate()
 
 		else if (boundaryDistanceLeftActive <= 50 && !counting)
 		{
-			//ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
+			ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
 			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
 			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
 			counting = true;
