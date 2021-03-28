@@ -27,7 +27,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
 
-	Scene::CreateTransparentPlatform("boxSprite.jpg", 600.f, 20, 0, -60.f, 0.f, 0.f, 0.f);
+	Scene::CreateTransparentPlatform("boxSprite.jpg", 700.f, 20, 0, -60.f, 0.f, 0.f, 0.f);
 
 	backgroundMusic.Play();
 	backgroundMusic.SetVolume(0.1);
@@ -955,6 +955,7 @@ void BarBreaker::BoundaryUpdate()
 			ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
 			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
 			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
+			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
 			counting = true;
 		}
 
@@ -962,6 +963,7 @@ void BarBreaker::BoundaryUpdate()
 		{
 			ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
 			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
 			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
 			counting = true;
 		}
@@ -1033,8 +1035,6 @@ void BarBreaker::LightAttack()
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
 			testSound.Play();
 			testSound.SetVolume(0.5);
-
-			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 
 			if (playerDistance < 0)
 			{
@@ -1247,12 +1247,12 @@ void BarBreaker::ThrowChair()
 
 		if (playerDistance < 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(30000, 30000), true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(35000, 20000), true);
 			tempBody->ApplyTorque(-16000000, true);
 		}
 		else if (playerDistance > 0)
 		{
-			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-35000, 30000), true);
+			tempBody->ApplyLinearImpulseToCenter(b2Vec2(-35000, 20000), true);
 			tempBody->ApplyTorque(16000000, true);
 		}
 
@@ -1297,16 +1297,18 @@ void BarBreaker::EndTurn()
 	//If the inactive player is within range of either boundary, push them away
 	if (boundaryDistanceRightInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
-		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 7;
 		ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
+		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
+		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
 	}
 
 	else if (boundaryDistanceLeftInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
-		ECS::GetComponent<Health>(inactivePlayer).qPosition += 7;
 		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
+		ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
 	}
 	
 	SwitchPlayer();
