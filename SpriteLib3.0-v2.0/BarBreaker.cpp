@@ -665,15 +665,15 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		BarBreaker::BottleInteractable(-50.f, 10.f);
 		BarBreaker::BottleInteractable(-15.f, 10.f);
 		BarBreaker::BottleInteractable(-200.f, 10.f);
-		BarBreaker::BottleInteractable(-230.f, 10.f);
+		BarBreaker::BottleInteractable(-250.f, 10.f);
 		BarBreaker::BottleInteractable(15.f, 10.f);
 		BarBreaker::BottleInteractable(50.f, 10.f);
 		BarBreaker::BottleInteractable(200.f, 10.f);
-		BarBreaker::BottleInteractable(230.f, 10.f);
+		BarBreaker::BottleInteractable(250.f, 10.f);
 
-		BarBreaker::ChairInteractable(-190.f, -20.f);
+		//BarBreaker::ChairInteractable(-190.f, -20.f);
 		BarBreaker::ChairInteractable(-220.f, -20.f);
-		BarBreaker::ChairInteractable(190.f, -20.f);
+		//BarBreaker::ChairInteractable(190.f, -20.f);
 		BarBreaker::ChairInteractable(220.f, -20.f);
 
 	}
