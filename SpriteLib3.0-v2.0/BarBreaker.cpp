@@ -468,7 +468,26 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "boxSprite.jpg";//ENTER THE FILENAME OF YOUR SPRITE HERE
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, /*WIDTH*/100, /*HEIGHT*/100);//ENTER THE SIZE OF YOUR SPRITE HERE
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));//SET THE X AND Y COORDINATES OF YOUR SPRITE HERE
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(100.f, 0.f, 20.f));//SET THE X AND Y COORDINATES OF YOUR SPRITE HERE
+	}
+
+	//ANIMATED TEST SPRITE\\
+	//Use this for testing animated sprites!
+	{
+		auto entity = ECS::CreateEntity();
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		auto animations = File::LoadJSON("stageHazardRight.json");//ENTER YOUR JSON HERE
+		std::string fileName = "spritesheets/stageHazardRight.png";//ENTER SPRITESHEET HERE, KEEP THE 'spritesheets/' part! (as long as your spritesheets is in the spritesheets folder, which it should be)
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["RightIdle"]);//WHATEVER YOU NAMED YOUR ANIMATION HERE, COPY AND PASTE THIS LINE FOR MULTIPLE ANIMATIONS
+		animController.SetActiveAnim(0);//THIS CHANGES WHICH ANIMATION IS SELECTED, IF YOU HAVE MULTIPLE
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, /*WIDTH*/50, /*HEIGHT*/60, true, &animController);//CHANGE THE NUMBERS HERE TO CHANGE THE SPRITE SIZE
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 0.f, 20.f));//SET THE X AND Y COORDINATES OF YOUR SPRITE HERE
 	}
 
 	//Right boundary entity 
