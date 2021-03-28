@@ -457,6 +457,20 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
 	}
 
+	//TEST SPRITE\\
+	//Use this for testing sprites! (NOT ANIMATED ONES)
+
+	{
+		auto entity = ECS::CreateEntity();
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		std::string fileName = "boxSprite.jpg";//ENTER THE FILENAME OF YOUR SPRITE HERE
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, /*WIDTH*/100, /*HEIGHT*/100);//ENTER THE SIZE OF YOUR SPRITE HERE
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));//SET THE X AND Y COORDINATES OF YOUR SPRITE HERE
+	}
+
 	//Right boundary entity 
 	{
 		//Creates entity 
