@@ -77,6 +77,10 @@ public:
 
 	void SwitchPlayer();
 
+	void BottleInteractable(float xCord, float yCord);
+
+	void ChairInteractable(float xCord, float yCord);
+
 	void EndGame();
 
 	void PickupBottle();
@@ -111,6 +115,7 @@ protected:
 	unsigned int helpTextImage;
 
 	std::vector<unsigned int> bottle;
+	std::vector<unsigned int> chair;
 	
 	int movesTaken;
 	int heavyMoves = 0;

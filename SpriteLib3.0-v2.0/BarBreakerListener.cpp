@@ -38,6 +38,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == true)
 		{
 			ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-62000, 50000), true);
+
 		}
 		else if (ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump == false)
 		{
@@ -53,6 +54,8 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(130000, 50000), true);
 		}
 
+		ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
+		ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 		ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition = (ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetPosition().x / 10) - 3;
 		ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition = (ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetPosition().x / 10) + 3;
 	}
@@ -62,6 +65,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		if (filterA.categoryBits == PLAYER)
 		{
 			int playerNum = (int)fixtureA->GetBody()->GetUserData();
+			ECS::GetComponent<AnimationController>(playerNum).SetActiveAnim(0);
 			ECS::GetComponent<CanJump>(playerNum).m_canJump = true;
 			//Sets the entity position to qPosition times 10 (10:1 ratio engine to game units)
 			ECS::GetComponent<PhysicsBody>(playerNum).SetPosition(b2Vec2(
@@ -70,12 +74,14 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		else if (filterB.categoryBits == PLAYER)
 		{
 			int playerNum = (int)fixtureB->GetBody()->GetUserData();
+			ECS::GetComponent<AnimationController>(playerNum).SetActiveAnim(0);
 			ECS::GetComponent<CanJump>(playerNum).m_canJump = true;
 			//Sets the entity position to qPosition times 10 (10:1 ratio engine to game units)
 			ECS::GetComponent<PhysicsBody>(playerNum).SetPosition(b2Vec2(
 				(float32)ECS::GetComponent<Health>(playerNum).qPosition * 10, ECS::GetComponent<PhysicsBody>(playerNum).GetPosition().y), true);
 		}
 	}
+
 	//PICKUP is a thrown bottle, checks for any collisions of thrown items
 	if ((filterA.categoryBits == PICKUP) || (filterB.categoryBits == PICKUP))
 	{
@@ -91,6 +97,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			if (ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).playerNum == 1)
 			{
 				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 40000.f), true);
+				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 				//ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 5;
 			}
 
@@ -98,6 +105,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			else
 			{
 				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 40000.f), true);
+				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 				//ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 5;
 			}	
 		}
@@ -109,14 +117,16 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0000.f, 20000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 40000.f), true);
+				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 				//ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 5;
 			}
 
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0000.f, 20000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 40000.f), true);
+				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);;
 				//ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 5;
 			}
 		}
@@ -147,15 +157,17 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
-				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 10;
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-85000.f, 75000.f), true);
+				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 5;
+				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 			}
 
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
-				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 10;
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(85000.f, 75000.f), true);
+				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 5;
+				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 			}
 		}
 
@@ -166,15 +178,17 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-90000.f, 80000.f), true);
-				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 10;
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-85000.f, 75000.f), true);
+				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 5;
+				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 			}
 
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(90000.f, 80000.f), true);
-				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 10;
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(85000.f, 75000.f), true);
+				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 5;
+				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 			}
 		}
 
