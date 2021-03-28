@@ -1170,7 +1170,6 @@ void BarBreaker::HeavyAttack()
 		if (abs(playerDistance) <= 80)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(4);
-			ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
 			testSound.Play();
 			testSound.SetVolume(0.5);
 
@@ -1188,6 +1187,8 @@ void BarBreaker::HeavyAttack()
 				ECS::GetComponent<Health>(inactivePlayer).qPosition -= 10;
 			}
 			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
+			ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
+			ECS::GetComponent<CanJump>(inactivePlayer).m_canJump = false;
 			heavyMoves++;
 		}
 	}
