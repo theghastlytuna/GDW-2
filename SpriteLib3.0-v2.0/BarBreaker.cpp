@@ -953,8 +953,8 @@ void BarBreaker::BoundaryUpdate()
 		if (boundaryDistanceRightActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
-			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 70000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
 			counting = true;
 		}
@@ -962,9 +962,9 @@ void BarBreaker::BoundaryUpdate()
 		else if (boundaryDistanceLeftActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 70000.f), true);
 			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
-			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
+			ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 			counting = true;
 		}
 
@@ -1298,7 +1298,7 @@ void BarBreaker::EndTurn()
 	if (boundaryDistanceRightInactive <= 50)
 	{
 		ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
 	}
@@ -1306,7 +1306,7 @@ void BarBreaker::EndTurn()
 	else if (boundaryDistanceLeftInactive <= 50)
 	{
 		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
 	}
