@@ -811,7 +811,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			std::string fileName = "Chair.png";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(250.f, -5.f, 2.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(210.f, -5.f, 2.f));
 			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -820,7 +820,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			b2Body* tempBody;
 			b2BodyDef tempDef;
 			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(250.f), float32(-5.f));
+			tempDef.position.Set(float32(210.f), float32(-5.f));
 
 			tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -1104,7 +1104,7 @@ void BarBreaker::BoundaryUpdate()
 		if (boundaryDistanceRightActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
 			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
 			counting = true;
 		}
@@ -1112,7 +1112,7 @@ void BarBreaker::BoundaryUpdate()
 		else if (boundaryDistanceLeftActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
 			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
 			counting = true;
 		}
@@ -1450,14 +1450,16 @@ void BarBreaker::EndTurn()
 	//If the inactive player is within range of either boundary, push them away
 	if (boundaryDistanceRightInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-93000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 7;
+		ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
 	}
 
 	else if (boundaryDistanceLeftInactive <= 50)
 	{
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(93000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition += 7;
+		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
 	}
 	
 	SwitchPlayer();
