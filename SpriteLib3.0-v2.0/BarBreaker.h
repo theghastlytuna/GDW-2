@@ -77,6 +77,10 @@ public:
 
 	void SwitchPlayer();
 
+	void BottleInteractable(float xCord, float yCord);
+
+	void ChairInteractable(float xCord, float yCord);
+
 	void EndGame();
 
 	void PickupBottle();

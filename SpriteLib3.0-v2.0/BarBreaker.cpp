@@ -32,87 +32,89 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 	backgroundMusic.Play();
 	backgroundMusic.SetVolume(0.1);
 
-	//Help text
+	//ui
 	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		std::string fileName = "helpText.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 110);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
-
-		helpTextImage = entity;
-	}
-
-	//Health bar entities
-	{
-		//P1 health bar
+		//Help text
 		{
 			auto entity = ECS::CreateEntity();
 
 			ECS::AttachComponent<Sprite>(entity);
 			ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "healthBar.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
+			std::string fileName = "helpText.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 110);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			p1HealthBar = entity;
+			helpTextImage = entity;
 		}
 
-		//P2 health bar
+		//Health bar entities
 		{
-			auto entity = ECS::CreateEntity();
+			//P1 health bar
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "healthBar.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+				std::string fileName = "healthBar.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
-			p2HealthBar = entity;
+				p1HealthBar = entity;
+			}
+
+			//P2 health bar
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "healthBar.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 10);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
+
+				p2HealthBar = entity;
+			}
+
+			//P1 health bar outline
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "healthBacking.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
+
+				p1HealthBarOutline = entity;
+			}
+
+			//P2 health bar outline
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "healthBacking.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
+
+				p2HealthBarOutline = entity;
+			}
 		}
 
-		//P1 health bar outline
+		//Button entities
 		{
-			auto entity = ECS::CreateEntity();
-
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-
-			std::string fileName = "healthBacking.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
-
-			p1HealthBarOutline = entity;
-		}
-
-		//P2 health bar outline
-		{
-			auto entity = ECS::CreateEntity();
-
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-
-			std::string fileName = "healthBacking.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 70, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 9.f));
-
-			p2HealthBarOutline = entity;
-		}
-	}
-
-	//Button entities
-	{
-		//Small jump left button
+			//Small jump left button
 			{
 				auto entity = ECS::CreateEntity();
 
@@ -232,7 +234,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 				animController.AddAnimation(animations["largeJumpRightDefault"]);
 				animController.AddAnimation(animations["largeJumpRightClick"]);
 				animController.SetActiveAnim(1);
-				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15, true, &animController); 
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15, true, &animController);
 				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
@@ -317,128 +319,129 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 				buttonVec.push_back(&helpButton);
 			}
-	}
-
-	//Button textboxes
-	{
-		//Small jump left text
-		{
-			auto entity = ECS::CreateEntity();
-
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-
-			std::string fileName = "smallJumpLText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
-
-			smallJumpLButton.textImage = entity;
 		}
 
-		//Small jump right text
+		//Button textboxes
 		{
-			auto entity = ECS::CreateEntity();
+			//Small jump left text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "smallJumpRText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "smallJumpLText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			smallJumpRButton.textImage = entity;
-		}
+				smallJumpLButton.textImage = entity;
+			}
 
-		//Light attack text
-		{
-			auto entity = ECS::CreateEntity();
+			//Small jump right text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "lightAttackText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "smallJumpRText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			lightAttackButton.textImage = entity;
-		}
+				smallJumpRButton.textImage = entity;
+			}
 
-		//Big jump left text
-		{
-			auto entity = ECS::CreateEntity();
+			//Light attack text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "bigJumpLText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "lightAttackText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			bigJumpLButton.textImage = entity;
-		}
+				lightAttackButton.textImage = entity;
+			}
 
-		//Big jump right text
-		{
-			auto entity = ECS::CreateEntity();
+			//Big jump left text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "smallJumpLtext.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "bigJumpLText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			bigJumpRButton.textImage = entity;
-		}
+				bigJumpLButton.textImage = entity;
+			}
 
-		//Heavy attack text
-		{
-			auto entity = ECS::CreateEntity();
+			//Big jump right text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "heavyAttackText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "smallJumpLtext.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			heavyAttackButton.textImage = entity;
-		}
+				bigJumpRButton.textImage = entity;
+			}
 
-		//Interact text
-		{
-			auto entity = ECS::CreateEntity();
+			//Heavy attack text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "interactText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 45);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "heavyAttackText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 22);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			interactButton.textImage = entity;
-		}
+				heavyAttackButton.textImage = entity;
+			}
 
-		//Help hover text
-		{
-			auto entity = ECS::CreateEntity();
+			//Interact text
+			{
+				auto entity = ECS::CreateEntity();
 
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
 
-			std::string fileName = "helpHelpText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 8);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+				std::string fileName = "interactText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 45);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
-			helpButton.textImage = entity;
+				interactButton.textImage = entity;
+			}
+
+			//Help hover text
+			{
+				auto entity = ECS::CreateEntity();
+
+				ECS::AttachComponent<Sprite>(entity);
+				ECS::AttachComponent<Transform>(entity);
+
+				std::string fileName = "helpHelpText.png";
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 8);
+				ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+
+				helpButton.textImage = entity;
+			}
 		}
 	}
 
@@ -659,174 +662,20 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	//interactables
 	{
-		//bottle
-		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			bottle.push_back(entity);
+		BarBreaker::BottleInteractable(-50.f, 10.f);
+		BarBreaker::BottleInteractable(-15.f, 10.f);
+		BarBreaker::BottleInteractable(-200.f, 10.f);
+		BarBreaker::BottleInteractable(-230.f, 10.f);
+		BarBreaker::BottleInteractable(15.f, 10.f);
+		BarBreaker::BottleInteractable(50.f, 10.f);
+		BarBreaker::BottleInteractable(200.f, 10.f);
+		BarBreaker::BottleInteractable(230.f, 10.f);
 
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
+		BarBreaker::ChairInteractable(-190.f, -20.f);
+		BarBreaker::ChairInteractable(-220.f, -20.f);
+		BarBreaker::ChairInteractable(190.f, -20.f);
+		BarBreaker::ChairInteractable(220.f, -20.f);
 
-			//Sets up components
-			std::string fileName = "Bottle.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 15);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
-
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(-135.f), float32(0.f));
-
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
-
-			//std::map<float, float> tempCoord;
-			//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
-
-		}
-
-		//bottle 2
-		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			bottle.push_back(entity);
-
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
-
-			//Sets up components
-			std::string fileName = "Bottle.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 15);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
-
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(135.f), float32(0.f));
-
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
-		}
-
-		//bottle 3
-		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			bottle.push_back(entity);
-
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
-
-			//Sets up components
-			std::string fileName = "Bottle.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 15);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-200.f, 0.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
-
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(-200.f), float32(0.f));
-
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
-		}
-
-		//chair
-		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			chair.push_back(entity);
-
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
-
-			//Sets up components
-			std::string fileName = "Chair.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-230.f, -15.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
-
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(-230.f), float32(-25.f));
-
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
-		}
-
-		//chair 2
-		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			chair.push_back(entity);
-
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
-
-			//Sets up components
-			std::string fileName = "Chair.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(210.f, -5.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
-
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(210.f), float32(-5.f));
-
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
-		}
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
@@ -989,11 +838,11 @@ void BarBreaker::UpdateCamera() {
 
 void BarBreaker::AnimationUpdate()
 {
-	if(ECS::GetComponent<CanJump>(player1).m_canJump && ECS::GetComponent<AnimationController>(player1).GetActiveAnim() == 3)
-		ECS::GetComponent<AnimationController>(player1).SetActiveAnim(0); //set animation to idle
+	//if(ECS::GetComponent<CanJump>(player1).m_canJump && ECS::GetComponent<AnimationController>(player1).GetActiveAnim() == 3)
+	//	ECS::GetComponent<AnimationController>(player1).SetActiveAnim(0); //set animation to idle
 
-	if (ECS::GetComponent<CanJump>(player2).m_canJump && ECS::GetComponent<AnimationController>(player2).GetActiveAnim() == 3)
-		ECS::GetComponent<AnimationController>(player2).SetActiveAnim(0); //set animation to idle
+	//if (ECS::GetComponent<CanJump>(player2).m_canJump && ECS::GetComponent<AnimationController>(player2).GetActiveAnim() == 3)
+	//	ECS::GetComponent<AnimationController>(player2).SetActiveAnim(0); //set animation to idle
 
 	if (ECS::GetComponent<AnimationController>(player1).GetAnimation(ECS::GetComponent<AnimationController>(player1).GetActiveAnim()).GetAnimationDone()) //check if animation is finished
 	{
@@ -1220,8 +1069,6 @@ void BarBreaker::HeavyAttack()
 			testSound.Play();
 			testSound.SetVolume(0.5);
 
-			ECS::GetComponent<Health>(inactivePlayer).reduceHealth(15);
-
 			if (playerDistance < 0)
 			{
 				ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(100000.f, 100000.f), true);
@@ -1244,7 +1091,7 @@ void BarBreaker::HeavyAttack()
 void BarBreaker::PickupBottle()
 {
 	//Only count the button press if the turn hasnt ended and both players aren't moving
-	if (!turnEnd && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
+	if (!turnEnd && !throwing && ECS::GetComponent<CanJump>(activePlayer).m_canJump == true
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
@@ -1310,7 +1157,7 @@ void BarBreaker::ThrowBottle()
 		std::string fileName = "Bottle.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 15);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x + 32, playerPos.y + 32.f, playerPos.z + 5));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -1361,7 +1208,7 @@ void BarBreaker::ThrowChair()
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
-		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
+		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(5);
 
 		auto entity = ECS::CreateEntity();
 		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
@@ -1374,7 +1221,7 @@ void BarBreaker::ThrowChair()
 		std::string fileName = "Chair.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 12, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y, playerPos.z));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y, playerPos.z + 5));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -1482,6 +1329,73 @@ void BarBreaker::SwitchPlayer()
 		activePlayer = player1;
 		inactivePlayer = player2;
 	}
+}
+
+void BarBreaker::BottleInteractable(float xCord, float yCord)
+{
+	//creates entity
+	auto entity = ECS::CreateEntity();
+	bottle.push_back(entity);
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<EntityNumber>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Bottle.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 15);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xCord, yCord, 2.f));
+	ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(xCord), float32(yCord));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+	tempPhsBody.SetGravityScale(0.f);
+}
+
+void BarBreaker::ChairInteractable(float xCord, float yCord)
+{
+	//creates entity
+	auto entity = ECS::CreateEntity();
+	chair.push_back(entity);
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<EntityNumber>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Chair.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 30);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xCord, yCord, 2.f));
+	ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(xCord), float32(yCord));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, ENVIRONMENT, 1000.f, 3.f);
+	tempPhsBody.SetGravityScale(0.f);
+
 }
 
 void BarBreaker::MouseMotion(SDL_MouseMotionEvent evnt)
