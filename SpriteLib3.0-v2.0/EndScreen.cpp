@@ -23,7 +23,7 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
-	Scene::SetClearColor(vec4(0.1569, 0.3490, 0.5216, 0));
+	Scene::SetClearColor(vec4(0.65098, 0.47843, 0.28627, 0));
 
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
