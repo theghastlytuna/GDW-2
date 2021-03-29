@@ -1028,13 +1028,15 @@ void BarBreaker::LightAttack()
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
-		ToneFire::CoreSound testSound{ "punch.wav" };
 
 		if (abs(playerDistance) <= 70)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(2);
-			testSound.Play();
-			testSound.SetVolume(0.5);
+			
+			punch.Play();
+			punch.SetVolume(0.5);
+
+			PlayAttackSound();
 
 			if (playerDistance < 0)
 			{
@@ -1061,13 +1063,15 @@ void BarBreaker::HeavyAttack()
 		&& ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->GetLinearVelocity().x == 0
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
-		ToneFire::CoreSound testSound{ "punch.wav" };
 
 		if (abs(playerDistance) <= 70)
 		{
 			ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(4);
-			testSound.Play();
-			testSound.SetVolume(0.5);
+			
+			kick.Play();
+			kick.SetVolume(0.7);
+
+			PlayAttackSound();
 
 			if (playerDistance < 0)
 			{
@@ -1145,6 +1149,7 @@ void BarBreaker::ThrowBottle()
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(5);
 
+		PlayThrowSound();
 
 		auto entity = ECS::CreateEntity();
 		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
@@ -1209,6 +1214,8 @@ void BarBreaker::ThrowChair()
 		&& ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->GetLinearVelocity().x == 0)
 	{
 		ECS::GetComponent<AnimationController>(activePlayer).SetActiveAnim(5);
+
+		PlayThrowSound();
 
 		auto entity = ECS::CreateEntity();
 		vec3 playerPos = ECS::GetComponent<Transform>(activePlayer).GetPosition();
@@ -1710,6 +1717,113 @@ void BarBreaker::MouseClick(SDL_MouseButtonEvent evnt)
 	{
 		ECS::GetComponent<AnimationController>(helpButton.entity).SetActiveAnim(0);
 		ECS::GetComponent<Sprite>(helpTextImage).SetTransparency(1.f);
+	}
+
+}
+
+void BarBreaker::PlayAttackSound()
+{
+	//Pick a random value between 0 and 3
+	srand(time(0));
+	int randVal = rand() % 4;
+
+	//If the active player is 1, play one of four first player voice clips
+	if (activePlayer == player1)
+	{
+
+		if (randVal == 0)
+		{
+			fpPunchGrunt1.Play();
+			fpPunchGrunt2.SetVolume(0.5);
+		}
+
+		else if (randVal == 1)
+		{
+			fpPunchGrunt2.Play();
+			fpPunchGrunt2.SetVolume(0.5);
+		}
+
+		else if (randVal == 2)
+		{
+			fpPunchGrunt3.Play();
+			fpPunchGrunt3.SetVolume(0.5);
+		}
+
+		else
+		{
+			fpPunchGrunt4.Play();
+			fpPunchGrunt4.SetVolume(0.5);
+		}
+	}
+
+	//Else the player is 2, so play one of four second player voice clips
+	else
+	{
+		if (randVal == 0)
+		{
+			spPunchGrunt1.Play();
+			spPunchGrunt2.SetVolume(0.5);
+		}
+
+		else if (randVal == 1)
+		{
+			spPunchGrunt2.Play();
+			spPunchGrunt2.SetVolume(0.5);
+		}
+
+		else if (randVal == 2)
+		{
+			spPunchGrunt3.Play();
+			spPunchGrunt3.SetVolume(0.5);
+		}
+
+		else
+		{
+			spPunchGrunt4.Play();
+			spPunchGrunt4.SetVolume(0.5);
+		}
+	}
+
+}
+
+void BarBreaker::PlayThrowSound()
+{
+	//Pick a random value between 0 and 1
+	srand(time(0));
+	int randVal = rand() % 2;
+
+	//If the active player is 1, play one of two first player voice clips
+	if (activePlayer == player1)
+	{
+
+		if (randVal == 0)
+		{
+			fpThrowGrunt1.Play();
+			fpThrowGrunt1.SetVolume(0.5);
+		}
+
+		else
+		{
+			fpThrowGrunt2.Play();
+			fpThrowGrunt2.SetVolume(0.5);
+		}
+	}
+
+	//Else the active player is 2, so play one of two second player voice clips
+	else
+	{
+
+		if (randVal == 0)
+		{
+			spThrowGrunt1.Play();
+			spThrowGrunt1.SetVolume(0.5);
+		}
+
+		else
+		{
+			spThrowGrunt2.Play();
+			spThrowGrunt2.SetVolume(0.5);
+		}
 	}
 
 }

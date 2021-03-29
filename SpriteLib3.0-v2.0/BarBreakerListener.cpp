@@ -17,6 +17,9 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 	bool sensorA = fixtureA->IsSensor();
 	bool sensorB = fixtureB->IsSensor();
 
+	ToneFire::CoreSound bottleShatter{ "bottleShatter.mp3" };
+	ToneFire::CoreSound chairImpact{ "chairImpact.wav" };
+
 	//if neither or both are sensors, will be false
 	if ((sensorA ^ sensorB))
 	{
@@ -88,6 +91,9 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 		srand(time(0));
 		int damage = rand() % 8 + 5;
 
+		bottleShatter.Play();
+		bottleShatter.SetVolume(0.2);
+
 		//if it hits a player, deals damage
 		if (filterA.categoryBits == PLAYER)
 		{
@@ -148,6 +154,9 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 	{
 		srand(time(0));
 		int damage = rand() % 8 + 10;
+
+		chairImpact.Play();
+		chairImpact.SetVolume(0.2);
 
 		//if it hits a player, deals damage
 		if (filterA.categoryBits == PLAYER)
