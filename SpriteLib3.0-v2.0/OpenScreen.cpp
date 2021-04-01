@@ -26,11 +26,10 @@ void OpenScreen::InitScene(float windowWidth, float windowHeight)
 	Scene::SetClearColor(vec4(0.65098, 0.47843, 0.28627, 0));
 
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
-	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
+	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20.f);
 
 	
-
-	//P2 Winner Text
+	//Background graphic
 	{
 		auto entity = ECS::CreateEntity();
 		ECS::SetIsMainPlayer(entity, true);
@@ -38,16 +37,32 @@ void OpenScreen::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "titleGraphic.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 120);
+		std::string fileName = "titleBackground.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 250, 125);
 
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+
+	}
+
+	//Bar Breaker Logo
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		std::string fileName = "titleGraphic.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 90, 45);
+
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 70.f, 1.f));
 		
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		
 	}
 
-	//P1 Winner Text
+	//Text
 	{
 		auto entity = ECS::CreateEntity();
 
@@ -57,7 +72,7 @@ void OpenScreen::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "introText.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 120, 40);
 
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, -75.f, 10.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, -75.f, 2.f));
 
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 	}
