@@ -42,7 +42,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			ECS::AttachComponent<Transform>(entity);
 
 			std::string fileName = "helpText.png";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 110);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 220, 150);
 			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 			ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
@@ -311,7 +311,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 				animController.AddAnimation(animations["helpDefault"]);
 				animController.AddAnimation(animations["helpClick"]);
 				animController.SetActiveAnim(1);
-				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 15, true, &animController);
+				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
 				ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 				ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 10.f));
 
@@ -545,6 +545,82 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
+	}
+
+	//Tens digit entity
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+		tens = entity;
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		//Sets up components 
+		auto animations = File::LoadJSON("numbers.json");
+		std::string fileName = "spritesheets/numSheet.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["num0"]);
+		animController.AddAnimation(animations["num1"]);
+		animController.AddAnimation(animations["num2"]);
+		animController.AddAnimation(animations["num3"]);
+		animController.AddAnimation(animations["num4"]);
+		animController.AddAnimation(animations["num5"]);
+		animController.AddAnimation(animations["num6"]);
+		animController.AddAnimation(animations["num7"]);
+		animController.AddAnimation(animations["num8"]);
+		animController.AddAnimation(animations["num9"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(0.f), float32(0.f));
+	}
+
+	//Ones digit entity
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+		ones = entity;
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		//Sets up components 
+		auto animations = File::LoadJSON("numbers.json");
+		std::string fileName = "spritesheets/numSheet.png";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		animController.InitUVs(fileName);
+		animController.AddAnimation(animations["num0"]);
+		animController.AddAnimation(animations["num1"]);
+		animController.AddAnimation(animations["num2"]);
+		animController.AddAnimation(animations["num3"]);
+		animController.AddAnimation(animations["num4"]);
+		animController.AddAnimation(animations["num5"]);
+		animController.AddAnimation(animations["num6"]);
+		animController.AddAnimation(animations["num7"]);
+		animController.AddAnimation(animations["num8"]);
+		animController.AddAnimation(animations["num9"]);
+		animController.SetActiveAnim(0);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(0.f), float32(0.f));
 	}
 
 	//Setup Player 1
@@ -892,7 +968,19 @@ void BarBreaker::UIUpdate()
 	ECS::GetComponent<Transform>(p1HealthBar).SetPosition(vec3(newX - 125 - ((60 - p1HealthWidth) / 2), newY + 70, 10.f));
 	ECS::GetComponent<Transform>(p2HealthBar).SetPosition(vec3(newX + 125 + ((60 - p2HealthWidth) / 2), newY + 70, 10.f));
 
-	ECS::GetComponent<Transform>(helpTextImage).SetPosition(vec3(newX, newY + 3, 100.f));
+	ECS::GetComponent<Transform>(helpTextImage).SetPosition(vec3(newX, newY + 10, 100.f));
+
+	//Set the distance counter position relative to the camera
+	ECS::GetComponent<Transform>(tens).SetPosition(vec3(newX - 10, newY + 70, 100.f));
+	ECS::GetComponent<Transform>(ones).SetPosition(vec3(newX + 10, newY + 70, 100.f));
+
+	int dist = abs(ECS::GetComponent<Health>(player2).qPosition - ECS::GetComponent<Health>(player1).qPosition);
+
+	//int dist = abs(int(playerDistance) / 10);
+
+	//Set the tens and ones digits of the distance counter
+	ECS::GetComponent<AnimationController>(tens).SetActiveAnim(dist / 10);
+	ECS::GetComponent<AnimationController>(ones).SetActiveAnim(dist % 10);
 
 	//Set each button's location relative to the camera
 	ECS::GetComponent<Transform>(smallJumpLButton.entity).SetPosition(vec3(newX - 50, newY - 70, 10.f));
@@ -902,7 +990,7 @@ void BarBreaker::UIUpdate()
 	ECS::GetComponent<Transform>(bigJumpRButton.entity).SetPosition(vec3(newX + 80, newY - 70, 10.f));
 	ECS::GetComponent<Transform>(heavyAttackButton.entity).SetPosition(vec3(newX + 15, newY - 80, 10.f));
 	ECS::GetComponent<Transform>(interactButton.entity).SetPosition(vec3(newX + 0, newY - 60, 10.f));
-	ECS::GetComponent<Transform>(helpButton.entity).SetPosition(vec3(newX + 145, newY - 85, 10.f));
+	ECS::GetComponent<Transform>(helpButton.entity).SetPosition(vec3(newX + 145, newY - 75, 10.f));
 
 	//ECS::GetComponent<Transform>(smallJumpLButton.textImage).SetPosition(vec3(newX - 50, newY - 55, 10.f));
 

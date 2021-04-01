@@ -117,6 +117,9 @@ protected:
 	unsigned int p2HealthBarOutline;
 	unsigned int helpTextImage;
 
+	unsigned int tens;
+	unsigned int ones;
+
 	std::vector<unsigned int> bottle;
 	std::vector<unsigned int> chair;
 
