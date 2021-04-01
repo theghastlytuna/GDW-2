@@ -1314,7 +1314,7 @@ void BarBreaker::ThrowChair()
 		ECS::AttachComponent<EntityNumber>(entity);
 
 		std::string fileName = "Chair.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 12, 30);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 13, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y, playerPos.z + 5));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
@@ -1332,8 +1332,9 @@ void BarBreaker::ThrowChair()
 		{
 			tempDef.position.Set(float32(playerPos.x - 40), float32(playerPos.y + 20));
 		}
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 0.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
@@ -1396,6 +1397,7 @@ void BarBreaker::EndTurn()
 		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
+		ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
 	}
 
 	else if (boundaryDistanceLeftInactive <= 50)
@@ -1404,6 +1406,7 @@ void BarBreaker::EndTurn()
 		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
+		ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
 	}
 	
 	SwitchPlayer();

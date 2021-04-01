@@ -166,7 +166,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-85000.f, 75000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-72000.f, 75000.f), true);
 				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition -= 5;
 				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 				ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump = false;
@@ -175,7 +175,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(85000.f, 75000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureA->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(72000.f, 72000.f), true);
 				ECS::GetComponent<Health>((int)fixtureA->GetBody()->GetUserData()).qPosition += 5;
 				ECS::GetComponent<AnimationController>((int)fixtureA->GetBody()->GetUserData()).SetActiveAnim(3);
 				ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump = false;
@@ -189,7 +189,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 1, send them leftwards
 			if (ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).playerNum == 1)
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-85000.f, 75000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-72000.f, 72000.f), true);
 				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition -= 5;
 				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 				ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = false;
@@ -198,7 +198,7 @@ void BarBreakerListener::BeginContact(b2Contact* contact)
 			//If it's player 2, send them rightwards
 			else
 			{
-				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(85000.f, 75000.f), true);
+				ECS::GetComponent<PhysicsBody>((int)fixtureB->GetBody()->GetUserData()).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(72000.f, 72000.f), true);
 				ECS::GetComponent<Health>((int)fixtureB->GetBody()->GetUserData()).qPosition += 5;
 				ECS::GetComponent<AnimationController>((int)fixtureB->GetBody()->GetUserData()).SetActiveAnim(3);
 				ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = false;
