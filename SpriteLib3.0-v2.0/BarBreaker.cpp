@@ -678,68 +678,68 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			auto entity = ECS::CreateEntity();
 			bottle.push_back(entity);
 
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
+//Add components
+ECS::AttachComponent<Sprite>(entity);
+ECS::AttachComponent<Transform>(entity);
+ECS::AttachComponent<EntityNumber>(entity);
+ECS::AttachComponent<PhysicsBody>(entity);
 
-			//Sets up components
-			std::string fileName = "boxSprite.jpg";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+//Sets up components
+std::string fileName = "boxSprite.jpg";
+ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+ECS::GetComponent<Transform>(entity).SetPosition(vec3(-135.f, 0.f, 2.f));
+ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(-135.f), float32(0.f));
+b2Body* tempBody;
+b2BodyDef tempDef;
+tempDef.type = b2_dynamicBody;
+tempDef.position.Set(float32(-135.f), float32(0.f));
 
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
+tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
+tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+tempPhsBody.SetGravityScale(0.f);
 
-			//std::map<float, float> tempCoord;
-			//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
+//std::map<float, float> tempCoord;
+//tempCoord.insert(std::pair<float, float>(0.f, 10.f));
 
 		}
 
 		//bottle 2
 		{
-			//creates entity
-			auto entity = ECS::CreateEntity();
-			bottle.push_back(entity);
+		//creates entity
+		auto entity = ECS::CreateEntity();
+		bottle.push_back(entity);
 
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-			ECS::AttachComponent<EntityNumber>(entity);
-			ECS::AttachComponent<PhysicsBody>(entity);
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<EntityNumber>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
 
-			//Sets up components
-			std::string fileName = "boxSprite.jpg";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
-			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(135.f, 0.f, 2.f));
+		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 
-			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-			b2Body* tempBody;
-			b2BodyDef tempDef;
-			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(float32(135.f), float32(0.f));
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(135.f), float32(0.f));
 
-			tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
-			tempPhsBody.SetGravityScale(0.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
+		tempPhsBody.SetGravityScale(0.f);
 		}
 
 		//bottle 3
@@ -773,6 +773,49 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT, 1000.f, 3.f);
 			tempPhsBody.SetGravityScale(0.f);
+		}
+	}
+
+	//background animations
+	{
+		//window animations
+		{
+			auto entity = ECS::CreateEntity();
+			
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("windowAnims.json");
+			std::string fileName = "spritesheets/windowSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-250.f, 35.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+
+		//TV animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("tvAnims.json");
+			std::string fileName = "spritesheets/tvSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 15, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-50.f, 12.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		}
 	}
 
