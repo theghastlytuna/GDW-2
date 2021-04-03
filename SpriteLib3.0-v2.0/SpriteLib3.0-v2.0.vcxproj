@@ -171,6 +171,7 @@
     <ClInclude Include="JSON.h" />
     <ClInclude Include="MainEntities.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="OpenScreen.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PhysicsPlayground.h" />
     <ClInclude Include="PhysicsPlaygroundListener.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEntities.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="OpenScreen.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PhysicsPlayground.cpp" />
     <ClCompile Include="PhysicsPlaygroundListener.cpp" />
