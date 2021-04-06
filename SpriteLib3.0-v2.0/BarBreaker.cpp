@@ -451,7 +451,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "BarBreakerBackground4.png";
+		std::string fileName = "BarBreakerBackground5.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 250);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
@@ -752,6 +752,69 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		//BarBreaker::ChairInteractable(190.f, -20.f);
 		BarBreaker::ChairInteractable(220.f, -20.f);
 
+	}
+
+	//background animations
+	{
+		//window animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("windowAnims.json");
+			std::string fileName = "spritesheets/windowSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-250.f, 35.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+
+		//TV animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("tvAnims.json");
+			std::string fileName = "spritesheets/tvSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 15, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-32.5f, 12.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+
+		//Light animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("lightAnims.json");
+			std::string fileName = "spritesheets/lightSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 38, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(32.5f, 29.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
