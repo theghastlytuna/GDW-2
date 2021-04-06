@@ -811,7 +811,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 			animController.InitUVs(fileName);
 			animController.AddAnimation(animations["background"]);
 			animController.SetActiveAnim(0);
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 38, true, &animController);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 38, true, &animController);
 			ECS::GetComponent<Transform>(entity).SetPosition(vec3(32.5f, 29.f, 2.f));
 			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
 		}
