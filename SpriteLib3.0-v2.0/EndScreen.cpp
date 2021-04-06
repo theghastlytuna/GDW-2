@@ -37,7 +37,7 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "p1WinsImage.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 180);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 200);
 		
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
@@ -60,7 +60,7 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "p2WinsImage.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 180);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 200);
 
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 
