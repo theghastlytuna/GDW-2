@@ -3,13 +3,12 @@
 #include "Timer.h"
 #include "Tone Fire/Tonefire.h"
 
-EndScreen::EndScreen(std::string name, int in_winner)
+EndScreen::EndScreen(std::string name)
 	:Scene(name)
 {
 	//no gravity this is a top down scene
 	m_gravity = b2Vec2(0.f, -9.f);
 	m_physicsWorld->SetGravity(m_gravity);
-	winner = in_winner;
 }
 
 void EndScreen::InitScene(float windowWidth, float windowHeight)
@@ -24,7 +23,7 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
-	Scene::SetClearColor(vec4(0.1569, 0.3490, 0.5216, 0));
+	Scene::SetClearColor(vec4(0.65098, 0.47843, 0.28627, 0));
 
 	Scene::CreateCameraEntity(true, windowWidth, windowHeight, -75.f, 75.f, -75.f, 75.f, -100.f, 100.f, aspectRatio, true, true);
 	ECS::GetComponent<Camera>(MainEntities::MainCamera()).Zoom(-20);
@@ -88,4 +87,9 @@ void EndScreen::Update()
 bool EndScreen::IsFinished()
 {
 	return false;
+}
+
+void EndScreen::SetWinner(int in_winner)
+{
+	winner = in_winner;
 }

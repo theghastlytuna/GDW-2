@@ -54,6 +54,7 @@ public:
 
 	virtual bool IsFinished();
 	virtual int GetWinner();
+	virtual void SetWinner(int);
 
 	//Get the scene registry
 	entt::registry* GetScene() const;

@@ -265,3 +265,7 @@ int Scene::GetWinner()
 {
 	return winner;
 }
+
+void Scene::SetWinner(int in_winner)
+{
+}
