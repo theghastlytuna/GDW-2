@@ -451,7 +451,7 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "BarBreakerBackground4.png";
+		std::string fileName = "BarBreakerBackground5.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 250);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, -20.f));
@@ -754,6 +754,69 @@ void BarBreaker::InitScene(float windowWidth, float windowHeight)
 
 	}
 
+	//background animations
+	{
+		//window animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("windowAnims.json");
+			std::string fileName = "spritesheets/windowSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-250.f, 35.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+
+		//TV animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("tvAnims.json");
+			std::string fileName = "spritesheets/tvSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 15, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(-32.5f, 12.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+
+		//Light animations
+		{
+			auto entity = ECS::CreateEntity();
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<EntityNumber>(entity);
+			ECS::AttachComponent<AnimationController>(entity);
+
+			auto animations = File::LoadJSON("lightAnims.json");
+			std::string fileName = "spritesheets/lightSheet.png";
+			auto& animController = ECS::GetComponent<AnimationController>(entity);
+			animController.InitUVs(fileName);
+			animController.AddAnimation(animations["background"]);
+			animController.SetActiveAnim(0);
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 38, true, &animController);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(32.5f, 29.f, 2.f));
+			ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
+		}
+	}
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(activePlayer));
 	moveCam = false;
@@ -1041,8 +1104,8 @@ void BarBreaker::BoundaryUpdate()
 		if (boundaryDistanceRightActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
-			ECS::GetComponent<Health>(activePlayer).qPosition -= 7;
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 70000.f), true);
+			ECS::GetComponent<Health>(activePlayer).qPosition -= 5;
 			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
 			counting = true;
 		}
@@ -1050,9 +1113,9 @@ void BarBreaker::BoundaryUpdate()
 		else if (boundaryDistanceLeftActive <= 50 && !counting)
 		{
 			ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
-			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+			ECS::GetComponent<PhysicsBody>(activePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 70000.f), true);
 			ECS::GetComponent<Health>(activePlayer).reduceHealth(10);
-			ECS::GetComponent<Health>(activePlayer).qPosition += 7;
+			ECS::GetComponent<Health>(activePlayer).qPosition += 5;
 			counting = true;
 		}
 
@@ -1314,7 +1377,7 @@ void BarBreaker::ThrowChair()
 		ECS::AttachComponent<EntityNumber>(entity);
 
 		std::string fileName = "Chair.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 12, 30);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 13, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(playerPos.x, playerPos.y, playerPos.z + 5));
 		ECS::GetComponent<EntityNumber>(entity).entityNumber = entity;
@@ -1332,8 +1395,9 @@ void BarBreaker::ThrowChair()
 		{
 			tempDef.position.Set(float32(playerPos.x - 40), float32(playerPos.y + 20));
 		}
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 1000.f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth()), float(tempSpr.GetHeight()), vec2(0.f, 0.f), false, ENEMY, PLAYER | ENEMY | OBJECTS | PICKUP | TRIGGER, 0.f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
@@ -1393,17 +1457,19 @@ void BarBreaker::EndTurn()
 	if (boundaryDistanceRightInactive <= 50)
 	{
 		ECS::GetComponent<AnimationController>(boundaryRight).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition -= 5;
+		ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
 	}
 
 	else if (boundaryDistanceLeftInactive <= 50)
 	{
 		ECS::GetComponent<AnimationController>(boundaryLeft).SetActiveAnim(1);
-		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 80000.f), true);
+		ECS::GetComponent<PhysicsBody>(inactivePlayer).GetBody()->ApplyLinearImpulseToCenter(b2Vec2(80000.f, 70000.f), true);
 		ECS::GetComponent<Health>(inactivePlayer).reduceHealth(10);
 		ECS::GetComponent<Health>(inactivePlayer).qPosition += 5;
+		ECS::GetComponent<AnimationController>(inactivePlayer).SetActiveAnim(3);
 	}
 	
 	SwitchPlayer();
